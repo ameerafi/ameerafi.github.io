@@ -206,13 +206,13 @@ ul, ol { list-style: none; }
 
 .facts {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
-  gap: 20px 26px;
+  grid-template-columns: repeat(auto-fit, minmax(136px, 1fr));
+  gap: 20px 22px;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   padding: 22px 0;
   margin-bottom: 30px;
-  max-width: 1010px;
+  max-width: 1060px;
 }
 .fact dt { color: var(--text-faint); margin-bottom: 6px; }
 .fact dd { font-size: 15px; line-height: 1.45; color: var(--text); }

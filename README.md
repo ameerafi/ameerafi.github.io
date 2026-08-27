@@ -72,7 +72,9 @@ in `js/main.js`.
 ## Still to fill in
 
 - [x] Name, hero, approach, four Amazon case studies, track, toolkit, CV
-- [ ] **Current role** — company, title, dates, contributions (topbar, Track, CV)
+- [x] Current role added: Forward Deployed Engineer, Databricks, Jul 2024 – present
+- [ ] **Databricks contributions** — Track entry and CV are placeholders pending the contributions doc
+- [ ] **Confirm exact job title** — used "Forward Deployed Engineer" (Databricks/industry standard); confirm against your offer letter
 - [ ] `assets/portrait.jpg` — then swap the placeholder div in the Contact section
 - [ ] LinkedIn URL (Contact section and `cv/index.html`)
 - [ ] Phone number and certifications in `cv/index.html`
