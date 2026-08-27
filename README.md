@@ -71,10 +71,22 @@ in `js/main.js`.
 
 ## Still to fill in
 
-- [ ] Real name, role, company, location (currently placeholders)
+- [x] Name, hero, approach, four Amazon case studies, track, toolkit, CV
+- [ ] **Current role** — company, title, dates, contributions (topbar, Track, CV)
 - [ ] `assets/portrait.jpg` — then swap the placeholder div in the Contact section
 - [ ] LinkedIn URL (Contact section and `cv/index.html`)
-- [ ] Phone number, degree, certifications in `cv/index.html`
-- [ ] Real case studies — the three present are structural examples
-- [ ] Notes section — currently three placeholder cards
-- [ ] Regenerate `assets/og-cover.png` once the name and tagline are final
+- [ ] Phone number and certifications in `cv/index.html`
+- [ ] Notes section — three topics seeded, none written yet
+
+## Content decisions on record
+
+- **Figures are relative, not absolute, on the public page.** Exception amounts from the Amazon
+  promotion document (300MM / 900MM / 3,000MM / 20bn) are internal figures for regulated accounts.
+  They appear on the CV, which is a private document, but the public page says "multi-billion-rupee
+  backlog" instead. Source numbers live in `~/Desktop/career/contribution-metrics.md`.
+- **Internal system names are generalised.** FAST, DIAS, DJS, Datanet, Cradle, Maestro, Andes, Odin
+  and the rest are Amazon-internal and mean nothing outside. See the translation table in
+  `~/Desktop/career/amazon-career-summary.md` §9.
+- **The SLA figure is the manager-attested one.** 36–40 hours → 30 minutes, from the promotion
+  document, rather than the 48h → 15min version on an older resume. Same claim, but one of them a
+  third party signed.

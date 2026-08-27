@@ -1,4 +1,4 @@
-/* Mohammed Arshak — portfolio behaviour. Vanilla, no dependencies. */
+/* Ameer Salman — portfolio behaviour. Vanilla, no dependencies. */
 (function () {
   'use strict';
 
