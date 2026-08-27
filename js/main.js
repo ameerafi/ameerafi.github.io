@@ -85,10 +85,10 @@
 
   /* ---------- pipeline ---------- */
   var COPY = {
-    ingest:  ['Ingest',  'CDC off transactional Postgres, S3 batch drops, and a Kafka topic nobody documented. Landed raw, schema-checked at the door.'],
-    model:   ['Model',   'Raw becomes usable: incremental merges, slowly-changing dimensions, and one definition of each business term that everybody agrees on.'],
-    serve:   ['Serve',   'Tables that answer questions fast, with compute split by workload so an analyst’s ad-hoc query never slows the nightly load.'],
-    observe: ['Observe', 'Contracts, freshness baselines and cost attribution. If something breaks, the alert names the owner before anyone opens a dashboard.']
+    ingest:  ['Ingest',  'Around fifteen source systems: database change streams, cross-account replicated files, and bank statements that arrive as text and have to be parsed before anyone can trust them.'],
+    model:   ['Model',   'Roughly 120 ETL jobs turning raw settlement data into reconciled, categorised transactions \u2014 with the finance business rules written down and encoded, not held in someone\u2019s head.'],
+    serve:   ['Serve',   'Redshift, Athena and dashboards the operations team runs themselves. Around 400 million transactions a month, reported daily and monthly.'],
+    observe: ['Observe', 'Alarms that raise a ticket, validation that stops a bad load before it commits, and cluster maintenance that keeps the whole thing inside a five-working-day regulatory window.']
   };
 
   var stages = $$('.stage');

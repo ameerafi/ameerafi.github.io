@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mohammed Arshak — Curriculum Vitae</title>
-<meta name="description" content="Curriculum vitae — Mohammed Arshak, Data Engineer.">
+<title>Ameer Salman M — Curriculum Vitae</title>
+<meta name="description" content="Curriculum vitae — Ameer Salman M, Data Engineer.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -72,10 +72,10 @@
 
 <div class="sheet">
   <header>
-    <h1>Mohammed Arshak</h1>
-    <p class="role">Data Engineer — pipelines, platform cost, data reliability</p>
+    <h1>Ameer Salman M</h1>
+    <p class="role">Data Engineer — regulated payments data, streaming pipelines, reconciliation at scale</p>
     <div class="meta mono">
-      <span>Bengaluru, India</span>
+      <span>Coimbatore, India</span>
       <a href="mailto:ameersalman333@gmail.com">ameersalman333@gmail.com</a>
       <a href="https://github.com/ameerafi">github.com/ameerafi</a>
       <span>Add phone</span>
@@ -85,10 +85,12 @@
 
   <section>
     <h2>Summary</h2>
-    <p class="summary">Data engineer with 4+ years building and running batch and streaming pipelines on AWS and
-    Databricks. Track record of cutting platform cost without breaking downstream consumers, replacing brittle
-    nightly batches with change-data-capture, and making data quality failures visible within the hour rather
-    than the week. Comfortable owning a system end to end and handing it over cleanly.</p>
+    <p class="summary">Data engineer with close to seven years at Amazon Pay building and operating the pipelines behind
+    India's regulated payment reconciliation, exiting as Data Engineer II. Rebuilt batch reporting as event-driven
+    streaming, cutting downstream SLA from 36&ndash;40 hours to 30 minutes with eight months of zero-defect production
+    running. Reconciled roughly 400 million transactions a month across ~15 source systems and ~120 ETL jobs, under a
+    statutory five-working-day reporting deadline. Comfortable owning a system end to end &mdash; including the
+    compliance constraints, the finance business rules, and the handover that lets somebody else run it.</p>
   </section>
 
   <section>
@@ -96,27 +98,40 @@
 
     <div class="job">
       <div class="job-top">
-        <h3>Data Engineer <span>· Company Two</span></h3>
-        <span class="when mono">2024 — Present</span>
+        <h3>Amazon <span>&middot; Amazon Pay &amp; Amazon Payments</span></h3>
+        <span class="when mono">Oct 2017 &mdash; Jul 2024</span>
       </div>
+      <p class="track-loc mono" style="color:var(--faint);font-family:'IBM Plex Mono',monospace;font-size:8.4pt;letter-spacing:.06em;text-transform:uppercase;margin:2px 0 4px">
+        Bangalore &middot; Chennai &nbsp;|&nbsp; Data Engineer II &larr; Data Engineer I &larr; Support Engineer &larr; Automation Specialist</p>
       <ul>
-        <li>Own the streaming ingest layer feeding finance and operations reporting; ~1.4B rows under management at 99.95% pipeline uptime.</li>
-        <li>Replaced a 26-hour-stale nightly batch with log-based CDC, reducing source-to-serving lag to about 90 seconds.</li>
-        <li>Introduced data contracts across 240+ columns; time-to-detect on data incidents fell from ~4 days to 35 minutes and quarterly incidents from 11 to 2.</li>
-        <li>Mentor two junior engineers and run design review for changes to the serving layer.</li>
-      </ul>
-    </div>
-
-    <div class="job">
-      <div class="job-top">
-        <h3>Data Engineer <span>· Company One</span></h3>
-        <span class="when mono">2021 — 2024</span>
-      </div>
-      <ul>
-        <li>Led the platform cost programme: 38% reduction in monthly warehouse spend with zero dashboards broken.</li>
-        <li>Cut the nightly batch window from 11 hours to 4.2 by converting full loads to incremental merges.</li>
-        <li>Built the team's first lineage graph from query history; still the basis for deprecation decisions.</li>
-        <li>Migrated 40+ legacy SQL jobs to Spark and Airflow without downstream breakage.</li>
+        <li>Rebuilt batch order-transaction reporting as event-driven streaming ingestion using database change streams,
+          cross-account S3 replication and Lambda &mdash; cutting downstream SLA from <b>36&ndash;40 hours to 30 minutes</b>
+          (~99%), live <b>8 months with zero defects</b>.</li>
+        <li>Built a near real-time merchant metrics pipeline across accounts and regions with customer-managed KMS
+          encryption, partitioned Parquet, Glue crawlers, Athena and Redshift &mdash; <b>15&ndash;30 minute SLA</b>,
+          <b>100% accuracy</b>, <b>zero job failures</b>, with restricted PII excluded in flight before durable write.</li>
+        <li>Automated a <b>20 million record</b> negative-remittance load with Python and Boto3 including pre-commit
+          reconciliation &mdash; 100% accuracy, ~2 days of manual effort removed, clearing a multi-billion-rupee
+          exception backlog.</li>
+        <li>Orchestrated <b>~60 report jobs and 30 dashboards</b> into three one-click workflows and automated variance
+          root-cause analysis (~4 days &rarr; automated), holding the <b>5-working-day</b> regulatory substantiation
+          deadline and moving substantiation from monthly to daily.</li>
+        <li>Introduced pipeline-as-code CI/CD across two data platforms with <b>dual sign-off SQL review</b> (business
+          logic and query efficiency), eliminating drift between deployed jobs and source control.</li>
+        <li>Built a self-mutating <b>AWS CDK</b> deployment pipeline spanning Beta, Gamma and Prod across multiple AWS
+          accounts and regions, with approval workflow, security scanning, integration tests and bake time.</li>
+        <li>Ran reconciliation across <b>~15 source systems and ~120 ETL jobs</b>, categorising <b>~400 million
+          transactions/month</b> into daily and monthly transaction-level reports; reduced manual ETL workload 60%.</li>
+        <li>Diagnosed and fixed silent exclusion of undocumented transaction types in the bank statement parser (Java)
+          that was breaking closing-balance reconciliation &mdash; <b>50%</b> less manual exception clearing.</li>
+        <li>Led migration of Redshift, QuickSight and S3 to the Mumbai region for <b>RBI payment aggregator data
+          localisation</b>; supported RBI audit root-cause analysis across India regulatory accounts.</li>
+        <li>Reclaimed <b>20% of Redshift disk</b> and eliminated CPU-driven cluster outages by replacing cluster-wide
+          vacuum with targeted ANALYZE and deep-copy on high-impact tables.</li>
+        <li>Delivered a cross-border EU pipeline under <b>data residency restrictions</b> using encrypted S3 replication,
+          Lambda and Glue &mdash; 15&ndash;30 minute SLA, eliminating a recurring Sev-3 ticket.</li>
+        <li>As Automation Specialist, built Python and Selenium automation for campaign management and seller onboarding,
+          saving <b>~15 FTE</b> of effort; authored SOPs enabling stakeholder self-service.</li>
       </ul>
     </div>
   </section>
@@ -124,14 +139,16 @@
   <section>
     <h2>Technical Skills</h2>
     <div class="grid2">
-      <dl class="kv"><dt>Languages</dt><dd>Python, SQL, Bash</dd></dl>
-      <dl class="kv"><dt>Ingest</dt><dd>Kafka, Debezium, Spark Structured Streaming</dd></dl>
-      <dl class="kv"><dt>Processing</dt><dd>Spark, dbt, Delta Lake</dd></dl>
-      <dl class="kv"><dt>Warehouse</dt><dd>Databricks, Redshift, Postgres</dd></dl>
-      <dl class="kv"><dt>Orchestration</dt><dd>Airflow, Terraform</dd></dl>
-      <dl class="kv"><dt>Quality</dt><dd>Great Expectations, dbt tests, data contracts</dd></dl>
-      <dl class="kv"><dt>Cloud</dt><dd>AWS (S3, EC2, Glue, IAM, CloudWatch)</dd></dl>
-      <dl class="kv"><dt>Practices</dt><dd>Cost attribution, lineage, CI/CD, on-call</dd></dl>
+      <dl class="kv"><dt>Languages</dt><dd>Python, SQL, Java, Bash</dd></dl>
+      <dl class="kv"><dt>Ingest</dt><dd>DynamoDB Streams, Kinesis, S3 replication, Lambda, event triggers</dd></dl>
+      <dl class="kv"><dt>Processing</dt><dd>AWS Glue, EMR, PySpark, Pandas, Parquet</dd></dl>
+      <dl class="kv"><dt>Warehouse</dt><dd>Redshift, Athena, MySQL, DynamoDB</dd></dl>
+      <dl class="kv"><dt>Platform</dt><dd>AWS CDK, CloudFormation, Managed Airflow, CI/CD, Pytest</dd></dl>
+      <dl class="kv"><dt>Reporting</dt><dd>QuickSight, dashboard automation via Boto3 / AWS CLI</dd></dl>
+      <dl class="kv"><dt>Security</dt><dd>IAM, KMS (customer-managed keys), CloudWatch, secrets management</dd></dl>
+      <dl class="kv"><dt>Governance</dt><dd>GDPR in a data lake, PII exclusion, EU data residency, RBI localisation</dd></dl>
+      <dl class="kv"><dt>Domain</dt><dd>Payments reconciliation, financial substantiation, exception management</dd></dl>
+      <dl class="kv"><dt>Practices</dt><dd>Code review, SOP authoring, stakeholder sign-off, on-call</dd></dl>
     </div>
   </section>
 
@@ -148,13 +165,13 @@
   <section>
     <h2>Education &amp; Certifications</h2>
     <div class="grid2">
-      <dl class="kv"><dt>Degree</dt><dd>Add your degree, institution, year</dd></dl>
-      <dl class="kv"><dt>Cert</dt><dd>Add certifications (e.g. AWS, Databricks)</dd></dl>
+      <dl class="kv"><dt>Degree</dt><dd>B.E. Mechanical Engineering &mdash; Park College of Engineering &amp; Technology, Coimbatore, 2017</dd></dl>
+      <dl class="kv"><dt>Cert</dt><dd>Add certifications</dd></dl>
     </div>
   </section>
 
   <footer class="mono">
-    <span>Mohammed Arshak — CV</span>
+    <span>Ameer Salman M — CV</span>
     <span>ameerafi.github.io</span>
   </footer>
 </div>
