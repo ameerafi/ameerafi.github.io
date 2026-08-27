@@ -425,8 +425,8 @@ ul, ol { list-style: none; }
 
 .track { border-left: 1px solid var(--line); }
 .track-item {
-  display: grid; grid-template-columns: 128px 1fr;
-  gap: clamp(18px, 3vw, 36px);
+  display: grid; grid-template-columns: 154px 1fr;
+  gap: clamp(18px, 3vw, 34px);
   padding: 0 0 52px 32px; position: relative;
 }
 .track-item:last-child { padding-bottom: 0; }
@@ -447,6 +447,13 @@ ul, ol { list-style: none; }
 }
 .track-org { color: var(--text-dim); font-weight: 400; }
 .track-loc { color: var(--text-faint); margin-bottom: 16px; }
+
+.track-group { margin-bottom: 22px; }
+.track-group:last-child { margin-bottom: 0; }
+.track-group h4 {
+  color: var(--signal); font-weight: 500; font-size: 11px;
+  letter-spacing: .1em; margin-bottom: 10px;
+}
 .track-what ul li {
   color: var(--text-dim); font-size: 15.5px;
   padding-left: 20px; position: relative; margin-bottom: 9px;

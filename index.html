@@ -163,7 +163,7 @@
 
     <!-- CASE 1 -->
     <article class="case" role="tabpanel" id="case-1" aria-labelledby="tab-1">
-      <p class="case-meta mono">Amazon Pay · Data Engineer II · 2023&ndash;2024</p>
+      <p class="case-meta mono">Amazon Pay · Order transaction reporting · 2023&ndash;2024</p>
       <h3 class="case-title">Cut reporting latency from 36 hours to 30 minutes</h3>
       <p class="case-lede">Downstream teams were reporting on data that was up to a day and a half old. The batch extract was the bottleneck, and no amount of tuning was going to close a 36-hour gap — it needed a different shape.</p>
 
@@ -203,7 +203,7 @@
 
     <!-- CASE 2 -->
     <article class="case" role="tabpanel" id="case-2" aria-labelledby="tab-2" hidden>
-      <p class="case-meta mono">Amazon Pay · Data Engineer · 2022&ndash;2023 · Merchant integration metrics</p>
+      <p class="case-meta mono">Amazon Pay · Merchant integration metrics · 2022&ndash;2023</p>
       <h3 class="case-title">Near real-time metrics from a table the warehouse couldn't reach</h3>
       <p class="case-lede">The second metric in the merchant integration funnel was missing entirely. The data existed, in a NoSQL table owned by another team, in another account, with restricted fields mixed in. Nobody had a route from there to the warehouse.</p>
 
@@ -346,14 +346,81 @@
       <li class="track-item">
         <div class="track-when mono">Oct 2017 — Jul 2024</div>
         <div class="track-what">
-          <h3>Amazon <span class="track-org">· Amazon Pay &amp; Amazon Payments</span></h3>
-          <p class="track-loc mono">Bangalore · Chennai · 6 yrs 10 mos</p>
-          <ul>
-            <li><b>Data Engineer II</b> — exit title. Rebuilt batch reporting as event-driven streaming, cutting downstream SLA from 36–40 hours to 30 minutes with eight months of zero-defect production running.</li>
-            <li><b>Data Engineer I</b> — introduced pipeline-as-code CI/CD across two data platforms with dual sign-off SQL review, and built a self-mutating AWS CDK deployment pipeline spanning Beta, Gamma and Prod across accounts and regions.</li>
-            <li><b>Support Engineer</b> — ran reconciliation across ~15 source systems and ~120 ETL jobs, categorising roughly 400 million transactions a month; led the Mumbai-region migration for RBI payment aggregator data localisation.</li>
-            <li><b>Automation Specialist</b> — built Python and Selenium automation for internal payments processes, saving around 15 FTE of effort across campaign management and seller onboarding.</li>
-          </ul>
+          <h3>Data Engineer II <span class="track-org">· Amazon Pay</span></h3>
+          <p class="track-loc mono">Bengaluru &amp; Chennai · 6 yrs 10 mos · Exit title</p>
+
+          <div class="track-group">
+            <h4 class="mono">Streaming &amp; pipeline engineering</h4>
+            <ul>
+              <li>Designed and implemented near real-time ingestion using <b>DynamoDB Streams</b>, cross-account
+                <b>S3</b> replication, <b>Lambda</b>, <b>Glue</b> and <b>Athena</b>, replacing scheduled batch
+                extraction &mdash; reduced downstream reporting SLA <b>~99%, from 36&ndash;40 hours to 30 minutes</b>,
+                running <b>8 consecutive months in production at zero defects</b>.</li>
+              <li>Built a cross-account, cross-region merchant metrics pipeline with customer-managed <b>KMS</b>
+                encryption, event-triggered <b>Python</b> transforms, partitioned <b>Parquet</b> output, <b>Glue</b>
+                crawlers and <b>Redshift</b> COPY stored procedures &mdash; <b>15&ndash;30 minute</b> data availability
+                SLA, <b>100% data accuracy</b>, <b>zero job failures</b>, with restricted PII excluded in flight
+                before durable write.</li>
+              <li>Delivered a cross-border EU pipeline under data residency restrictions using encrypted <b>S3</b>
+                replication, <b>Lambda</b> and <b>Glue</b> on a <b>15-minute</b> trigger cadence &mdash;
+                <b>15&ndash;30 minute</b> SLA with staging-table granularity validation, eliminating a recurring
+                <b>Sev-3</b> ticket.</li>
+            </ul>
+          </div>
+
+          <div class="track-group">
+            <h4 class="mono">Platform, CI/CD &amp; orchestration</h4>
+            <ul>
+              <li>Built CI/CD pipelines using <b>AWS CDK</b> &mdash; self-mutating application stacks deploying
+                <b>CloudFormation</b> stacks across multiple AWS accounts and regions through <b>Beta, Gamma and
+                Prod</b>, with version-set approval workflow, security scanning, integration tests and bake time
+                between stages.</li>
+              <li>Implemented workflow orchestration using <b>AWS Managed Airflow</b> and <b>CDK</b> to schedule ETL
+                jobs and launch <b>transient EMR clusters</b> across multiple applications; designed a <b>Glue</b>
+                package CI/CD setup compiling source and dependencies into <b>egg and zip</b> artifacts with
+                automated <b>Pytest</b> execution.</li>
+              <li>Onboarded pipeline-as-code tooling across <b>2 data platforms</b>, introducing <b>dual sign-off SQL
+                review</b> covering business logic and query efficiency, and eliminating configuration drift between
+                deployed ETL jobs and source control.</li>
+            </ul>
+          </div>
+
+          <div class="track-group">
+            <h4 class="mono">Reconciliation &amp; regulatory reporting</h4>
+            <ul>
+              <li>Built and operated the reconciliation estate consuming <b>~15 source systems</b> across <b>~120 ETL
+                jobs</b>, categorising <b>~400 million transactions per month</b> (~4.8 billion/year) into daily and
+                monthly transaction-level reports across <b>4 India regulatory payment accounts</b>; automated ETL
+                across terabyte-scale data using <b>S3, EMR and EC2</b>, reducing manual workload <b>60% monthly</b>.</li>
+              <li>Orchestrated <b>~60 report jobs and 30 QuickSight dashboards</b> into <b>3 one-click workflows</b>
+                via <b>Boto3</b> and <b>AWS CLI</b>, removing <b>1 day of effort and 4 days of turnaround</b> per
+                cycle; automated variance root-cause analysis across <b>~80 scheduled jobs</b>, cutting investigation
+                from <b>~4 days to automated</b> and moving substantiation from monthly to <b>daily</b> inside a
+                statutory <b>5-working-day</b> deadline.</li>
+              <li>Automated a <b>20 million record</b> negative-remittance load across <b>18 settlement references</b>
+                using <b>Python</b> and <b>Boto3</b> with pre-commit header-to-aggregate reconciliation &mdash;
+                <b>100% data accuracy</b>, <b>~2 days</b> of manual effort removed, clearing a <b>multi-billion-rupee</b>
+                exception backlog; remediated silent exclusion of undocumented transaction flow codes in the <b>Java</b>
+                bank statement parser that was breaking closing-balance reconciliation, cutting manual exception
+                clearing <b>50%</b>.</li>
+            </ul>
+          </div>
+
+          <div class="track-group">
+            <h4 class="mono">Reliability, cost &amp; compliance</h4>
+            <ul>
+              <li>Reclaimed <b>20% of Redshift cluster disk</b> by replacing cluster-wide auto-vacuum with targeted
+                <b>ANALYZE</b> and <b>deep-copy</b> operations on high-impact tables, eliminating CPU-driven cluster
+                outages within a 4-hour maintenance window; built <b>DynamoDB</b>-backed job failure monitoring with
+                automated email alerting to stakeholders and engineers.</li>
+              <li>Led migration of <b>Amazon Redshift, QuickSight and S3</b> to the <b>Mumbai (BOM) region</b> for
+                <b>RBI Regulation of Payment Aggregators and Payment Gateways</b>; supported RBI audit root-cause
+                analysis minimising exceptions across India regulatory accounts.</li>
+              <li>Built monitors and <b>CloudWatch</b> alarms for real-time issue tracking with automatic ticket
+                creation on pipeline failure; authored SOPs and runbooks handing every automation back to the finance
+                operations team to run without engineering involvement.</li>
+            </ul>
+          </div>
         </div>
       </li>
       <li class="track-item">
