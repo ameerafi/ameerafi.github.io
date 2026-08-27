@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mohammed Arshak — Curriculum Vitae</title>
+<meta name="description" content="Curriculum vitae — Mohammed Arshak, Data Engineer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{--ink:#0B1120;--dim:#4E5C78;--faint:#75849F;--line:#DCE2EE;--signal:#0C8478;--pulse:#A85B12}
+  body{font-family:'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);background:#E9EDF4;
+       line-height:1.5;font-size:10.2pt;-webkit-font-smoothing:antialiased}
+  .sheet{max-width:210mm;margin:24px auto;background:#fff;padding:16mm 15mm}
+  .mono{font-family:'IBM Plex Mono',monospace;font-size:8.6pt;letter-spacing:.06em;text-transform:uppercase}
+
+  .bar{position:sticky;top:0;z-index:5;background:var(--ink);color:#fff;
+       display:flex;gap:10px;justify-content:center;padding:10px}
+  .bar button,.bar a{font-family:'IBM Plex Mono',monospace;font-size:8.6pt;letter-spacing:.06em;
+       text-transform:uppercase;background:none;border:1px solid rgba(255,255,255,.35);
+       color:#fff;padding:7px 14px;border-radius:3px;cursor:pointer;text-decoration:none}
+  .bar button:hover,.bar a:hover{background:#fff;color:var(--ink)}
+
+  header{border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:20px}
+  h1{font-family:'Archivo',sans-serif;font-weight:800;font-size:30pt;letter-spacing:-.03em;
+     text-transform:uppercase;line-height:.9;margin-bottom:8px}
+  .role{color:var(--signal);font-weight:600;font-size:11.5pt;margin-bottom:8px}
+  .meta{display:flex;flex-wrap:wrap;gap:6px 16px;color:var(--dim)}
+  .meta a{color:var(--dim)}
+
+  section{margin-bottom:18px;break-inside:avoid}
+  h2{font-family:'IBM Plex Mono',monospace;font-size:8.8pt;letter-spacing:.14em;text-transform:uppercase;
+     color:var(--pulse);border-bottom:1px solid var(--line);padding-bottom:5px;margin-bottom:12px}
+  .summary{color:var(--dim);max-width:none}
+
+  .job{margin-bottom:15px;break-inside:avoid}
+  .job-top{display:flex;justify-content:space-between;gap:14px;align-items:baseline;flex-wrap:wrap}
+  h3{font-family:'Archivo',sans-serif;font-weight:600;font-size:12pt;letter-spacing:-.01em}
+  h3 span{font-weight:400;color:var(--dim)}
+  .when{color:var(--faint);white-space:nowrap}
+  .job ul{list-style:none;margin-top:7px}
+  .job li{padding-left:15px;position:relative;color:var(--dim);margin-bottom:4px}
+  .job li::before{content:'';position:absolute;left:0;top:.62em;width:8px;height:1px;background:var(--signal)}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px 28px}
+  .kv{display:flex;gap:10px;padding:3px 0;border-bottom:1px dotted var(--line)}
+  .kv dt{color:var(--pulse);flex:0 0 78px;font-family:'IBM Plex Mono',monospace;font-size:8.4pt;
+     letter-spacing:.06em;text-transform:uppercase;padding-top:2px}
+  .kv dd{color:var(--dim);flex:1}
+
+  footer{margin-top:20px;padding-top:10px;border-top:1px solid var(--line);color:var(--faint);
+     display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+  @media print{
+    @page{size:A4 portrait;margin:12mm}
+    body{background:#fff;font-size:9.4pt}
+    .sheet{margin:0;padding:0;max-width:100%}
+    .bar{display:none}
+    a{color:inherit;text-decoration:none}
+  }
+  @media(max-width:640px){.sheet{padding:22px 18px;margin:0}.grid2{grid-template-columns:1fr}h1{font-size:24pt}}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <a href="../">← Back to site</a>
+  <button onclick="window.print()">Print / Save as PDF</button>
+</div>
+
+<div class="sheet">
+  <header>
+    <h1>Mohammed Arshak</h1>
+    <p class="role">Data Engineer — pipelines, platform cost, data reliability</p>
+    <div class="meta mono">
+      <span>Bengaluru, India</span>
+      <a href="mailto:ameersalman333@gmail.com">ameersalman333@gmail.com</a>
+      <a href="https://github.com/ameerafi">github.com/ameerafi</a>
+      <span>Add phone</span>
+      <span>Add LinkedIn</span>
+    </div>
+  </header>
+
+  <section>
+    <h2>Summary</h2>
+    <p class="summary">Data engineer with 4+ years building and running batch and streaming pipelines on AWS and
+    Databricks. Track record of cutting platform cost without breaking downstream consumers, replacing brittle
+    nightly batches with change-data-capture, and making data quality failures visible within the hour rather
+    than the week. Comfortable owning a system end to end and handing it over cleanly.</p>
+  </section>
+
+  <section>
+    <h2>Experience</h2>
+
+    <div class="job">
+      <div class="job-top">
+        <h3>Data Engineer <span>· Company Two</span></h3>
+        <span class="when mono">2024 — Present</span>
+      </div>
+      <ul>
+        <li>Own the streaming ingest layer feeding finance and operations reporting; ~1.4B rows under management at 99.95% pipeline uptime.</li>
+        <li>Replaced a 26-hour-stale nightly batch with log-based CDC, reducing source-to-serving lag to about 90 seconds.</li>
+        <li>Introduced data contracts across 240+ columns; time-to-detect on data incidents fell from ~4 days to 35 minutes and quarterly incidents from 11 to 2.</li>
+        <li>Mentor two junior engineers and run design review for changes to the serving layer.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-top">
+        <h3>Data Engineer <span>· Company One</span></h3>
+        <span class="when mono">2021 — 2024</span>
+      </div>
+      <ul>
+        <li>Led the platform cost programme: 38% reduction in monthly warehouse spend with zero dashboards broken.</li>
+        <li>Cut the nightly batch window from 11 hours to 4.2 by converting full loads to incremental merges.</li>
+        <li>Built the team's first lineage graph from query history; still the basis for deprecation decisions.</li>
+        <li>Migrated 40+ legacy SQL jobs to Spark and Airflow without downstream breakage.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Technical Skills</h2>
+    <div class="grid2">
+      <dl class="kv"><dt>Languages</dt><dd>Python, SQL, Bash</dd></dl>
+      <dl class="kv"><dt>Ingest</dt><dd>Kafka, Debezium, Spark Structured Streaming</dd></dl>
+      <dl class="kv"><dt>Processing</dt><dd>Spark, dbt, Delta Lake</dd></dl>
+      <dl class="kv"><dt>Warehouse</dt><dd>Databricks, Redshift, Postgres</dd></dl>
+      <dl class="kv"><dt>Orchestration</dt><dd>Airflow, Terraform</dd></dl>
+      <dl class="kv"><dt>Quality</dt><dd>Great Expectations, dbt tests, data contracts</dd></dl>
+      <dl class="kv"><dt>Cloud</dt><dd>AWS (S3, EC2, Glue, IAM, CloudWatch)</dd></dl>
+      <dl class="kv"><dt>Practices</dt><dd>Cost attribution, lineage, CI/CD, on-call</dd></dl>
+    </div>
+  </section>
+
+  <section>
+    <h2>Selected Projects</h2>
+    <div class="job">
+      <ul>
+        <li><b>AWS automation toolkit</b> — Python tooling for EC2 snapshot lifecycle management. github.com/ameerafi</li>
+        <li><b>Meteorite proximity finder</b> — Python service over NASA open data, ranking landing sites by distance.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Education &amp; Certifications</h2>
+    <div class="grid2">
+      <dl class="kv"><dt>Degree</dt><dd>Add your degree, institution, year</dd></dl>
+      <dl class="kv"><dt>Cert</dt><dd>Add certifications (e.g. AWS, Databricks)</dd></dl>
+    </div>
+  </section>
+
+  <footer class="mono">
+    <span>Mohammed Arshak — CV</span>
+    <span>ameerafi.github.io</span>
+  </footer>
+</div>
+
+</body>
+</html>

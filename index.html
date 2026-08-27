@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mohammed Arshak — Data Engineer</title>
+<meta name="description" content="Data engineer. I build the pipelines that everyone else's dashboards quietly depend on. Case studies, stack, and how I work.">
+
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Mohammed Arshak — Data Engineer">
+<meta property="og:description" content="I build the pipelines that everyone else's dashboards quietly depend on.">
+<meta property="og:url" content="https://ameerafi.github.io/">
+<meta property="og:image" content="https://ameerafi.github.io/assets/og-cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0A0E1A">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: light)').matches)document.documentElement.dataset.theme='light';}catch(e){}</script>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ============ TOP BAR ============ -->
+<header class="topbar">
+  <a class="mark" href="#home"><span class="mark-dot" aria-hidden="true"></span>MA</a>
+  <p class="status mono"><span class="status-led" aria-hidden="true"></span>Data Engineer @ <b>Company Two</b> · Bengaluru</p>
+  <div class="topbar-actions">
+    <a class="btn btn-ghost" href="cv/">CV</a>
+    <button class="btn btn-icon" id="themeToggle" aria-label="Switch theme"><span aria-hidden="true">◐</span></button>
+    <button class="btn btn-icon menu-btn" id="menuToggle" aria-label="Open menu" aria-expanded="false"><span aria-hidden="true">☰</span></button>
+  </div>
+</header>
+
+<!-- ============ RAIL NAV ============ -->
+<nav class="rail" id="rail" aria-label="Sections">
+  <ol class="rail-list">
+    <li><a href="#approach"><i aria-hidden="true"></i><span>Approach</span></a></li>
+    <li><a href="#work"><i aria-hidden="true"></i><span>Work</span></a></li>
+    <li><a href="#track"><i aria-hidden="true"></i><span>Track</span></a></li>
+    <li><a href="#toolkit"><i aria-hidden="true"></i><span>Toolkit</span></a></li>
+    <li><a href="#notes"><i aria-hidden="true"></i><span>Notes</span></a></li>
+    <li><a href="#contact"><i aria-hidden="true"></i><span>Contact</span></a></li>
+  </ol>
+</nav>
+
+<main id="main">
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="home">
+  <div class="wrap">
+    <p class="eyebrow mono">Bengaluru, India · Open to senior data roles</p>
+    <h1 class="display">Mohammed<br>Arshak</h1>
+    <p class="lede">I build the pipelines that everyone else's dashboards quietly depend on — and the alerting that tells you before they break.</p>
+
+    <div class="hero-links">
+      <a class="btn btn-solid" href="#work">See the work</a>
+      <a class="btn btn-ghost" href="cv/">Read CV</a>
+      <a class="btn btn-ghost" href="https://github.com/ameerafi" target="_blank" rel="noopener">GitHub ↗</a>
+      <a class="btn btn-ghost" href="#contact">Get in touch</a>
+    </div>
+
+    <!-- ---- SIGNATURE: the pipeline ---- -->
+    <figure class="pipeline-figure">
+      <figcaption class="mono pipeline-cap">What I actually do, end to end</figcaption>
+
+      <div class="pipeline" id="pipeline">
+        <button class="stage is-active" data-stage="ingest" aria-describedby="stageDetail">
+          <span class="stage-node" aria-hidden="true"></span>
+          <span class="stage-name mono">Ingest</span>
+        </button>
+        <span class="conduit" aria-hidden="true"><i class="packet"></i><i class="packet"></i><i class="packet"></i></span>
+
+        <button class="stage" data-stage="model" aria-describedby="stageDetail">
+          <span class="stage-node" aria-hidden="true"></span>
+          <span class="stage-name mono">Model</span>
+        </button>
+        <span class="conduit" aria-hidden="true"><i class="packet"></i><i class="packet"></i><i class="packet"></i></span>
+
+        <button class="stage" data-stage="serve" aria-describedby="stageDetail">
+          <span class="stage-node" aria-hidden="true"></span>
+          <span class="stage-name mono">Serve</span>
+        </button>
+        <span class="conduit" aria-hidden="true"><i class="packet"></i><i class="packet"></i><i class="packet"></i></span>
+
+        <button class="stage" data-stage="observe" aria-describedby="stageDetail">
+          <span class="stage-node" aria-hidden="true"></span>
+          <span class="stage-name mono">Observe</span>
+        </button>
+      </div>
+
+      <p class="stage-detail" id="stageDetail" aria-live="polite">
+        <b>Ingest</b> — CDC off transactional Postgres, S3 batch drops, and a Kafka topic nobody documented. Landed raw, schema-checked at the door.
+      </p>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 01 APPROACH ============ -->
+<section class="band" id="approach">
+  <div class="wrap">
+    <p class="section-tag mono">01 / Approach</p>
+    <h2 class="section-title">How I work, when nobody's watching</h2>
+
+    <div class="tenets">
+      <article class="tenet">
+        <h3>Make it boring on purpose</h3>
+        <p>A pipeline that runs unattended for six months beats a clever one that needs a babysitter. I optimise for the 3am pager, not the design review.</p>
+      </article>
+      <article class="tenet">
+        <h3>Find the real question first</h3>
+        <p>"Build me a dashboard" usually means "I don't trust this number." I go back one step and fix the number, which is often cheaper and always more useful.</p>
+      </article>
+      <article class="tenet">
+        <h3>Cost is a design constraint</h3>
+        <p>Compute spend is somebody's headcount. I read the bill line by line and treat a 30% reduction as a shipped feature, because finance does.</p>
+      </article>
+      <article class="tenet">
+        <h3>Leave the map behind</h3>
+        <p>Runbooks, lineage, and a README that assumes nothing. The test is whether a new joiner can debug my work without messaging me.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 WORK ============ -->
+<section class="band band-alt" id="work">
+  <div class="wrap">
+    <p class="section-tag mono">02 / Work</p>
+    <h2 class="section-title">Three things worth explaining</h2>
+
+    <div class="tabs" role="tablist" aria-label="Case studies">
+      <button class="tab is-active" role="tab" aria-selected="true" aria-controls="case-1" id="tab-1">Warehouse cost</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="case-2" id="tab-2" tabindex="-1">Realtime ingest</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="case-3" id="tab-3" tabindex="-1">Data quality</button>
+    </div>
+
+    <!-- CASE 1 -->
+    <article class="case" role="tabpanel" id="case-1" aria-labelledby="tab-1">
+      <p class="case-meta mono">Company One · 2023 — 2024 · Lead engineer, team of 3</p>
+      <h3 class="case-title">Cut warehouse spend 38% without deleting a single dashboard</h3>
+      <p class="case-lede">Finance flagged the data platform as the fastest-growing line item in engineering. The ask was "make it cheaper." The actual problem was that nobody knew what anything cost.</p>
+
+      <div class="metrics">
+        <div class="metric"><span class="metric-val mono">38%</span><span class="metric-lbl">Lower monthly spend</span></div>
+        <div class="metric"><span class="metric-val mono">4.2h</span><span class="metric-lbl">Nightly run, down from 11h</span></div>
+        <div class="metric"><span class="metric-val mono">0</span><span class="metric-lbl">Dashboards broken</span></div>
+        <div class="metric"><span class="metric-val mono">100%</span><span class="metric-lbl">Jobs with cost attribution</span></div>
+      </div>
+
+      <div class="case-grid">
+        <div class="case-block">
+          <h4 class="mono">Problem</h4>
+          <p>One shared cluster ran every job, so no team saw its own bill. Three pipelines were rebuilding full history nightly because that was easier than writing incremental logic two years earlier. Nobody would touch it — every table had an unknown consumer.</p>
+        </div>
+        <div class="case-block">
+          <h4 class="mono">Approach</h4>
+          <p>Measure before cutting. I tagged every job, built a lineage graph from query logs, and ranked tables by cost-per-read. That turned a political argument into a list. The bottom 20 tables had zero reads in 90 days.</p>
+        </div>
+      </div>
+
+      <h4 class="mono block-head">Architecture</h4>
+      <ol class="flow">
+        <li class="flow-step">
+          <span class="flow-num mono">1</span>
+          <div><b>Tag and attribute</b><p>Job-level tagging pushed into billing exports, so every team saw its own number in a weekly digest.</p></div>
+        </li>
+        <li class="flow-step">
+          <span class="flow-num mono">2</span>
+          <div><b>Build lineage from logs</b><p>Parsed 90 days of query history into a table-to-consumer graph. Dead tables became provable, not debatable.</p></div>
+        </li>
+        <li class="flow-step">
+          <span class="flow-num mono">3</span>
+          <div><b>Convert full loads to incremental</b><p>Merge-on-read for the three worst offenders, with a weekly reconciliation job to catch drift.</p></div>
+        </li>
+        <li class="flow-step">
+          <span class="flow-num mono">4</span>
+          <div><b>Split the cluster</b><p>Separate compute for ELT, ad-hoc, and BI, each with its own autoscaling floor and a hard ceiling.</p></div>
+        </li>
+      </ol>
+
+      <div class="case-block outcome">
+        <h4 class="mono">What changed</h4>
+        <p>Spend dropped 38% in the first full month and stayed down, because the weekly digest made regressions visible to the team that caused them. The nightly window shrank from 11 hours to 4.2, which meant morning reports were ready before standup instead of during it. Two teams have since cut their own costs without involving me — which is the part I'm actually pleased about.</p>
+      </div>
+
+      <ul class="chips mono">
+        <li>Spark</li><li>Delta Lake</li><li>Airflow</li><li>dbt</li><li>AWS Cost Explorer</li><li>Python</li>
+      </ul>
+    </article>
+
+    <!-- CASE 2 -->
+    <article class="case" role="tabpanel" id="case-2" aria-labelledby="tab-2" hidden>
+      <p class="case-meta mono">Company Two · 2024 — present · Design and delivery</p>
+      <h3 class="case-title">Replaced a nightly batch with CDC, and stopped the 9am arguments</h3>
+      <p class="case-lede">Ops and finance were reconciling against a snapshot that was up to 26 hours stale. Every morning began with two people disagreeing about a number that was simply out of date.</p>
+
+      <div class="metrics">
+        <div class="metric"><span class="metric-val mono">90s</span><span class="metric-lbl">Source to serving lag</span></div>
+        <div class="metric"><span class="metric-val mono">26h</span><span class="metric-lbl">Staleness removed</span></div>
+        <div class="metric"><span class="metric-val mono">1.4B</span><span class="metric-lbl">Rows migrated, zero loss</span></div>
+        <div class="metric"><span class="metric-val mono">99.95%</span><span class="metric-lbl">Pipeline uptime, 6 months</span></div>
+      </div>
+
+      <div class="case-grid">
+        <div class="case-block">
+          <h4 class="mono">Problem</h4>
+          <p>The nightly export locked the source database for 40 minutes and still missed late-arriving corrections. Downstream teams had built their own patches on top, so there were four versions of "revenue" in circulation.</p>
+        </div>
+        <div class="case-block">
+          <h4 class="mono">Approach</h4>
+          <p>Run both in parallel for six weeks and publish the diff daily. Trust had to be earned with evidence, not a migration plan. When the diff hit zero for fourteen consecutive days, the cutover was uncontroversial.</p>
+        </div>
+      </div>
+
+      <h4 class="mono block-head">Architecture</h4>
+      <ol class="flow">
+        <li class="flow-step"><span class="flow-num mono">1</span><div><b>CDC at the source</b><p>Log-based capture off Postgres replicas, so production write paths were untouched.</p></div></li>
+        <li class="flow-step"><span class="flow-num mono">2</span><div><b>Ordered, replayable transport</b><p>Partitioned by entity key to preserve per-record ordering, with 7-day retention for replay after a bad deploy.</p></div></li>
+        <li class="flow-step"><span class="flow-num mono">3</span><div><b>Idempotent merge</b><p>Upserts keyed on primary key plus source LSN, so a replay is a no-op rather than a duplication incident.</p></div></li>
+        <li class="flow-step"><span class="flow-num mono">4</span><div><b>Shadow and diff</b><p>Old and new served side by side with an automated daily reconciliation report until the delta was flat.</p></div></li>
+      </ol>
+
+      <div class="case-block outcome">
+        <h4 class="mono">What changed</h4>
+        <p>Serving lag went from up to 26 hours to about 90 seconds, and the source database stopped taking a nightly hit. The four competing definitions of revenue collapsed into one, mostly because the fast number was also the correct one and the patches became pointless. The 9am reconciliation meeting was dropped from the calendar.</p>
+      </div>
+
+      <ul class="chips mono">
+        <li>Debezium</li><li>Kafka</li><li>Spark Structured Streaming</li><li>Delta Lake</li><li>Terraform</li>
+      </ul>
+    </article>
+
+    <!-- CASE 3 -->
+    <article class="case" role="tabpanel" id="case-3" aria-labelledby="tab-3" hidden>
+      <p class="case-meta mono">Company Two · 2025 · Solo, then handed over</p>
+      <h3 class="case-title">Made bad data fail loudly instead of arriving quietly</h3>
+      <p class="case-lede">The platform was reliable in the sense that jobs went green. It was unreliable in the sense that green jobs regularly shipped wrong numbers, and we found out from the business.</p>
+
+      <div class="metrics">
+        <div class="metric"><span class="metric-val mono">11 → 2</span><span class="metric-lbl">Data incidents per quarter</span></div>
+        <div class="metric"><span class="metric-val mono">4d → 35m</span><span class="metric-lbl">Time to detect</span></div>
+        <div class="metric"><span class="metric-val mono">240+</span><span class="metric-lbl">Contract-checked columns</span></div>
+        <div class="metric"><span class="metric-val mono">6</span><span class="metric-lbl">Teams self-serving alerts</span></div>
+      </div>
+
+      <div class="case-grid">
+        <div class="case-block">
+          <h4 class="mono">Problem</h4>
+          <p>A silent upstream schema change had shifted a currency column two months earlier. Nobody noticed until a board deck showed a number that was obviously wrong, and then three engineers spent four days finding out why.</p>
+        </div>
+        <div class="case-block">
+          <h4 class="mono">Approach</h4>
+          <p>Tests where the data enters, not where it leaves. I resisted building a monitoring dashboard — dashboards need somebody to look at them. Failures had to reach a human in Slack, with the offending rows attached.</p>
+        </div>
+      </div>
+
+      <h4 class="mono block-head">Architecture</h4>
+      <ol class="flow">
+        <li class="flow-step"><span class="flow-num mono">1</span><div><b>Contracts at the boundary</b><p>Schema, nullability and range assertions declared in YAML next to each source, versioned in the same repo.</p></div></li>
+        <li class="flow-step"><span class="flow-num mono">2</span><div><b>Quarantine, don't drop</b><p>Failing rows divert to a side table with the failed assertion attached, so nothing is lost and triage starts with evidence.</p></div></li>
+        <li class="flow-step"><span class="flow-num mono">3</span><div><b>Freshness and volume baselines</b><p>Rolling expectations per table — a 40% row-count drop pages someone even when every assertion passes.</p></div></li>
+        <li class="flow-step"><span class="flow-num mono">4</span><div><b>Route to the owner</b><p>Alerts go to the team that owns the source, not to a central channel where they go to die.</p></div></li>
+      </ol>
+
+      <div class="case-block outcome">
+        <h4 class="mono">What changed</h4>
+        <p>Detection time fell from around four days to 35 minutes, and quarterly data incidents dropped from eleven to two. The unexpected outcome was cultural: because alerts named an owner, six teams started adding their own contracts without being asked. I handed the whole thing over in a two-hour session and it has run without me since.</p>
+      </div>
+
+      <ul class="chips mono">
+        <li>Great Expectations</li><li>dbt tests</li><li>Airflow</li><li>Slack API</li><li>Python</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<!-- ============ 03 TRACK ============ -->
+<section class="band" id="track">
+  <div class="wrap">
+    <p class="section-tag mono">03 / Track</p>
+    <h2 class="section-title">Where I've been</h2>
+
+    <ol class="track">
+      <li class="track-item is-current">
+        <div class="track-when mono">2024 — present</div>
+        <div class="track-what">
+          <h3>Data Engineer <span class="track-org">· Company Two</span></h3>
+          <p class="track-loc mono">Bengaluru · Full time</p>
+          <ul>
+            <li>Own the streaming ingest layer feeding finance and ops reporting, currently around 1.4B rows under management.</li>
+            <li>Introduced data contracts across 240+ columns, cutting time-to-detect on data incidents from days to under an hour.</li>
+            <li>Mentor two junior engineers; run the internal review for anything that touches the serving layer.</li>
+          </ul>
+        </div>
+      </li>
+      <li class="track-item">
+        <div class="track-when mono">2021 — 2024</div>
+        <div class="track-what">
+          <h3>Data Engineer <span class="track-org">· Company One</span></h3>
+          <p class="track-loc mono">Bengaluru · Full time</p>
+          <ul>
+            <li>Led the platform cost programme that reduced warehouse spend 38% and halved the nightly batch window.</li>
+            <li>Migrated 40+ legacy SQL jobs onto Spark and Airflow with no downstream breakage.</li>
+            <li>Built the first lineage graph the team had, from query logs, which is still how they decide what to deprecate.</li>
+          </ul>
+        </div>
+      </li>
+      <li class="track-item">
+        <div class="track-when mono">Before that</div>
+        <div class="track-what">
+          <h3>Foundations</h3>
+          <p class="track-loc mono">Self-directed</p>
+          <ul>
+            <li>AWS automation tooling in Python — EC2 snapshot lifecycle management, published on GitHub.</li>
+            <li>Data projects against public sources, including a NASA meteorite-landing proximity tool.</li>
+          </ul>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ 04 TOOLKIT ============ -->
+<section class="band band-alt" id="toolkit">
+  <div class="wrap">
+    <p class="section-tag mono">04 / Toolkit</p>
+    <h2 class="section-title">Grouped the way the data moves</h2>
+    <p class="section-lede">Not an alphabetical dump. These are the four stages from the top of the page, with what I reach for at each one.</p>
+
+    <div class="kits">
+      <article class="kit">
+        <h3 class="kit-head"><span class="kit-node" aria-hidden="true"></span>Ingest</h3>
+        <ul class="chips mono"><li>Kafka</li><li>Debezium</li><li>Spark Streaming</li><li>S3</li><li>REST / SFTP sources</li></ul>
+      </article>
+      <article class="kit">
+        <h3 class="kit-head"><span class="kit-node" aria-hidden="true"></span>Model</h3>
+        <ul class="chips mono"><li>Spark</li><li>dbt</li><li>Delta Lake</li><li>SQL</li><li>Dimensional modelling</li></ul>
+      </article>
+      <article class="kit">
+        <h3 class="kit-head"><span class="kit-node" aria-hidden="true"></span>Serve</h3>
+        <ul class="chips mono"><li>Databricks</li><li>Redshift</li><li>Postgres</li><li>Airflow</li><li>Terraform</li></ul>
+      </article>
+      <article class="kit">
+        <h3 class="kit-head"><span class="kit-node" aria-hidden="true"></span>Observe</h3>
+        <ul class="chips mono"><li>Great Expectations</li><li>CloudWatch</li><li>Lineage tooling</li><li>Cost attribution</li><li>PagerDuty</li></ul>
+      </article>
+    </div>
+
+    <div class="kit-foot">
+      <p class="mono kit-foot-lbl">Languages</p>
+      <ul class="chips mono"><li>Python</li><li>SQL</li><li>Bash</li><li>Scala (reading)</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 NOTES ============ -->
+<section class="band" id="notes">
+  <div class="wrap">
+    <p class="section-tag mono">05 / Notes</p>
+    <h2 class="section-title">Things I've worked out the hard way</h2>
+    <p class="section-lede">Short write-ups on the decisions that took me longest to get right. This is the section that says more than a CV can.</p>
+
+    <div class="notes">
+      <a class="note" href="#">
+        <p class="note-meta mono">Placeholder · 6 min read</p>
+        <h3>Why I stopped writing data quality dashboards</h3>
+        <p>Nobody looks at a dashboard until they already suspect something is wrong. What actually works is failing loudly at the boundary and naming an owner.</p>
+        <span class="note-go mono">Read →</span>
+      </a>
+      <a class="note" href="#">
+        <p class="note-meta mono">Placeholder · 4 min read</p>
+        <h3>The cheapest query is the one you delete</h3>
+        <p>Cost work usually starts with tuning. It should start with lineage — a fifth of most warehouses has no reader at all.</p>
+        <span class="note-go mono">Read →</span>
+      </a>
+      <a class="note" href="#">
+        <p class="note-meta mono">Placeholder · 5 min read</p>
+        <h3>Run it in the shadows before you cut over</h3>
+        <p>Migrations don't fail on engineering. They fail on trust. Publishing a daily diff for six weeks is slower and finishes sooner.</p>
+        <span class="note-go mono">Read →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 CONTACT ============ -->
+<section class="band band-alt" id="contact">
+  <div class="wrap">
+    <p class="section-tag mono">06 / Contact</p>
+    <h2 class="section-title">If any of this is useful to you</h2>
+    <div class="contact-lead">
+      <!-- Swap this div for: <img class="portrait" src="assets/portrait.jpg" alt="Mohammed Arshak"> -->
+      <div class="portrait portrait-ph" aria-hidden="true">Add photo<br>assets/<wbr>portrait.jpg</div>
+      <p class="section-lede" style="margin-bottom:0">I'm open to senior data engineering and platform roles, and happy to talk through any of the work above in more detail. Fastest way to reach me is email — I answer within a day.</p>
+    </div>
+
+    <div class="contact-rows">
+      <a class="crow" href="mailto:ameersalman333@gmail.com">
+        <span class="crow-lbl mono">Email</span><span class="crow-val">ameersalman333@gmail.com</span><span class="crow-go" aria-hidden="true">→</span>
+      </a>
+      <a class="crow" href="https://github.com/ameerafi" target="_blank" rel="noopener">
+        <span class="crow-lbl mono">GitHub</span><span class="crow-val">github.com/ameerafi</span><span class="crow-go" aria-hidden="true">↗</span>
+      </a>
+      <a class="crow" href="#" target="_blank" rel="noopener">
+        <span class="crow-lbl mono">LinkedIn</span><span class="crow-val">Add your LinkedIn URL</span><span class="crow-go" aria-hidden="true">↗</span>
+      </a>
+      <a class="crow" href="cv/">
+        <span class="crow-lbl mono">CV</span><span class="crow-val">Full curriculum vitae</span><span class="crow-go" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <p class="mono">© <span id="year">2026</span> Mohammed Arshak</p>
+    <p class="mono">Built by hand. No framework, no build step.</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
