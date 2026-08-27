@@ -19,6 +19,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Ameer Salman M",
+  "alternateName": "Ameer Salman",
+  "jobTitle": "Data Engineer",
+  "email": "mailto:ameersalman333@gmail.com",
+  "url": "https://ameerafi.github.io/",
+  "sameAs": ["https://github.com/ameerafi"],
+  "address": { "@type": "PostalAddress", "addressCountry": "IN" },
+  "alumniOf": { "@type": "CollegeOrUniversity", "name": "Park College of Engineering and Technology" },
+  "worksFor": { "@type": "Organization", "name": "Amazon" },
+  "knowsAbout": ["Data Engineering","ETL","Apache Spark","PySpark","Python","SQL","AWS","Amazon Redshift","AWS Glue","AWS Lambda","Amazon Athena","Amazon Kinesis","DynamoDB","Apache Airflow","AWS CDK","Streaming Data","Data Pipelines","Payments Reconciliation","Data Governance","GDPR"]
+}
+</script>
 <script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: light)').matches)document.documentElement.dataset.theme='light';}catch(e){}</script>
 </head>
 
@@ -27,8 +43,8 @@
 
 <header class="topbar">
   <a class="mark" href="#home"><span class="mark-dot" aria-hidden="true"></span>AS</a>
-  <!-- TODO: swap for current role once company two is confirmed -->
-  <p class="status mono"><span class="status-led" aria-hidden="true"></span>Data Engineer · <b>ex-Amazon Pay</b> · India</p>
+  <!-- TODO: add current employer once company two is confirmed. TODO: replace "India" with a city — recruiters filter by city. -->
+  <p class="status mono"><span class="status-led" aria-hidden="true"></span>Data Engineer · India · <b>Open to senior roles</b></p>
   <div class="topbar-actions">
     <a class="btn btn-ghost" href="cv/">CV</a>
     <button class="btn btn-icon" id="themeToggle" aria-label="Switch theme"><span aria-hidden="true">◐</span></button>
@@ -42,7 +58,6 @@
     <li><a href="#work"><i aria-hidden="true"></i><span>Work</span></a></li>
     <li><a href="#track"><i aria-hidden="true"></i><span>Track</span></a></li>
     <li><a href="#toolkit"><i aria-hidden="true"></i><span>Toolkit</span></a></li>
-    <li><a href="#notes"><i aria-hidden="true"></i><span>Notes</span></a></li>
     <li><a href="#contact"><i aria-hidden="true"></i><span>Contact</span></a></li>
   </ol>
 </nav>
@@ -52,13 +67,20 @@
 <!-- ============ HERO ============ -->
 <section class="hero" id="home">
   <div class="wrap">
-    <p class="eyebrow mono">India · Seven years in regulated payments data</p>
     <h1 class="display">Ameer<br>Salman</h1>
     <p class="lede">I build the pipelines behind regulated payment reconciliation — where the numbers have to balance, on a statutory deadline, and being wrong is a compliance event.</p>
 
+    <dl class="facts">
+      <div class="fact"><dt class="mono">Experience</dt><dd>7 years, data engineering</dd></div>
+      <div class="fact"><dt class="mono">Most recent</dt><dd>Data Engineer II, Amazon Pay &middot; 2017&ndash;2024</dd></div>
+      <div class="fact"><dt class="mono">Core stack</dt><dd>Python &middot; SQL &middot; AWS &middot; Spark</dd></div>
+      <div class="fact"><dt class="mono">Based</dt><dd>India</dd></div>
+      <div class="fact"><dt class="mono">Open to</dt><dd>Senior data engineering &amp; platform</dd></div>
+    </dl>
+
     <div class="hero-links">
       <a class="btn btn-solid" href="#work">See the work</a>
-      <a class="btn btn-ghost" href="cv/">Read CV</a>
+      <a class="btn btn-ghost" href="assets/Ameer-Salman-CV.pdf" download>Download CV (PDF)</a>
       <a class="btn btn-ghost" href="https://github.com/ameerafi" target="_blank" rel="noopener">GitHub ↗</a>
       <a class="btn btn-ghost" href="#contact">Get in touch</a>
     </div>
@@ -133,15 +155,15 @@
     <p class="section-lede">All four at Amazon Pay, on India's regulated payment accounts. Internal system names are generalised; figures are stated relative rather than absolute.</p>
 
     <div class="tabs" role="tablist" aria-label="Case studies">
-      <button class="tab is-active" role="tab" aria-selected="true" aria-controls="case-1" id="tab-1">Streaming rebuild</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="case-2" id="tab-2" tabindex="-1">Metrics pipeline</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="case-3" id="tab-3" tabindex="-1">Remittance backlog</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="case-4" id="tab-4" tabindex="-1">Substantiation</button>
+      <button class="tab is-active" role="tab" aria-selected="true" aria-controls="case-1" id="tab-1"><span class="tab-name">Streaming rebuild</span><span class="tab-metric mono">36h &rarr; 30m SLA</span></button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="case-2" id="tab-2" tabindex="-1"><span class="tab-name">Metrics pipeline</span><span class="tab-metric mono">Zero failures</span></button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="case-3" id="tab-3" tabindex="-1"><span class="tab-name">Remittance backlog</span><span class="tab-metric mono">20M records</span></button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="case-4" id="tab-4" tabindex="-1"><span class="tab-name">Substantiation</span><span class="tab-metric mono">4 days &rarr; automated</span></button>
     </div>
 
     <!-- CASE 1 -->
     <article class="case" role="tabpanel" id="case-1" aria-labelledby="tab-1">
-      <p class="case-meta mono">Amazon Pay · Data Engineer · Order transaction data</p>
+      <p class="case-meta mono">Amazon Pay · Data Engineer II · 2023&ndash;2024</p>
       <h3 class="case-title">Cut reporting latency from 36 hours to 30 minutes</h3>
       <p class="case-lede">Downstream teams were reporting on data that was up to a day and a half old. The batch extract was the bottleneck, and no amount of tuning was going to close a 36-hour gap — it needed a different shape.</p>
 
@@ -181,7 +203,7 @@
 
     <!-- CASE 2 -->
     <article class="case" role="tabpanel" id="case-2" aria-labelledby="tab-2" hidden>
-      <p class="case-meta mono">Amazon Pay · Data Engineer · Merchant integration metrics</p>
+      <p class="case-meta mono">Amazon Pay · Data Engineer · 2022&ndash;2023 · Merchant integration metrics</p>
       <h3 class="case-title">Near real-time metrics from a table the warehouse couldn't reach</h3>
       <p class="case-lede">The second metric in the merchant integration funnel was missing entirely. The data existed, in a NoSQL table owned by another team, in another account, with restricted fields mixed in. Nobody had a route from there to the warehouse.</p>
 
@@ -222,7 +244,7 @@
 
     <!-- CASE 3 -->
     <article class="case" role="tabpanel" id="case-3" aria-labelledby="tab-3" hidden>
-      <p class="case-meta mono">Amazon Pay · Reconciliation · Pandemic-era anomaly</p>
+      <p class="case-meta mono">Amazon Payments · Reconciliation · 2021&ndash;2022</p>
       <h3 class="case-title">Twenty million records reconciliation had been ignoring</h3>
       <p class="case-lede">During the pandemic, refunds started exceeding sales. That produced negative settlement amounts, which the processors could neither deposit nor draw back — so the files were simply skipped. The books had been quietly accumulating a gap for months.</p>
 
@@ -262,7 +284,7 @@
 
     <!-- CASE 4 -->
     <article class="case" role="tabpanel" id="case-4" aria-labelledby="tab-4" hidden>
-      <p class="case-meta mono">Amazon Pay · Financial substantiation · Regulatory reporting</p>
+      <p class="case-meta mono">Amazon Pay · Financial substantiation · 2021&ndash;2023</p>
       <h3 class="case-title">A five-day regulatory deadline, made one-click</h3>
       <p class="case-lede">Every month the regulated payment accounts had to be substantiated — proven to balance — within five working days. Validation meant around sixty reports and thirty dashboards, refreshed by hand, in order. When a variance appeared, finding the cause took four days out of the five.</p>
 
@@ -340,7 +362,7 @@
           <h3>B.E. Mechanical Engineering</h3>
           <p class="track-loc mono">Park College of Engineering &amp; Technology, Coimbatore</p>
           <ul>
-            <li>Not a computer science degree. I moved into automation, then data, and learned the rest on production systems where the numbers had to be right.</li>
+            <li>Moved into automation, then data engineering, and learned the rest on production systems where the numbers had to be right.</li>
           </ul>
         </div>
       </li>
@@ -389,40 +411,14 @@
   </div>
 </section>
 
-<!-- ============ 05 NOTES ============ -->
-<section class="band" id="notes">
-  <div class="wrap">
-    <p class="section-tag mono">05 / Notes</p>
-    <h2 class="section-title">Things I've worked out the hard way</h2>
-    <p class="section-lede">Short write-ups on decisions that took me longest to get right. Drafting these now — the three below are the ones I have the most to say about.</p>
-
-    <div class="notes">
-      <a class="note" href="#">
-        <p class="note-meta mono">In draft</p>
-        <h3>The parser that dropped transactions for two months</h3>
-        <p>Undocumented transaction types arrived, the parser silently excluded them, and the closing balance stopped matching. Nothing failed. Everything was green. On designing systems that refuse quietly-wrong answers.</p>
-        <span class="note-go mono">Coming soon</span>
-      </a>
-      <a class="note" href="#">
-        <p class="note-meta mono">In draft</p>
-        <h3>Deep copy instead of VACUUM</h3>
-        <p>Auto-vacuum was enabled and the cluster was still choking. When the maintenance window is four hours wide and the table list is long, the platform default is the wrong tool. What I did instead, and why it reclaimed 20%.</p>
-        <span class="note-go mono">Coming soon</span>
-      </a>
-      <a class="note" href="#">
-        <p class="note-meta mono">In draft</p>
-        <h3>Automate it, then hand it back</h3>
-        <p>The finish line for an automation is not deployment, it's the day the team that owns the process runs it without you. On SOPs, handovers, and why retaining the dependency is a bottleneck dressed as job security.</p>
-        <span class="note-go mono">Coming soon</span>
-      </a>
-    </div>
-  </div>
-</section>
+<!-- NOTES SECTION REMOVED until at least one piece is written.
+     Three "coming soon" cards read as an unfinished site to a recruiter.
+     Restore from git history (commit 1f68066) once a note exists. -->
 
 <!-- ============ 06 CONTACT ============ -->
 <section class="band band-alt" id="contact">
   <div class="wrap">
-    <p class="section-tag mono">06 / Contact</p>
+    <p class="section-tag mono">05 / Contact</p>
     <h2 class="section-title">If any of this is useful to you</h2>
 
     <div class="contact-lead">
@@ -438,11 +434,15 @@
       <a class="crow" href="https://github.com/ameerafi" target="_blank" rel="noopener">
         <span class="crow-lbl mono">GitHub</span><span class="crow-val">github.com/ameerafi</span><span class="crow-go" aria-hidden="true">↗</span>
       </a>
-      <a class="crow" href="#" target="_blank" rel="noopener">
-        <span class="crow-lbl mono">LinkedIn</span><span class="crow-val">Add your LinkedIn URL</span><span class="crow-go" aria-hidden="true">↗</span>
+      <!-- TODO: add LinkedIn URL and restore this as an <a class="crow"> -->
+      <div class="crow is-pending">
+        <span class="crow-lbl mono">LinkedIn</span><span class="crow-val">Add your LinkedIn URL</span>
+      </div>
+      <a class="crow" href="assets/Ameer-Salman-CV.pdf" download>
+        <span class="crow-lbl mono">CV</span><span class="crow-val">Download as PDF</span><span class="crow-go" aria-hidden="true">↓</span>
       </a>
       <a class="crow" href="cv/">
-        <span class="crow-lbl mono">CV</span><span class="crow-val">Full curriculum vitae</span><span class="crow-go" aria-hidden="true">→</span>
+        <span class="crow-lbl mono">CV</span><span class="crow-val">Read in the browser</span><span class="crow-go" aria-hidden="true">→</span>
       </a>
     </div>
   </div>
