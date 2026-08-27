@@ -73,8 +73,9 @@ in `js/main.js`.
 
 - [x] Name, hero, approach, four Amazon case studies, track, toolkit, CV
 - [x] Current role added: Forward Deployed Engineer, Databricks, Jul 2024 – present
-- [ ] **Databricks contributions** — Track entry and CV are placeholders pending the contributions doc
-- [ ] **Databricks case studies** — Work section is down to one case (streaming rebuild); tab bar and cases 2-4 are in git history at commit e81e3bc, restore when there are 3+ cases again
+- [x] Databricks contributions added to Track, Work and CV
+- [x] Databricks case studies — five cases now (cost, DataPrint, ShadowClone, connector, streaming rebuild)
+- [ ] **Confirm the flagged items** from the promo draft: Lakebridge PR merge status, connector adoption count, GAP verification closeouts
 - [ ] **Confirm exact job title** — used "Forward Deployed Engineer" (Databricks/industry standard); confirm against your offer letter
 - [ ] `assets/portrait.jpg` — then swap the placeholder div in the Contact section
 - [ ] LinkedIn URL (Contact section and `cv/index.html`)
@@ -87,6 +88,9 @@ in `js/main.js`.
   promotion document (300MM / 900MM / 3,000MM / 20bn) are internal figures for regulated accounts.
   They appear on the CV, which is a private document, but the public page says "multi-billion-rupee
   backlog" instead. Source numbers live in `~/Desktop/career/contribution-metrics.md`.
+- **Customer names are withheld entirely** on the public page — the promo draft names real accounts, and those are
+  confidential engagement details. The site says "an enterprise customer" throughout. Same for the internal data
+  platform: "an enterprise data platform".
 - **Internal system names are generalised.** FAST, DIAS, DJS, Datanet, Cradle, Maestro, Andes, Odin
   and the rest are Amazon-internal and mean nothing outside. See the translation table in
   `~/Desktop/career/amazon-career-summary.md` §9.

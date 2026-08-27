@@ -69,7 +69,7 @@
 <section class="hero" id="home">
   <div class="wrap">
     <h1 class="display">Ameer<br>Salman</h1>
-    <p class="lede">Seven years building the pipelines behind regulated payment reconciliation at Amazon, where being wrong is a compliance event. Now embedded with Databricks customers, turning half-defined problems into Data and AI systems running in their own environments.</p>
+    <p class="lede">Seven years building the pipelines behind regulated payment reconciliation at Amazon. Now a Forward Deployed Engineer at Databricks, where the fix I write for one customer usually ends up shipping to the whole field.</p>
 
     <dl class="facts">
       <div class="fact"><dt class="mono">Experience</dt><dd>8+ years, data engineering</dd></div>
@@ -130,20 +130,20 @@
 
     <div class="tenets">
       <article class="tenet">
-        <h3>Weigh the options before committing</h3>
-        <p>On the streaming rebuild I evaluated several replication and streaming designs, took opinions from the teams who'd have to live with it, and proposed both a short-term and a long-term answer. The fast decision is rarely the cheap one.</p>
+        <h3>Solve it once, then make it serve everyone</h3>
+        <p>A connector fix for one customer became a maintained fork covering six runtimes that the whole field org uses. I look for the version of a fix that outlives the engagement, because the second customer with the same problem is always already out there.</p>
       </article>
       <article class="tenet">
-        <h3>Understand the rule before you automate it</h3>
-        <p>Most of these systems encode finance logic, not engineering logic. I sit with the operations team until I can state the business rule precisely, then automate. Automating a rule you half-understand just produces wrong answers faster.</p>
+        <h3>Prove it before you ship it</h3>
+        <p>I don't trust an optimisation measured on dev data, or a migration validated by sampling ten percent of rows. Two of my projects exist specifically because "probably fine" is not good enough when the blast radius is production.</p>
       </article>
       <article class="tenet">
-        <h3>Automate it, then hand it back</h3>
-        <p>Every automation I've shipped came with an SOP and a handover, so the team that owns the process can run it without me. Retaining the dependency looks like job security and is actually a bottleneck.</p>
+        <h3>Make safety structural, not behavioural</h3>
+        <p>A sandbox that relies on people being careful will eventually meet somebody in a hurry. Fail-closed identity boundaries mean a stray redirect hits a permission wall instead of a production table &mdash; the guarantee holds even when the operator is wrong.</p>
       </article>
       <article class="tenet">
-        <h3>Make failures loud, and write them down</h3>
-        <p>A parser once silently dropped transaction types it didn't recognise, and the balance quietly stopped matching. I fixed it, then documented the failure mode so the next person finds it in an afternoon instead of a fortnight.</p>
+        <h3>Leave it so someone else can own it</h3>
+        <p>CI matrices, test suites, runbooks, and evidence stakeholders can validate without me in the room. The finish line is not deployment; it's the day the work no longer needs me.</p>
       </article>
     </div>
   </div>
@@ -153,13 +153,181 @@
 <section class="band band-alt" id="work">
   <div class="wrap">
     <p class="section-tag mono">02 / Work</p>
-    <h2 class="section-title">One project, in full</h2>
-    <p class="section-lede">From Amazon Pay, on India's regulated payment accounts. Internal system names are generalised, and figures are stated relative rather than absolute.</p>
+    <h2 class="section-title">Five things worth explaining</h2>
+    <p class="section-lede">Four from Databricks, one from Amazon. Customer names are withheld and internal system names generalised; figures are the measured ones.</p>
 
-    <!-- Single case study for now. Cases 2-4 (metrics pipeline, remittance backlog,
-         substantiation) are preserved in git history at commit e81e3bc, along with the
-         tab bar markup — restore both when the Databricks projects are added. -->
-    <article class="case" id="case-1">
+    <div class="tabs" role="tablist" aria-label="Case studies">
+      <button class="tab is-active" role="tab" aria-selected="true" aria-controls="case-1" id="tab-1"><span class="tab-name">Cost engineering</span><span class="tab-metric mono">$180K/yr saved</span></button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="case-2" id="tab-2" tabindex="-1"><span class="tab-name">DataPrint</span><span class="tab-metric mono">8.1&times; · open source</span></button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="case-3" id="tab-3" tabindex="-1"><span class="tab-name">ShadowClone</span><span class="tab-metric mono">10.19&times; on 4.45B rows</span></button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="case-4" id="tab-4" tabindex="-1"><span class="tab-name">Spark connector</span><span class="tab-metric mono">One fix, whole field</span></button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="case-5" id="tab-5" tabindex="-1"><span class="tab-name">Streaming rebuild</span><span class="tab-metric mono">36h &rarr; 30m SLA</span></button>
+    </div>
+
+    <!-- CASE 1 — cost -->
+    <article class="case" role="tabpanel" id="case-1" aria-labelledby="tab-1">
+      <p class="case-meta mono">Databricks · Enterprise retail customer · Cost engineering</p>
+      <h3 class="case-title">Took $180,000 a year out of a customer's Databricks bill</h3>
+      <p class="case-lede">Their platform spend was concentrated in a handful of production jobs. The brief was to reduce it without changing a single business output — no scope cuts, no dropped tables, same numbers at the end.</p>
+
+      <div class="metrics">
+        <div class="metric"><span class="metric-val mono">$180K</span><span class="metric-lbl">Verified annual saving</span></div>
+        <div class="metric"><span class="metric-val mono">50%</span><span class="metric-lbl">Cut on the costliest job</span></div>
+        <div class="metric"><span class="metric-val mono">4–5</span><span class="metric-lbl">Of the top 20 most expensive jobs</span></div>
+        <div class="metric"><span class="metric-val mono">0</span><span class="metric-lbl">Business outputs changed</span></div>
+      </div>
+
+      <div class="case-grid">
+        <div class="case-block">
+          <h4 class="mono">Problem</h4>
+          <p>Spend followed the usual shape — a long tail of cheap jobs and a short head of very expensive ones. The costly jobs were also the load-bearing ones, which is exactly why nobody had touched them. Any change had to be provably output-neutral before finance would count the saving.</p>
+        </div>
+        <div class="case-block">
+          <h4 class="mono">Approach</h4>
+          <p>Profile before touching anything, and make every change independently verifiable. I documented each optimisation with the evidence behind it so stakeholders could validate the result themselves rather than take my word for it — which is what turned these into <em>verified</em> savings rather than claimed ones.</p>
+        </div>
+      </div>
+
+      <h4 class="mono block-head">Approach in detail</h4>
+      <ol class="flow">
+        <li class="flow-step"><span class="flow-num mono">1</span><div><b>Rank by spend, not by complaint</b><p>Worked from the top-20 most expensive jobs rather than the ones people were grumbling about. The two lists overlap less than you would expect.</p></div></li>
+        <li class="flow-step"><span class="flow-num mono">2</span><div><b>Rewrite the query logic</b><p>Inefficient joins and redundant scans, targeted at the plan rather than the syntax.</p></div></li>
+        <li class="flow-step"><span class="flow-num mono">3</span><div><b>Fix the partitioning</b><p>Data layout was doing more damage than the SQL in several cases &mdash; partitioning that made sense when the table was small and stopped making sense years ago.</p></div></li>
+        <li class="flow-step"><span class="flow-num mono">4</span><div><b>Remove work, not just speed it up</b><p>Streamlined transformations to cut shuffle and drop redundant stages entirely. The cheapest stage is the one that no longer runs.</p></div></li>
+        <li class="flow-step"><span class="flow-num mono">5</span><div><b>Document so others can verify</b><p>Every change shipped with before-and-after evidence, so the saving was validated by the customer rather than asserted by me.</p></div></li>
+      </ol>
+
+      <div class="case-block outcome">
+        <h4 class="mono">What changed</h4>
+        <p>Three jobs verified at <b>$132,000/yr (50% reduction)</b>, <b>$43,000/yr (30%)</b> and <b>$5,000/yr (10%)</b> &mdash; <b>$180,000 a year</b> in total, with two further jobs still in verification. Business output was unchanged throughout. This is the piece of my work that translates most directly: deep Spark and Delta performance engineering, expressed as a number that appears on someone's budget.</p>
+      </div>
+
+      <ul class="chips mono"><li>Apache Spark</li><li>Delta Lake</li><li>Query optimisation</li><li>Partitioning</li><li>Workload profiling</li><li>DBU / FinOps</li></ul>
+    </article>
+
+    <!-- CASE 2 — DataPrint -->
+    <article class="case" role="tabpanel" id="case-2" aria-labelledby="tab-2" hidden>
+      <p class="case-meta mono">Databricks · Open-source contribution · Lakebridge</p>
+      <h3 class="case-title">Proved two billion-row tables match without moving the data</h3>
+      <p class="case-lede">Every enterprise migrating onto Databricks has to prove the target matches the source. Row-by-row validation shuffles terabytes across the network, so at real scale teams give up, sample ten percent, and accept ninety percent confidence instead of proof.</p>
+
+      <div class="metrics">
+        <div class="metric"><span class="metric-val mono">8.1×</span><span class="metric-lbl">Faster on real 74M-row data</span></div>
+        <div class="metric"><span class="metric-val mono">~48,000×</span><span class="metric-lbl">Less data across the wire</span></div>
+        <div class="metric"><span class="metric-val mono">15.8B</span><span class="metric-lbl">Rows validated</span></div>
+        <div class="metric"><span class="metric-val mono">0</span><span class="metric-lbl">False positives or negatives</span></div>
+      </div>
+
+      <div class="case-grid">
+        <div class="case-block">
+          <h4 class="mono">Problem</h4>
+          <p>A 74-million-row table took around 506 seconds to validate the traditional way. Billion-row tables were effectively unvalidatable &mdash; hours to days, or simply infeasible. So the industry norm became sampling, which cannot prove equality; it can only fail to disprove it. Every migration customer hits this.</p>
+        </div>
+        <div class="case-block">
+          <h4 class="mono">Approach</h4>
+          <p>Stop comparing rows and start comparing mathematics. If you compute compact algebraic aggregates where the data already lives, you can compare fingerprints instead of payloads &mdash; and when they differ, recover the exact differing rows algebraically rather than by searching for them.</p>
+        </div>
+      </div>
+
+      <h4 class="mono block-head">Architecture</h4>
+      <ol class="flow">
+        <li class="flow-step"><span class="flow-num mono">1</span><div><b>Hash and partition</b><p>Each row hashed to a 64-bit integer with a cross-engine MD5 so source and target agree byte for byte, then bucketed into roughly a million sub-buckets.</p></div></li>
+        <li class="flow-step"><span class="flow-num mono">2</span><div><b>Fingerprint each bucket</b><p>Five algebraic signals per bucket &mdash; count, sum of hashes, sum of squares, plus an independent second channel for collision detection. Source aggregates computed via JDBC pushdown, so about 50&nbsp;KB crosses the wire instead of 2.4&nbsp;GB of rows.</p></div></li>
+        <li class="flow-step"><span class="flow-num mono">3</span><div><b>Compare and short-circuit</b><p>Broadcast-join the aggregates; matching buckets resolve instantly and are never looked at again. On a clean migration almost everything short-circuits here.</p></div></li>
+        <li class="flow-step"><span class="flow-num mono">4</span><div><b>Solve for the differences</b><p>A single-pass algebraic solver recovers the exact differing row hashes from power-sum deltas &mdash; one difference resolves directly in about 97% of cases, two via a quadratic, and anything denser falls back to a surgical fetch. This is where it departs from the recursive bisection everyone else uses.</p></div></li>
+      </ol>
+
+      <div class="case-block outcome">
+        <h4 class="mono">What changed</h4>
+        <p><b>8.1&times;</b> end to end on a real 74-million-row Redshift table (506s to 62s), <b>54.6&times;</b> faster on the source side, and about <b>48,000&times;</b> less data transferred. Validated up to <b>15.8 billion rows across 28 columns</b>, with zero false positives, zero false negatives, and a <b>98.8%+</b> exact-difference solve rate. Contributed into Databricks' <b>Lakebridge</b> migration tool (PR #2570) behind an opt-in, fail-open flag &mdash; so existing users are unaffected and the whole field can turn it on with one config change. Along the way I found and fixed three latent Redshift serialisation bugs that had been silently corrupting <em>every</em> Redshift reconcile.</p>
+      </div>
+
+      <ul class="chips mono"><li>Python</li><li>Spark SQL</li><li>Delta Lake</li><li>JDBC pushdown</li><li>Redshift</li><li>Algebraic reconciliation</li><li>Property-based testing</li><li>Open source</li></ul>
+    </article>
+
+    <!-- CASE 3 — ShadowClone -->
+    <article class="case" role="tabpanel" id="case-3" aria-labelledby="tab-3" hidden>
+      <p class="case-meta mono">Databricks · Platform tooling · Optimisation safety</p>
+      <h3 class="case-title">Proved a 10× speedup against 4.45 billion rows, with production untouched</h3>
+      <p class="case-lede">A Photon enablement looked fine in dev, ran three times slower in production, breached downstream SLAs and had to be reverted. Dev datasets are too small to show the skew and shuffle behaviour that actually decides whether an optimisation pays off.</p>
+
+      <div class="metrics">
+        <div class="metric"><span class="metric-val mono">10.19×</span><span class="metric-lbl">Speedup proven safe</span></div>
+        <div class="metric"><span class="metric-val mono">4.45B</span><span class="metric-lbl">Rows verified identical</span></div>
+        <div class="metric"><span class="metric-val mono">21</span><span class="metric-lbl">Output tables, all matching</span></div>
+        <div class="metric"><span class="metric-val mono">30+</span><span class="metric-lbl">Pipeline families inherited it</span></div>
+      </div>
+
+      <div class="case-grid">
+        <div class="case-block">
+          <h4 class="mono">Problem</h4>
+          <p>You cannot trust an optimisation measured on dev data, and you cannot test it in production without risking corruption and SLA breaches. So teams either ship on faith or never ship at all. There was no systematic way to demonstrate that output data stayed byte-identical while performance improved.</p>
+        </div>
+        <div class="case-block">
+          <h4 class="mono">Approach</h4>
+          <p>Safety had to be structural rather than behavioural. A sandbox that depends on people being careful will eventually meet somebody in a hurry, so I designed it so that a stray redirect hits a permission wall instead of a production table &mdash; the boundary holds even when the operator makes a mistake.</p>
+        </div>
+      </div>
+
+      <h4 class="mono block-head">Architecture</h4>
+      <ol class="flow">
+        <li class="flow-step"><span class="flow-num mono">1</span><div><b>Discover the lineage</b><p>Reads the catalog's own lineage tables rather than parsing code, unioning a 30-day lookback &mdash; and fails loudly on empty lineage instead of quietly cloning nothing.</p></div></li>
+        <li class="flow-step"><span class="flow-num mono">2</span><div><b>Gate on identity, fail closed</b><p>Verifies the sandbox principal's <em>effective</em> group-inherited grants and pins the run identity. This is the load-bearing safety property: everything downstream can be wrong and production is still unreachable.</p></div></li>
+        <li class="flow-step"><span class="flow-num mono">3</span><div><b>Shallow-clone the inputs</b><p>Metadata-only Delta clones give production-scale data with zero storage duplication &mdash; the reason testing at real volume is affordable at all.</p></div></li>
+        <li class="flow-step"><span class="flow-num mono">4</span><div><b>Redirect and run isolated</b><p>Job parameters patched dynamically, no YAML edits, and unredirectable task types refuse to run rather than silently pointing at production.</p></div></li>
+        <li class="flow-step"><span class="flow-num mono">5</span><div><b>Emit a verdict</b><p>Bidirectional <code>EXCEPT ALL</code> proves multiset parity, catching added, dropped and duplicated rows plus schema drift. Runtime is measured on execution duration to exclude cluster-start noise, and cost analysis is deferred to its own step because billing data lands hours later &mdash; it never prints a misleading $0.</p></div></li>
+      </ol>
+
+      <div class="case-block outcome">
+        <h4 class="mono">What changed</h4>
+        <p>On a real production pipeline: <b>301.5 minutes to 72.7</b> after a SQL rewrite (4.15&times;), then <b>29.6 minutes</b> with Photon &mdash; <b>10.19&times; overall, at lower DBU than baseline</b>. All <b>21 output tables identical across 4,450,457,930 rows</b>, proven by bidirectional comparison rather than spot checks. About <b>7,000 lines</b> across two engines with 26 test files. One backward-compatible change to a shared catalog resolver meant <b>30+ pipeline families</b> inherited it with no per-pipeline wiring.</p>
+      </div>
+
+      <ul class="chips mono"><li>Python</li><li>Delta shallow clone</li><li>Unity Catalog lineage</li><li>Photon</li><li>Jobs API</li><li>Asset Bundles</li><li>System tables</li></ul>
+    </article>
+
+    <!-- CASE 4 — connector -->
+    <article class="case" role="tabpanel" id="case-4" aria-labelledby="tab-4" hidden>
+      <p class="case-meta mono">Databricks · Enterprise customer → field-wide</p>
+      <h3 class="case-title">A fix for one customer that ended up serving the whole field</h3>
+      <p class="case-lede">Microsoft archived the Spark SQL Server connector. The customer needed a newer Databricks runtime for their Unity Catalog migration, and the moment they upgraded, every write failed. There was no official migration path and no precedent to follow.</p>
+
+      <div class="metrics">
+        <div class="metric"><span class="metric-val mono">~15×</span><span class="metric-lbl">Throughput retained vs JDBC</span></div>
+        <div class="metric"><span class="metric-val mono">14.3–18.x</span><span class="metric-lbl">Runtime versions covered</span></div>
+        <div class="metric"><span class="metric-val mono">1</span><span class="metric-lbl">Codebase for the whole field</span></div>
+        <div class="metric"><span class="metric-val mono">Multiple</span><span class="metric-lbl">Accounts adopted it organically</span></div>
+      </div>
+
+      <div class="case-grid">
+        <div class="case-block">
+          <h4 class="mono">Problem</h4>
+          <p>The connector gave roughly 15&times; the bulk-upload throughput of generic JDBC, so it was load-bearing. Microsoft archived it in February. Upgrading to the runtime required for Unity Catalog broke an internal API signature and every write died on <code>NoSuchMethodError</code>. The migration stopped dead.</p>
+        </div>
+        <div class="case-block">
+          <h4 class="mono">Approach</h4>
+          <p>Root-cause it properly, then fix it so it cannot break the same way again. The interesting finding: the newer runtime forward-ports the next Spark major version's method signature while still reporting itself as the older version &mdash; so version detection was lying, and anything built on private APIs was going to keep breaking.</p>
+        </div>
+      </div>
+
+      <h4 class="mono block-head">Architecture</h4>
+      <ol class="flow">
+        <li class="flow-step"><span class="flow-num mono">1</span><div><b>Trace the classpath</b><p>Investigated across six runtime versions to find where the signature actually diverged, rather than trusting the reported version string.</p></div></li>
+        <li class="flow-step"><span class="flow-num mono">2</span><div><b>Ship the unblocking fix</b><p>A custom schema-resolution method compatible with both Spark 3.5 and 4.0, plus a reworked build with multiple Maven profiles so it could be built locally for either Scala version.</p></div></li>
+        <li class="flow-step"><span class="flow-num mono">3</span><div><b>Delegate to the public API</b><p>The durable version: a thin compatibility layer of roughly 250 lines, reimplemented entirely against Spark's stable public interfaces. No private types, and therefore no per-version source branching &mdash; future upgrades become mechanical CI additions instead of risky refactors.</p></div></li>
+        <li class="flow-step"><span class="flow-num mono">4</span><div><b>Make it maintainable by anyone</b><p>Weekly runtime smoke tests to catch classpath drift, real SQL Server integration tests via containers, and a per-release million-row throughput gate that fails the build on more than 20% regression.</p></div></li>
+      </ol>
+
+      <div class="case-block outcome">
+        <h4 class="mono">What changed</h4>
+        <p>The Unity Catalog migration was unblocked and the customer confirmed everything working. It became the only known workaround for the problem, and spread on its own &mdash; colleagues asked for the JAR to unblock their own customers across <b>multiple accounts</b>. I then productised it into a maintained fork covering <b>six runtime versions from one codebase</b>, with the original bulk-copy performance and write modes intact. This is the piece of work I would point to first: it started as one account's blocker and ended as infrastructure the field org relies on.</p>
+      </div>
+
+      <ul class="chips mono"><li>Scala</li><li>Spark internals</li><li>Maven multi-profile</li><li>JDBC</li><li>SQL Server</li><li>testcontainers</li><li>GitHub Actions</li><li>ScalaTest</li></ul>
+    </article>
+
+    <!-- CASE 5 — Amazon -->
+    <article class="case" role="tabpanel" id="case-5" aria-labelledby="tab-5" hidden>
       <p class="case-meta mono">Amazon Pay · Order transaction reporting · 2023&ndash;2024</p>
       <h3 class="case-title">Cut reporting latency from 36 hours to 30 minutes</h3>
       <p class="case-lede">Downstream teams were reporting on data that was up to a day and a half old. The batch extract was the bottleneck, and no amount of tuning was going to close a 36-hour gap — it needed a different shape.</p>
@@ -213,13 +381,76 @@
         <div class="track-what">
           <h3>Forward Deployed Engineer <span class="track-org">· Databricks</span></h3>
           <p class="track-loc mono">India · Current role</p>
-          <!-- TODO: contributions pending. Same four-group treatment as the Amazon entry below. -->
+
           <div class="track-group">
-            <h4 class="mono">Customer-embedded delivery</h4>
+            <h4 class="mono">Customer delivery &amp; cost engineering</h4>
             <ul>
-              <li>Embedded with customers to take half-defined problems and ship working Data and AI
-                solutions end to end inside their own environments &mdash; on their data, their cloud
-                and their timeline.</li>
+              <li>Led optimisation of <b>4&ndash;5 of the top-20 most expensive Databricks jobs</b> for an enterprise
+                customer through query rewrites, partitioning changes and shuffle reduction &mdash; delivering
+                <b>$180,000/year in verified savings</b> ($132K at 50%, $43K at 30%, $5K at 10%) with zero change to
+                business output, and two further jobs in verification.</li>
+              <li>Diagnosed and fixed a <b>Spark SQL Server connector</b> break that was blocking an enterprise
+                customer's <b>Unity Catalog migration</b> after Microsoft archived the project &mdash; wrote a schema
+                resolver compatible with <b>Spark 3.5 and 4.0</b> and reworked the build with multi-profile Maven for
+                <b>Scala 2.12 and 2.13</b>. Became the only known workaround and was adopted organically across
+                multiple accounts.</li>
+              <li>Unblocked a failing <b>Lakeflow Connect</b> ingestion pipeline (Azure SQL Server &rarr; bronze) by
+                isolating three distinct faults &mdash; special-character column masking, DDL-change capture for schema
+                evolution, and Azure SQL role privileges &mdash; working across the product team and the customer's DBAs.</li>
+            </ul>
+          </div>
+
+          <div class="track-group">
+            <h4 class="mono">Open source &amp; field-wide tooling</h4>
+            <ul>
+              <li>Contributed <b>DataPrint</b> into Databricks' <b>Lakebridge</b> migration tool (PR&nbsp;#2570) &mdash;
+                an algebraic fingerprinting engine validating migrations <b>8.1&times; faster</b> while moving
+                <b>~48,000&times; less data</b>, verified to <b>15.8B rows &times; 28 columns</b> with <b>zero false
+                positives or negatives</b>; shipped behind an opt-in, fail-open flag with <b>361+ unit tests</b>,
+                <b>1,617</b> reconcile tests passing and <b>pylint 10.00/10</b>.</li>
+              <li>Productised the connector fix into a maintained <b>field-managed fork</b> using a ~250-line
+                public-API delegation layer with <b>no per-version source branching</b> &mdash; one codebase covering
+                <b>DBR 14.3&ndash;18.x</b> across <b>3 build profiles</b> (Scala 2.12/2.13 &times; Spark 3.5/4.0),
+                retaining <b>~15&times;</b> write throughput over generic JDBC.</li>
+              <li>Established the CI matrix that keeps it maintainable by anyone: weekly runtime smoke tests, real SQL
+                Server integration via <b>testcontainers</b>, and a per-release <b>1M-row throughput gate</b> failing
+                the build on &gt;20% regression.</li>
+            </ul>
+          </div>
+
+          <div class="track-group">
+            <h4 class="mono">Platform &amp; infrastructure as code</h4>
+            <ul>
+              <li>Built <b>Infrastructure and Security as Code</b> in <b>Terraform</b> for an enterprise data platform
+                across test, stage and production &mdash; reusable modules for cluster policies, schema creation, and
+                schema-, table-, storage-credential- and external-location-level <b>Unity Catalog grants</b>.</li>
+              <li>Resolved a <b>circular IAM trust dependency</b> in role creation with dynamic self-referencing
+                policies, a <b>Terraform state mismatch</b> across systems by synchronising DynamoDB locks with S3
+                state, and an environment naming collision causing S3 bucket conflicts between stage and test.</li>
+              <li>Turned per-team provisioning into a repeatable process with <b>~15 reusable resource templates</b>
+                and a team-scoped codebase restructure; onboarded <b>4 new catalogs</b> and drove scoping, sequencing,
+                dependency analysis and phased-rollout risk planning with the PM.</li>
+              <li>Architected a centralised migration platform covering discovery through delivery, with
+                <b>GitHub Actions CI/CD</b> for Databricks Apps, and led its front-end migration from
+                <b>Streamlit to React/FastAPI</b>.</li>
+            </ul>
+          </div>
+
+          <div class="track-group">
+            <h4 class="mono">Innovation portfolio</h4>
+            <ul>
+              <li><b>ShadowClone</b> &mdash; a production-risk-free optimisation sandbox using <b>Delta shallow
+                clones</b>, <b>Unity Catalog lineage</b> and system tables, with a fail-closed identity boundary and
+                bidirectional <code>EXCEPT ALL</code> parity checking. Proved a <b>301.5 &rarr; 29.6 minute
+                (10.19&times;)</b> pipeline optimisation at lower DBU, with <b>21 output tables identical across
+                4.45B rows</b>. ~<b>7K LoC</b>, 26 test files, inherited by <b>30+ pipeline families</b>.</li>
+              <li><b>AgentGuard</b> &mdash; a runtime security gateway that intercepts, risk-scores, audits and can
+                roll back every AI-agent action before it reaches production, via a <b>6-checkpoint pipeline</b>
+                (policy &rarr; scope &rarr; risk &rarr; human gate &rarr; snapshot &rarr; post-check) with sub-30ms
+                per-checkpoint targets. <b>~9K LoC</b> across 36 modules plus <b>~5.8K LoC</b> of tests (268+ tests),
+                a <b>hash-chained tamper-evident audit ledger</b>, 3-tier Saga-pattern rollback on Delta Time Travel,
+                and a 3-strategy OAuth/OBO identity bridge with zero credential sharing. Targets <b>EU AI Act
+                Article 14</b> evidence requirements.</li>
             </ul>
           </div>
         </div>
@@ -323,38 +554,38 @@
   <div class="wrap">
     <p class="section-tag mono">04 / Toolkit</p>
     <h2 class="section-title">Grouped the way the data moves</h2>
-    <p class="section-lede">Not an alphabetical dump. These are the four stages from the top of the page, with what I reach for at each one. Everything here is something I have shipped to production.</p>
+    <p class="section-lede">Not an alphabetical dump. These are the four stages from the top of the page, with what I reach for at each one. Everything here is something I have shipped to production or built into a working system.</p>
 
     <div class="kits">
       <article class="kit">
         <h3 class="kit-head"><span class="kit-node" aria-hidden="true"></span>Ingest</h3>
-        <ul class="chips mono"><li>DynamoDB Streams</li><li>Kinesis</li><li>S3 replication</li><li>AWS Lambda</li><li>Event triggers</li><li>File parsing (Java)</li></ul>
+        <ul class="chips mono"><li>Lakeflow Connect</li><li>DynamoDB Streams</li><li>Kinesis</li><li>S3 replication</li><li>AWS Lambda</li><li>JDBC / CDC</li><li>Event triggers</li></ul>
       </article>
       <article class="kit">
         <h3 class="kit-head"><span class="kit-node" aria-hidden="true"></span>Model</h3>
-        <ul class="chips mono"><li>AWS Glue</li><li>EMR</li><li>PySpark</li><li>Python · Pandas</li><li>SQL</li><li>Parquet · partitioning</li></ul>
+        <ul class="chips mono"><li>Apache Spark</li><li>PySpark</li><li>Delta Lake</li><li>Photon</li><li>AWS Glue</li><li>EMR</li><li>Parquet</li><li>SQL</li></ul>
       </article>
       <article class="kit">
         <h3 class="kit-head"><span class="kit-node" aria-hidden="true"></span>Serve</h3>
-        <ul class="chips mono"><li>Databricks</li><li>Redshift</li><li>Athena</li><li>QuickSight</li><li>Amazon S3</li><li>MySQL</li></ul>
+        <ul class="chips mono"><li>Databricks</li><li>Unity Catalog</li><li>Databricks Apps</li><li>Redshift</li><li>Athena</li><li>QuickSight</li></ul>
       </article>
       <article class="kit">
         <h3 class="kit-head"><span class="kit-node" aria-hidden="true"></span>Observe</h3>
-        <ul class="chips mono"><li>CloudWatch alarms</li><li>Data quality validation</li><li>Failure alerting</li><li>Cluster maintenance</li><li>Cost &amp; capacity</li></ul>
+        <ul class="chips mono"><li>Data parity validation</li><li>UC lineage</li><li>System tables</li><li>CloudWatch</li><li>DBU / cost analysis</li><li>Audit ledgers</li></ul>
       </article>
     </div>
 
     <div class="kit-foot">
       <p class="mono kit-foot-lbl">Languages</p>
-      <ul class="chips mono"><li>Python</li><li>SQL</li><li>Java</li><li>Bash</li></ul>
+      <ul class="chips mono"><li>Python</li><li>SQL</li><li>Scala</li><li>Java</li><li>TypeScript</li><li>Bash</li></ul>
     </div>
     <div class="kit-foot">
-      <p class="mono kit-foot-lbl">Platform</p>
-      <ul class="chips mono"><li>AWS CDK</li><li>CloudFormation</li><li>Managed Airflow</li><li>Pytest</li><li>IAM · KMS</li><li>CI/CD</li></ul>
+      <p class="mono kit-foot-lbl">Platform &amp; IaC</p>
+      <ul class="chips mono"><li>Terraform</li><li>AWS CDK</li><li>CloudFormation</li><li>Asset Bundles</li><li>Managed Airflow</li><li>GitHub Actions</li><li>Maven</li><li>Pytest</li><li>testcontainers</li></ul>
     </div>
     <div class="kit-foot">
       <p class="mono kit-foot-lbl">Governance</p>
-      <ul class="chips mono"><li>GDPR in a data lake</li><li>PII exclusion</li><li>EU data residency</li><li>RBI data localisation</li><li>Regulatory reporting</li></ul>
+      <ul class="chips mono"><li>Unity Catalog</li><li>GDPR in a data lake</li><li>PII exclusion</li><li>EU AI Act Art. 14</li><li>RBI data localisation</li><li>IAM · KMS</li><li>OAuth / OBO</li></ul>
     </div>
   </div>
 </section>
