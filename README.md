@@ -74,6 +74,7 @@ in `js/main.js`.
 - [x] Name, hero, approach, four Amazon case studies, track, toolkit, CV
 - [x] Current role added: Forward Deployed Engineer, Databricks, Jul 2024 – present
 - [ ] **Databricks contributions** — Track entry and CV are placeholders pending the contributions doc
+- [ ] **Databricks case studies** — Work section is down to one case (streaming rebuild); tab bar and cases 2-4 are in git history at commit e81e3bc, restore when there are 3+ cases again
 - [ ] **Confirm exact job title** — used "Forward Deployed Engineer" (Databricks/industry standard); confirm against your offer letter
 - [ ] `assets/portrait.jpg` — then swap the placeholder div in the Contact section
 - [ ] LinkedIn URL (Contact section and `cv/index.html`)

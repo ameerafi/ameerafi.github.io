@@ -153,18 +153,13 @@
 <section class="band band-alt" id="work">
   <div class="wrap">
     <p class="section-tag mono">02 / Work</p>
-    <h2 class="section-title">Four things worth explaining</h2>
-    <p class="section-lede">All four from Amazon Pay, on India's regulated payment accounts. Internal system names are generalised; figures are stated relative rather than absolute.</p>
+    <h2 class="section-title">One project, in full</h2>
+    <p class="section-lede">From Amazon Pay, on India's regulated payment accounts. Internal system names are generalised, and figures are stated relative rather than absolute.</p>
 
-    <div class="tabs" role="tablist" aria-label="Case studies">
-      <button class="tab is-active" role="tab" aria-selected="true" aria-controls="case-1" id="tab-1"><span class="tab-name">Streaming rebuild</span><span class="tab-metric mono">36h &rarr; 30m SLA</span></button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="case-2" id="tab-2" tabindex="-1"><span class="tab-name">Metrics pipeline</span><span class="tab-metric mono">Zero failures</span></button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="case-3" id="tab-3" tabindex="-1"><span class="tab-name">Remittance backlog</span><span class="tab-metric mono">20M records</span></button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="case-4" id="tab-4" tabindex="-1"><span class="tab-name">Substantiation</span><span class="tab-metric mono">4 days &rarr; automated</span></button>
-    </div>
-
-    <!-- CASE 1 -->
-    <article class="case" role="tabpanel" id="case-1" aria-labelledby="tab-1">
+    <!-- Single case study for now. Cases 2-4 (metrics pipeline, remittance backlog,
+         substantiation) are preserved in git history at commit e81e3bc, along with the
+         tab bar markup — restore both when the Databricks projects are added. -->
+    <article class="case" id="case-1">
       <p class="case-meta mono">Amazon Pay · Order transaction reporting · 2023&ndash;2024</p>
       <h3 class="case-title">Cut reporting latency from 36 hours to 30 minutes</h3>
       <p class="case-lede">Downstream teams were reporting on data that was up to a day and a half old. The batch extract was the bottleneck, and no amount of tuning was going to close a 36-hour gap — it needed a different shape.</p>
@@ -203,127 +198,6 @@
       <ul class="chips mono"><li>Change streams</li><li>Cross-account replication</li><li>Event-driven ingestion</li><li>AWS Lambda</li><li>Amazon S3</li><li>CloudWatch</li></ul>
     </article>
 
-    <!-- CASE 2 -->
-    <article class="case" role="tabpanel" id="case-2" aria-labelledby="tab-2" hidden>
-      <p class="case-meta mono">Amazon Pay · Merchant integration metrics · 2022&ndash;2023</p>
-      <h3 class="case-title">Near real-time metrics from a table the warehouse couldn't reach</h3>
-      <p class="case-lede">The second metric in the merchant integration funnel was missing entirely. The data existed, in a NoSQL table owned by another team, in another account, with restricted fields mixed in. Nobody had a route from there to the warehouse.</p>
-
-      <div class="metrics">
-        <div class="metric"><span class="metric-val mono">15–30m</span><span class="metric-lbl">Data availability SLA</span></div>
-        <div class="metric"><span class="metric-val mono">100%</span><span class="metric-lbl">Data accuracy</span></div>
-        <div class="metric"><span class="metric-val mono">0</span><span class="metric-lbl">Job failures</span></div>
-        <div class="metric"><span class="metric-val mono">PII</span><span class="metric-lbl">Stripped in flight</span></div>
-      </div>
-
-      <div class="case-grid">
-        <div class="case-block">
-          <h4 class="mono">Problem</h4>
-          <p>Key generation timestamps sat in a NoSQL table owned by another team. Cross-account, cross-region, encrypted, and carrying restricted personal data that could not be allowed into the analytics estate at all. The BI team had simply been reporting the funnel with a hole in it.</p>
-        </div>
-        <div class="case-block">
-          <h4 class="mono">Approach</h4>
-          <p>Treat the compliance constraint as the first design input rather than a later review gate. If restricted fields can never land in the warehouse, the exclusion has to happen in flight, before anything is written — which decides the architecture, not the other way round.</p>
-        </div>
-      </div>
-
-      <h4 class="mono block-head">Architecture</h4>
-      <ol class="flow">
-        <li class="flow-step"><span class="flow-num mono">1</span><div><b>Stream and replicate</b><p>Source team streamed table changes to object storage; I set up cross-account replication per region with a customer-managed encryption key held on the destination side.</p></div></li>
-        <li class="flow-step"><span class="flow-num mono">2</span><div><b>Transform on upload</b><p>An upload event invoked a Python transform that dropped restricted fields, reshaped to the business specification, and wrote partitioned Parquet — so restricted data never reached durable analytics storage.</p></div></li>
-        <li class="flow-step"><span class="flow-num mono">3</span><div><b>Keep the catalogue current</b><p>A crawler maintained partitions automatically, making each file queryable as soon as it landed rather than after the next catalogue run.</p></div></li>
-        <li class="flow-step"><span class="flow-num mono">4</span><div><b>Backfill separately</b><p>History loaded as a one-time job, kept apart from the live path so a large backfill could never delay current data.</p></div></li>
-        <li class="flow-step"><span class="flow-num mono">5</span><div><b>Alert on failure</b><p>Alarms raised a ticket, and a notification script told the actual end users — not just the on-call engineer — when something had not arrived.</p></div></li>
-      </ol>
-
-      <div class="case-block outcome">
-        <h4 class="mono">What changed</h4>
-        <p>The funnel metric existed for the first time, at a 15–30 minute SLA, with 100% data accuracy and zero job failures. The part I am most pleased with is the compliance design: restricted fields were excluded before anything durable was written, so there was never a cleanup problem to solve later. My manager's assessment singled out the simplified approach to handling regulated data in the lake.</p>
-      </div>
-
-      <ul class="chips mono"><li>NoSQL change streams</li><li>Cross-account replication</li><li>Customer-managed KMS</li><li>Python</li><li>Parquet · partitioning</li><li>Glue crawlers</li><li>Athena</li><li>Redshift</li></ul>
-    </article>
-
-    <!-- CASE 3 -->
-    <article class="case" role="tabpanel" id="case-3" aria-labelledby="tab-3" hidden>
-      <p class="case-meta mono">Amazon Payments · Reconciliation · 2021&ndash;2022</p>
-      <h3 class="case-title">Twenty million records reconciliation had been ignoring</h3>
-      <p class="case-lede">During the pandemic, refunds started exceeding sales. That produced negative settlement amounts, which the processors could neither deposit nor draw back — so the files were simply skipped. The books had been quietly accumulating a gap for months.</p>
-
-      <div class="metrics">
-        <div class="metric"><span class="metric-val mono">20M</span><span class="metric-lbl">Records processed</span></div>
-        <div class="metric"><span class="metric-val mono">100%</span><span class="metric-lbl">Data accuracy</span></div>
-        <div class="metric"><span class="metric-val mono">~2 days</span><span class="metric-lbl">Manual effort removed</span></div>
-        <div class="metric"><span class="metric-val mono">Multi-bn</span><span class="metric-lbl">Rupee backlog cleared</span></div>
-      </div>
-
-      <div class="case-grid">
-        <div class="case-block">
-          <h4 class="mono">Problem</h4>
-          <p>When refunds exceed sales the aggregate goes negative, and the processor holds the amount until sales catch up. Reconciliation processed the positive files and ignored the negative ones. The transactions were real, the money was real, and none of it was on the books — sitting instead in exception buckets that grew every month.</p>
-        </div>
-        <div class="case-block">
-          <h4 class="mono">Approach</h4>
-          <p>Validate before you load, never after. Twenty million financial records with no rollback story is not a place to discover a formatting assumption was wrong, so every batch went through a temporary table and an arithmetic check before anything touched a production table.</p>
-        </div>
-      </div>
-
-      <h4 class="mono block-head">Architecture</h4>
-      <ol class="flow">
-        <li class="flow-step"><span class="flow-num mono">1</span><div><b>Collate in code</b><p>Python reshaped the raw files into the three target table formats — the step that had previously been done by hand across eighteen settlement references.</p></div></li>
-        <li class="flow-step"><span class="flow-num mono">2</span><div><b>Prove it before loading</b><p>Staged to a temporary table and checked that header amounts reconciled against aggregates. A mismatch stopped the load rather than being found downstream.</p></div></li>
-        <li class="flow-step"><span class="flow-num mono">3</span><div><b>Upload without hands</b><p>Validated data and manifest files pushed to object storage via the SDK, with no manual step anywhere in the path.</p></div></li>
-        <li class="flow-step"><span class="flow-num mono">4</span><div><b>Close the contra buckets</b><p>Loading the data was only half of it — the corresponding exceptions had to be knocked off. New query, revised business rules, stakeholder approval, then matching changes to the reports and dashboards.</p></div></li>
-      </ol>
-
-      <div class="case-block outcome">
-        <h4 class="mono">What changed</h4>
-        <p>Twenty million records loaded at 100% accuracy, removing around two days of manual work and clearing a multi-billion-rupee backlog from the remittance and bank mismatch buckets — the largest single reconciliation impact I delivered. The lesson that stuck: the load was the easy part. Getting the business rules right, and getting them approved, was the job.</p>
-      </div>
-
-      <ul class="chips mono"><li>Python</li><li>Boto3</li><li>Amazon S3</li><li>Manifest bulk load</li><li>SQL</li><li>Data quality validation</li></ul>
-    </article>
-
-    <!-- CASE 4 -->
-    <article class="case" role="tabpanel" id="case-4" aria-labelledby="tab-4" hidden>
-      <p class="case-meta mono">Amazon Pay · Financial substantiation · 2021&ndash;2023</p>
-      <h3 class="case-title">A five-day regulatory deadline, made one-click</h3>
-      <p class="case-lede">Every month the regulated payment accounts had to be substantiated — proven to balance — within five working days. Validation meant around sixty reports and thirty dashboards, refreshed by hand, in order. When a variance appeared, finding the cause took four days out of the five.</p>
-
-      <div class="metrics">
-        <div class="metric"><span class="metric-val mono">~60 + 30</span><span class="metric-lbl">Reports and dashboards orchestrated</span></div>
-        <div class="metric"><span class="metric-val mono">5 days</span><span class="metric-lbl">Turnaround removed</span></div>
-        <div class="metric"><span class="metric-val mono">4d → auto</span><span class="metric-lbl">Variance root-cause analysis</span></div>
-        <div class="metric"><span class="metric-val mono">Monthly → daily</span><span class="metric-lbl">Substantiation cadence</span></div>
-      </div>
-
-      <div class="case-grid">
-        <div class="case-block">
-          <h4 class="mono">Problem</h4>
-          <p>Sixty report jobs and thirty dashboards, each independent, none packaged into a workflow, all requiring someone to run them in the right order for the right date. And when the report did not balance, diagnosis meant checking run status across eighty scheduled jobs by hand — four days of the five-day window, spent looking rather than fixing.</p>
-        </div>
-        <div class="case-block">
-          <h4 class="mono">Approach</h4>
-          <p>Two separate problems wearing one coat. Running the reports was an orchestration problem. Diagnosing variance was a knowledge problem — the checks lived in people's heads. The second one had to be written down as rules before any of it could be automated.</p>
-        </div>
-      </div>
-
-      <h4 class="mono block-head">Architecture</h4>
-      <ol class="flow">
-        <li class="flow-step"><span class="flow-num mono">1</span><div><b>Package the jobs</b><p>Roughly sixty independent report jobs collapsed into three orchestrated workflows, each executable in one click for any given date.</p></div></li>
-        <li class="flow-step"><span class="flow-num mono">2</span><div><b>Automate the dashboards</b><p>A script discovered all thirty dashboard dataset identifiers programmatically and refreshed them through the CLI, with credentials read from a managed material set rather than embedded.</p></div></li>
-        <li class="flow-step"><span class="flow-num mono">3</span><div><b>Encode the diagnosis</b><p>I sat with the operations team until every variance check was a stated rule, then built validation templates that applied them automatically and populated the output.</p></div></li>
-        <li class="flow-step"><span class="flow-num mono">4</span><div><b>Watch the sources</b><p>A dashboard monitoring unification status across every source table, so a missing upstream table was visible before it became a variance.</p></div></li>
-        <li class="flow-step"><span class="flow-num mono">5</span><div><b>Hand it over</b><p>A checklist and an SOP so the finance operations team ran the whole thing themselves. It was not finished until it no longer needed me.</p></div></li>
-      </ol>
-
-      <div class="case-block outcome">
-        <h4 class="mono">What changed</h4>
-        <p>Validation went from a phased manual process to one click on demand — a day of effort and four days of turnaround removed from every cycle. Variance investigation dropped from roughly four days to automated. Because diagnosis was no longer expensive, substantiation moved from monthly to daily, which meant problems were caught days earlier instead of at month-end. The five-working-day regulatory deadline stopped being something to worry about.</p>
-      </div>
-
-      <ul class="chips mono"><li>Python</li><li>Boto3 · AWS CLI</li><li>QuickSight</li><li>IAM</li><li>ETL orchestration</li><li>Business-rule design</li><li>SOP handover</li></ul>
-    </article>
   </div>
 </section>
 
