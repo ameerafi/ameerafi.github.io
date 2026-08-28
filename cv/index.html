@@ -50,6 +50,7 @@
      letter-spacing:.06em;text-transform:uppercase;padding-top:2px}
   .kv dd{color:var(--dim);flex:1}
 
+  .sub{color:var(--faint);font-size:8.4pt;letter-spacing:.06em;text-transform:uppercase;margin:2px 0 5px}
   footer{margin-top:20px;padding-top:10px;border-top:1px solid var(--line);color:var(--faint);
      display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
@@ -76,23 +77,41 @@
 <div class="sheet">
   <header>
     <h1>Ameer Salman M</h1>
-    <p class="role">Forward Deployed Engineer, Databricks — data platforms, streaming pipelines, regulated payments</p>
+    <p class="role">Forward Deployed Engineer &mdash; Data &amp; AI Platforms</p>
     <div class="meta mono">
-      <span>Coimbatore, India</span>
+      <span>Coimbatore, Tamil Nadu, India</span>
       <a href="mailto:ameersalman333@gmail.com">ameersalman333@gmail.com</a>
+      <span>+91 86680 66191</span>
       <a href="https://github.com/ameerafi">github.com/ameerafi</a>
     </div>
   </header>
 
   <section>
     <h2>Summary</h2>
-    <p class="summary">Forward Deployed Engineer at Databricks, embedding with enterprise customers to ship Data and AI
-    solutions end to end in their own environments. Delivered <b>$180K/year in verified cost savings</b>, contributed an
-    algebraic migration-validation engine into Databricks' open-source <b>Lakebridge</b> (<b>8.1&times;</b> faster,
-    <b>~48,000&times;</b> less data moved), and turned a single customer's Spark connector blocker into maintained
-    field-wide tooling covering six Databricks runtimes. Previously seven years at Amazon Pay building the pipelines
-    behind India's regulated payment reconciliation, exiting as Data Engineer II &mdash; cutting reporting SLA from
-    36&ndash;40 hours to 30 minutes and reconciling ~400M transactions/month under a statutory five-working-day deadline.</p>
+    <p class="summary">Data engineer with <b>8+ years</b> designing, building and optimising batch and real-time
+    pipelines, lakehouse platforms and automated ETL workflows at petabyte scale. Currently a Forward Deployed
+    Engineer at Databricks, delivering <b>$180K+/year in verified cloud savings</b>, contributing an algebraic
+    migration-validation engine into the open-source <b>Lakebridge</b> tool, and building runtime governance for
+    AI agents. Previously seven years at Amazon Pay, cutting reporting SLAs <b>99% (48 hours to 15 minutes)</b>,
+    processing <b>400M+ transactions monthly</b>, and leading the RBI-mandated regulatory migration of the
+    payments data estate. Deep expertise across <b>Apache Spark internals, Unity Catalog, Delta Lake and the AWS
+    big-data ecosystem</b>, combined with customer-facing field engineering.</p>
+  </section>
+
+  <section>
+    <h2>Technical Skills</h2>
+    <div class="grid2">
+      <dl class="kv"><dt>Languages</dt><dd>Python, SQL, Scala, Java, Bash</dd></dl>
+      <dl class="kv"><dt>Platforms</dt><dd>Databricks (Unity Catalog, Delta Lake, Apps, Asset Bundles, System Tables), AWS, Azure</dd></dl>
+      <dl class="kv"><dt>Distributed</dt><dd>Apache Spark (internals, Spark SQL, PySpark), EMR, Photon</dd></dl>
+      <dl class="kv"><dt>AWS</dt><dd>Glue, S3, Athena, Redshift, Lambda, MWAA, Kinesis, DynamoDB, EC2, CloudWatch, IAM, QuickSight</dd></dl>
+      <dl class="kv"><dt>Data engineering</dt><dd>ETL/ELT, real-time &amp; batch streaming, warehousing, dimensional modelling, reconciliation, schema evolution, partitioning</dd></dl>
+      <dl class="kv"><dt>Migration</dt><dd>Lakehouse architecture, JDBC pushdown, algebraic data fingerprinting, Redshift / Teradata / Oracle / Snowflake</dd></dl>
+      <dl class="kv"><dt>FinOps</dt><dd>DBU cost profiling, execution-plan optimisation, Photon tuning, partition pruning</dd></dl>
+      <dl class="kv"><dt>AI governance</dt><dd>Runtime policy enforcement, OAuth / OBO token brokering, SQL AST parsing, tamper-evident audit, EU AI Act</dd></dl>
+      <dl class="kv"><dt>DevOps / IaC</dt><dd>AWS CDK, Terraform, Docker, Git, CI/CD pipelines, automated packaging</dd></dl>
+      <dl class="kv"><dt>Testing</dt><dd>Pytest, ScalaTest, Testcontainers, GitHub Actions, Maven multi-profile builds</dd></dl>
+    </div>
   </section>
 
   <section>
@@ -103,112 +122,89 @@
         <h3>Forward Deployed Engineer <span>&middot; Databricks</span></h3>
         <span class="when mono">Jul 2024 &mdash; Present</span>
       </div>
-      <p class="track-loc mono" style="color:var(--faint);font-family:'IBM Plex Mono',monospace;font-size:8.4pt;letter-spacing:.06em;text-transform:uppercase;margin:2px 0 4px">
-        India &nbsp;|&nbsp; Current role</p>
+      <p class="sub mono">Remote &amp; customer onsite &nbsp;|&nbsp; Data &amp; AI platforms</p>
       <ul>
-        <li>Led optimisation of <b>4&ndash;5 of the top-20 most expensive Databricks jobs</b> for an enterprise customer
-          via query rewrites, partitioning and shuffle reduction &mdash; <b>$180,000/yr verified savings</b>
-          ($132K/50%, $43K/30%, $5K/10%) with zero change to business output; 2 further jobs in verification.</li>
-        <li>Designed and built <b>DataPrint</b>, an algebraic data-fingerprinting engine validating billion-row
-          migrations via JDBC-pushdown aggregates instead of moving data &mdash; <b>8.1&times;</b> faster on real 74M-row
-          Redshift data, <b>~48,000&times;</b> less transferred, validated to <b>15.8B rows &times; 28 columns</b> with
-          <b>zero false positives/negatives</b> and <b>&ge;98.8%</b> exact-difference solve rate.</li>
-        <li>Contributed DataPrint into Databricks' open-source <b>Lakebridge</b> migration tool behind an opt-in,
-          fail-open flag; fixed 3 latent Redshift&harr;Databricks serialisation bugs that were silently corrupting
-          every Redshift reconciliation.</li>
-        <li>Resolved a <b>Spark SQL Server connector</b> break blocking an enterprise customer's <b>Unity Catalog
-          migration</b> after Microsoft archived the project &mdash; custom schema resolver for <b>Spark 3.5 and 4.0</b>
-          plus multi-profile Maven builds for <b>Scala 2.12/2.13</b>. Only known workaround; adopted organically across
-          multiple accounts.</li>
-        <li>Productised it into a <b>maintained shared fork</b> via a ~250-line public-API delegation layer with
-          no per-version branching &mdash; one codebase covering <b>Databricks Runtime 14.3&ndash;18.x</b> across 3 build profiles,
-          retaining <b>~15&times;</b> write throughput vs generic JDBC; CI matrix with weekly runtime smoke tests,
-          <b>testcontainers</b> integration and a per-release 1M-row perf-regression gate.</li>
-        <li>Built <b>ShadowClone</b>, a production-risk-free optimisation sandbox on <b>Delta shallow clones</b>,
-          <b>Unity Catalog lineage</b> and system tables with a fail-closed identity boundary and bidirectional
-          <code>EXCEPT ALL</code> parity &mdash; proved a <b>301.5&rarr;29.6 min (10.19&times;)</b> optimisation at lower
-          DBU with <b>21 tables identical across 4.45B rows</b>, inherited by <b>30+ pipeline families</b>.</li>
-        <li>Built <b>AgentGuard</b>, a runtime security gateway intercepting, risk-scoring, auditing and rolling back
-          AI-agent actions before production via a <b>6-checkpoint pipeline</b> &mdash; backed by a tamper-evident append-only
-          audit ledger and three tiers of rollback on <b>Delta Time Travel</b>; built against <b>EU AI Act Article 14</b>
-          oversight and audit requirements.</li>
-        <li>Built <b>Infrastructure and Security as Code</b> in <b>Terraform</b> across test/stage/prod &mdash; reusable
-          modules for cluster policies, schema creation and Unity Catalog grants; resolved a circular IAM trust
-          dependency and a Terraform state mismatch; <b>~15 resource templates</b> turning per-team provisioning into a
-          repeatable process; onboarded 4 new catalogs.</li>
-        <li>Architected a centralised migration platform (discovery &rarr; delivery) with <b>GitHub Actions CI/CD</b> for
-          Databricks Apps and led its front end from <b>Streamlit to React/FastAPI</b>; unblocked a failing
-          <b>Lakeflow Connect</b> ingestion pipeline by isolating column-masking, DDL-capture and Azure SQL privilege
-          faults across three teams.</li>
+        <li><b>Workload cost optimisation:</b> profiled and re-engineered high-DBU production Spark and Delta Lake
+          workloads for enterprise accounts, generating <b>$180,000+/year in verified savings</b> including a
+          <b>50% compute reduction</b> on a single critical workload, via partition pruning, shuffle minimisation
+          and join restructuring.</li>
+        <li><b>Algebraic migration validation:</b> engineered a data-fingerprinting framework inside Databricks'
+          open-source <b>Lakebridge</b> migration tool, eliminating the need to move raw tables across the network
+          to prove post-migration parity.</li>
+        <li><b>Pushdown computation:</b> implemented JDBC pushdown aggregation (sums, power sums, dual-channel
+          collision hashes) on source databases, cutting egress <b>~48,000&times;</b> (gigabytes to ~50&nbsp;KB) and
+          accelerating validation <b>8.1&times;</b> on multi-million to billion-row datasets.</li>
+        <li><b>Exact-difference solver:</b> authored a recovery solver with <b>zero false positives/negatives across
+          15.8B+ rows</b>, enabling full verification across Redshift, Teradata, Oracle and Snowflake; fixed 3
+          serialisation and timestamp-drift bugs safeguarding fidelity across all field migrations.</li>
+        <li><b>Production-scale optimisation sandbox:</b> built a simulation engine on <b>Delta shallow clones</b> and
+          <b>Unity Catalog lineage</b> to test Photon, runtime upgrades and query rewrites against production-volume
+          data without risking live pipelines or duplicating storage.</li>
+        <li><b>Automated parity verification:</b> implemented bidirectional <code>EXCEPT ALL</code> multiset checking
+          proving <b>100% byte-level parity across 4.45B+ records</b> while demonstrating <b>10.19&times;</b>
+          end-to-end workload acceleration; fail-closed identity boundaries and deferred DBU cost attribution across
+          <b>30+ pipeline families</b>.</li>
+        <li><b>Agentic AI runtime gateway:</b> architected a multi-workspace security gateway as a Databricks App
+          intercepting, risk-scoring, auditing and remediating autonomous AI-agent operations before production
+          execution, via a <b>6-checkpoint pipeline</b> at <b>sub-30ms</b> per-checkpoint latency.</li>
+        <li><b>Zero-trust identity &amp; forensics:</b> engineered OAuth on-behalf-of token brokering with zero
+          credential sharing plus a hash-chained append-only Unity Catalog audit ledger, delivering compliance
+          evidence for <b>EU AI Act Article 14</b> and SOC 2; automated reversal of unauthorised mutations through
+          Delta time travel.</li>
+        <li><b>Spark connector modernisation:</b> reverse-engineered Microsoft's archived Spark SQL Server connector
+          for <b>Databricks Runtime 14.3&ndash;18.x</b> (Spark 3.5 &amp; 4.0), unblocking enterprise Unity Catalog
+          migrations while preserving <b>~15&times; bulk write throughput</b> over generic JDBC; productised with a
+          public-API compatibility layer and automated regression gates, adopted across multiple engagements.</li>
       </ul>
     </div>
 
     <div class="job">
       <div class="job-top">
-        <h3>Data Engineer II <span>&middot; Amazon Pay</span></h3>
+        <h3>Data Engineer <span>&middot; Amazon Pay / Amazon Payments</span></h3>
         <span class="when mono">Oct 2017 &mdash; Jul 2024</span>
       </div>
-      <p class="track-loc mono" style="color:var(--faint);font-family:'IBM Plex Mono',monospace;font-size:8.4pt;letter-spacing:.06em;text-transform:uppercase;margin:2px 0 4px">
-        Bengaluru &amp; Chennai &nbsp;|&nbsp; 6 yrs 10 mos &nbsp;|&nbsp; Exit title</p>
+      <p class="sub mono">Bengaluru &amp; Chennai &nbsp;|&nbsp; Data Engineer II on exit</p>
       <ul>
-        <li>Rebuilt batch order-transaction reporting as event-driven streaming ingestion using database change streams,
-          cross-account S3 replication and Lambda &mdash; cutting downstream SLA from <b>36&ndash;40 hours to 30 minutes</b>
-          (~99%), live <b>8 months with zero defects</b>.</li>
-        <li>Built a near real-time merchant metrics pipeline across accounts and regions with customer-managed KMS
-          encryption, partitioned Parquet, Glue crawlers, Athena and Redshift &mdash; <b>15&ndash;30 minute SLA</b>,
-          <b>100% accuracy</b>, <b>zero job failures</b>, with restricted PII excluded in flight before durable write.</li>
-        <li>Automated a <b>20 million record</b> negative-remittance load with Python and Boto3 including pre-commit
-          reconciliation &mdash; 100% accuracy, ~2 days of manual effort removed, clearing a multi-billion-rupee
-          exception backlog.</li>
-        <li>Orchestrated <b>~60 report jobs and 30 dashboards</b> into three one-click workflows and automated variance
-          root-cause analysis (~4 days &rarr; automated), holding the <b>5-working-day</b> regulatory substantiation
-          deadline and moving substantiation from monthly to daily.</li>
-        <li>Introduced pipeline-as-code CI/CD across two data platforms with <b>dual sign-off SQL review</b> (business
-          logic and query efficiency), eliminating drift between deployed jobs and source control.</li>
-        <li>Built a self-mutating <b>AWS CDK</b> deployment pipeline spanning Beta, Gamma and Prod across multiple AWS
-          accounts and regions, with approval workflow, security scanning, integration tests and bake time.</li>
-        <li>Ran reconciliation across <b>~15 source systems and ~120 ETL jobs</b>, categorising <b>~400 million
-          transactions/month</b> into daily and monthly transaction-level reports; reduced manual ETL workload 60%.</li>
-        <li>Led migration of Redshift, QuickSight and S3 to the Mumbai region for <b>RBI payment aggregator data
-          localisation</b>; supported RBI audit root-cause analysis across India regulatory accounts.</li>
-        <li>Reclaimed <b>20% of Redshift disk</b> and eliminated CPU-driven cluster outages by replacing cluster-wide
-          vacuum with targeted ANALYZE and deep-copy on high-impact tables.</li>
-        <li>As Automation Specialist, built Python and Selenium automation for campaign management and seller onboarding,
-          saving <b>~15 FTE</b> of effort; authored SOPs enabling stakeholder self-service.</li>
+        <li><b>Near real-time pipeline architecture:</b> designed and deployed an end-to-end event-driven pipeline on
+          <b>S3, Lambda, Glue and Athena</b>, cutting business reporting SLAs <b>99% &mdash; from 48 hours to 15
+          minutes</b> for critical payment data streams.</li>
+        <li><b>Large-scale ingestion &amp; reconciliation:</b> engineered multi-source pipelines integrating
+          <b>15+ upstream services</b> across <b>120+ ETL jobs</b>, processing <b>400M+ transactions/month</b> with
+          real-time financial categorisation and reconciliation.</li>
+        <li><b>Big-data optimisation:</b> automated high-throughput ETL across multi-terabyte scale on <b>EMR (Spark),
+          EC2 and S3</b>, reducing manual operational workload <b>60% monthly</b>.</li>
+        <li><b>Orchestration &amp; elastic compute:</b> implemented enterprise workflow orchestration on
+          <b>AWS MWAA</b> and <b>AWS CDK</b>, dynamically provisioning and tearing down transient <b>EMR clusters</b>
+          for cost-efficient ETL execution.</li>
+        <li><b>Infrastructure as Code &amp; CI/CD:</b> spearheaded IaC adoption using <b>AWS CDK</b> across multiple
+          microservices and pipelines; built an internal CI/CD framework for <b>AWS Glue</b> packaging dependencies
+          as egg/zip binaries with <b>Pytest</b> validation and staged artifact publishing.</li>
+        <li><b>RBI regulatory migration:</b> led end-to-end migration of <b>Redshift clusters, QuickSight dashboards
+          and S3 data lakes</b> to the <b>AWS Mumbai region</b> for Reserve Bank of India payment aggregator and
+          gateway mandates &mdash; multi-terabyte cutovers with zero downtime and verified reconciliation.</li>
+        <li><b>Audit remediation:</b> conducted deep-dive root-cause analysis on reconciliation discrepancies with
+          banking partners, resolving audit exceptions valued at <b>₹20+ billion</b> across India regulatory accounts.</li>
+        <li><b>Monitoring &amp; alerting:</b> configured custom <b>CloudWatch</b> metrics, automated log parsers and
+          multi-tier alarms for real-time discrepancy detection &mdash; zero data loss at <b>99.9% pipeline uptime</b>.</li>
+        <li><b>Operational automation:</b> built ingestion and validation tooling in <b>Python and Selenium</b> for
+          high-volume operational workflows, saving <b>15+ FTEs</b> of manual effort monthly; authored SOPs and design
+          documents enabling partner-team self-service.</li>
       </ul>
     </div>
   </section>
 
   <section>
-    <h2>Technical Skills</h2>
-    <div class="grid2">
-      <dl class="kv"><dt>Languages</dt><dd>Python, SQL, Scala, Java, TypeScript, Bash</dd></dl>
-      <dl class="kv"><dt>Lakehouse</dt><dd>Databricks, Delta Lake, Unity Catalog, Photon, Asset Bundles, Lakeflow Connect</dd></dl>
-      <dl class="kv"><dt>Processing</dt><dd>Apache Spark (internals, 3.5/4.0), PySpark, AWS Glue, EMR, Parquet</dd></dl>
-      <dl class="kv"><dt>Ingest</dt><dd>DynamoDB Streams, Kinesis, S3 replication, Lambda, JDBC / CDC</dd></dl>
-      <dl class="kv"><dt>Warehouse</dt><dd>Redshift, Athena, SQL Server, Postgres, MySQL, DynamoDB</dd></dl>
-      <dl class="kv"><dt>Platform / IaC</dt><dd>Terraform, AWS CDK, CloudFormation, Managed Airflow, GitHub Actions, Maven</dd></dl>
-      <dl class="kv"><dt>Testing</dt><dd>Pytest, ScalaTest, testcontainers, property-based testing, CI perf gates</dd></dl>
-      <dl class="kv"><dt>Full stack</dt><dd>FastAPI, React/TypeScript, Streamlit, Databricks Apps</dd></dl>
-      <dl class="kv"><dt>Security</dt><dd>IAM, KMS, OAuth, secrets management, audit ledgers</dd></dl>
-      <dl class="kv"><dt>Governance</dt><dd>Unity Catalog, GDPR, PII exclusion, EU AI Act Art. 14, RBI localisation</dd></dl>
-    </div>
-  </section>
-
-  <section>
-    <h2>Selected Projects &amp; Open Source</h2>
+    <h2>Selected Frameworks &amp; Contributions</h2>
     <div class="job">
       <ul>
-        <li><b>DataPrint &rarr; Databricks Lakebridge</b> &mdash; algebraic migration-validation engine, contributed
-          upstream. 8.1&times; faster, ~48,000&times; less data moved, validated to 15.8B rows.</li>
-        <li><b>Spark MSSQL Connector</b> &mdash; public-API compatibility layer covering Databricks Runtime
-          14.3&ndash;18.x from one codebase; ~15&times; write throughput vs generic JDBC.</li>
-        <li><b>ShadowClone</b> &mdash; production-risk-free optimisation sandbox; proved 10.19&times; with byte-level
-          parity across 4.45B rows.</li>
-        <li><b>AgentGuard / LakeGuard</b> &mdash; runtime security gateway for AI agents; 6-checkpoint pipeline,
-          hash-chained audit ledger, Saga-pattern rollback.</li>
-        <li><b>AWS automation toolkit</b> &mdash; Python tooling for EC2 snapshot lifecycle management.
-          github.com/ameerafi</li>
+        <li><b>DataPrint (Databricks Lakebridge)</b> &mdash; algebraic migration verifier. 8.1&times; faster sign-offs,
+          ~48,000&times; less network egress, validated to 15.8B rows with zero false positives.</li>
+        <li><b>ShadowClone</b> &mdash; production-risk-free performance sandbox. Enabled confident Photon and runtime
+          upgrades across 30+ pipeline families, demonstrating up to 10.19&times; execution gains.</li>
+        <li><b>AgentGuard / LakeGuard</b> &mdash; autonomous AI security gateway. Multi-workspace runtime enforcement
+          with SQL AST firewall, token broker and automated Delta rollback; generates EU AI Act and SOC 2 audit trails.</li>
+        <li><b>Spark MSSQL Connector</b> &mdash; maintained field distribution. Public-API compatibility layer across
+          Scala 2.12/2.13 and Spark 3.5/4.0, preserving 15&times; bulk ingestion performance.</li>
       </ul>
     </div>
   </section>
@@ -221,7 +217,7 @@
   </section>
 
   <footer class="mono">
-    <span>Ameer Salman M — CV</span>
+    <span>Ameer Salman M &mdash; CV</span>
     <span>ameerafi.github.io</span>
   </footer>
 </div>
