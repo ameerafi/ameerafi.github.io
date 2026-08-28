@@ -29,18 +29,18 @@
 }
 
 [data-theme="light"] {
-  --ink:        #F6F8FC;
-  --ink-raise:  #FFFFFF;
-  --ink-sunk:   #ECF0F7;
-  --line:       #D8DFEC;
-  --line-soft:  #E4EAF3;
-  --text:       #0B1120;
-  --text-dim:   #4E5C78;
-  --text-faint: #75849F;
-  --signal:     #0C8478;
-  --signal-dim: rgba(12, 132, 120, .10);
-  --pulse:      #A85B12;
-  --pulse-dim:  rgba(168, 91, 18, .10);
+--ink:        #F6F8FC;
+--ink-raise:  #FFFFFF;
+--ink-sunk:   #ECF0F7;
+--line:       #D8DFEC;
+--line-soft:  #E4EAF3;
+--text:       #0B1120;
+--text-dim:   #4E5C78;
+--text-faint: #75849F;
+--signal:     #0C8478;
+--signal-dim: rgba(12, 132, 120, .10);
+--pulse:      #A85B12;
+--pulse-dim:  rgba(168, 91, 18, .10);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -68,12 +68,15 @@ ul, ol { list-style: none; }
   text-transform: uppercase;
 }
 
+/* Masthead. Sentence case at 600 reads as a considered wordmark; the previous
+   800-weight uppercase at -.035em read as a poster, which is the wrong register
+   for a senior engineering portfolio. */
 .display {
   font-family: var(--display);
-  font-weight: 800;
-  letter-spacing: -.035em;
-  line-height: .88;
-  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: -.021em;
+  line-height: 1.02;
+  text-transform: none;
 }
 
 .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 var(--pad); }
@@ -187,19 +190,118 @@ ul, ol { list-style: none; }
 
 /* ---------------- HERO ---------------- */
 
-.hero { padding: 126px 0 96px; padding-left: var(--rail-w); }
+.hero { padding: 118px 0 96px; padding-left: var(--rail-w); }
 
-
-
-.hero h1 {
-  font-size: clamp(52px, 11vw, 132px);
-  margin-bottom: 26px;
+/* Portrait beside the masthead. Text column is the wider of the two so the
+   photograph supports the name rather than competing with it. */
+.hero-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 292px;
+  gap: clamp(28px, 5vw, 64px);
+  align-items: center;
+  margin-bottom: 34px;
 }
 
+@media (max-width: 900px) {
+  .hero-top { grid-template-columns: 1fr; gap: 30px; }
+  .portrait-frame { max-width: 216px; }
+}
+
+.hero h1 {
+  font-size: clamp(44px, 7.4vw, 82px);
+  margin-bottom: 16px;
+}
+
+/* Discipline line. Pipe-separated so each term reads as its own keyword to a
+   recruiter scanning for a title match. */
+.tagline {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 8px 14px;
+  font-family: var(--display); font-weight: 500;
+  font-size: clamp(14px, 1.32vw, 16.5px);
+  letter-spacing: -.005em;
+  color: var(--signal);
+  margin-bottom: 22px;
+}
+.tagline .bar { color: var(--line); font-weight: 400; }
+/* keep each separator bound to the term after it, so a bar can never
+   be left dangling at the end of a wrapped line */
+.tagline .pair { display: inline-flex; align-items: center; gap: 14px; white-space: nowrap; }
+
 .lede {
-  font-size: clamp(18px, 2.1vw, 23px);
-  line-height: 1.5; color: var(--text-dim); font-weight: 400;
-  max-width: 46ch; margin-bottom: 30px;
+  font-size: clamp(17px, 1.9vw, 20px);
+  line-height: 1.58; color: var(--text-dim); font-weight: 400;
+  max-width: 52ch; margin-bottom: 0;
+}
+
+/* ---- portrait ---- */
+
+.portrait-frame {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--ink-sunk);
+  padding: 7px;
+  justify-self: end;
+  width: 100%;
+}
+@media (max-width: 900px) { .portrait-frame { justify-self: start; } }
+
+.portrait-frame::before {
+  content: "";
+  position: absolute; left: 7px; right: 7px; top: -1px;
+  height: 2px; background: var(--signal);
+}
+
+.portrait-frame img {
+  display: block; width: 100%; height: auto;
+  aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%;
+  border-radius: 1px;
+}
+
+.portrait-cap {
+  display: flex; align-items: center; gap: 7px;
+  margin-top: 9px; padding: 0 1px;
+  color: var(--text-faint);
+}
+.portrait-cap .led {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--signal); box-shadow: 0 0 0 3px var(--signal-dim);
+  flex-shrink: 0;
+}
+
+/* ---- impact strip: the delta readings, arrow notation ---- */
+
+.impact {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(178px, 1fr));
+  gap: 18px 26px;
+  border-top: 1px solid var(--line);
+  padding-top: 22px;
+  margin-bottom: 30px;
+}
+.impact-item dt { color: var(--text-faint); margin-bottom: 9px; }
+.impact-item dd { margin: 0; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.impact-from {
+  font-family: var(--mono); font-size: 13px;
+  color: var(--text-faint); text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+.impact-arrow { color: var(--text-faint); font-size: 13px; }
+.impact-to {
+  font-family: var(--display); font-weight: 600;
+  font-size: clamp(23px, 2.7vw, 30px);
+  letter-spacing: -.02em; color: var(--pulse);
+  line-height: 1; font-variant-numeric: tabular-nums;
+}
+.impact-to .u {
+  font-family: var(--body); font-size: 12px; font-weight: 500;
+  letter-spacing: .05em; text-transform: uppercase;
+  color: var(--text-dim); margin-left: 5px;
+}
+.impact-note {
+  font-family: var(--mono); font-size: 11.5px; line-height: 1.55;
+  color: var(--text-faint); margin-top: 8px;
 }
 
 /* ---- the scan layer: recruiter facts, above the fold ---- */
@@ -297,11 +399,56 @@ ul, ol { list-style: none; }
 
 .section-title {
   text-wrap: balance;
-  font-family: var(--display); font-weight: 800;
-  font-size: clamp(30px, 4.4vw, 52px);
-  letter-spacing: -.028em; line-height: 1.02;
+  font-family: var(--display); font-weight: 600;
+  font-size: clamp(28px, 4vw, 46px);
+  letter-spacing: -.02em; line-height: 1.08;
   margin-bottom: 20px; max-width: 20ch;
 }
+
+/* ---------------- ABOUT ---------------- */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 296px;
+  gap: clamp(32px, 5vw, 68px);
+  align-items: start;
+}
+@media (max-width: 940px) { .about-grid { grid-template-columns: 1fr; } }
+
+/* The statement is the section. Set larger than body copy and held to a
+   comfortable measure so all three lines land in one read. */
+.about-statement {
+  font-size: clamp(18px, 2.05vw, 22px);
+  line-height: 1.62;
+  color: var(--text-dim);
+  max-width: 60ch;
+  margin-bottom: 20px;
+}
+.about-statement b { color: var(--text); font-weight: 600; }
+.about-closing { color: var(--text-faint); margin-bottom: 0; }
+
+.about-quote {
+  margin: 38px 0 0;
+  padding: 22px 0 0;
+  border-top: 2px solid var(--signal);
+  max-width: 58ch;
+}
+.about-quote blockquote {
+  font-size: 18px; line-height: 1.55; color: var(--text);
+  font-weight: 500;
+}
+.about-quote figcaption { margin-top: 12px; color: var(--text-faint); }
+
+.about-side {
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--ink-raise);
+  padding: 22px 22px 24px;
+}
+.about-side-label { color: var(--pulse); margin-bottom: 18px; }
+.about-side-list { display: grid; gap: 16px; }
+.about-side-list dt { color: var(--text-faint); margin-bottom: 5px; }
+.about-side-list dd { margin: 0; font-size: 15px; line-height: 1.5; color: var(--text); }
 
 .section-lede {
   color: var(--text-dim); max-width: 58ch; font-size: 17px;

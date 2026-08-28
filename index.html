@@ -17,7 +17,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <script type="application/ld+json">
 {
@@ -54,6 +54,7 @@
 
 <nav class="rail" id="rail" aria-label="Sections">
   <ol class="rail-list">
+    <li><a href="#about"><i aria-hidden="true"></i><span>About</span></a></li>
     <li><a href="#approach"><i aria-hidden="true"></i><span>Approach</span></a></li>
     <li><a href="#work"><i aria-hidden="true"></i><span>Work</span></a></li>
     <li><a href="#track"><i aria-hidden="true"></i><span>Track</span></a></li>
@@ -67,15 +68,47 @@
 <!-- ============ HERO ============ -->
 <section class="hero" id="home">
   <div class="wrap">
-    <h1 class="display">Ameer<br>Salman</h1>
-    <p class="lede">Seven years building the pipelines behind regulated payment reconciliation at Amazon. Now a Forward Deployed Engineer at Databricks, where the fix I write for one customer usually ends up shipping to everyone.</p>
+    <div class="hero-top">
+      <div class="hero-intro">
+        <h1 class="display">Ameer Salman M</h1>
+        <p class="tagline">
+          <span>Forward Deployed Engineer</span>
+          <span class="pair"><span class="bar" aria-hidden="true">|</span>Data &amp; Platform Engineering</span>
+          <span class="pair"><span class="bar" aria-hidden="true">|</span>AWS &amp; Databricks</span>
+        </p>
+        <p class="lede">Seven years building the pipelines behind regulated payment reconciliation at Amazon. Now a Forward Deployed Engineer at Databricks, where the fix I write for one customer usually ends up shipping to everyone.</p>
+      </div>
+
+      <figure class="portrait-frame">
+        <img src="assets/portrait.jpg" alt="Ameer Salman M" width="613" height="860">
+        <figcaption class="portrait-cap mono"><span class="led" aria-hidden="true"></span>Coimbatore, India</figcaption>
+      </figure>
+    </div>
+
+    <dl class="impact">
+      <div class="impact-item">
+        <dt class="mono">Reporting latency</dt>
+        <dd><span class="impact-from">36 hrs</span><span class="impact-arrow" aria-hidden="true">&rarr;</span><span class="impact-to">30<span class="u">min</span></span></dd>
+        <p class="impact-note">Batch reconciliation rebuilt as streaming ingestion. Ran 8 months with zero defects.</p>
+      </div>
+      <div class="impact-item">
+        <dt class="mono">Pipeline runtime</dt>
+        <dd><span class="impact-from">301 min</span><span class="impact-arrow" aria-hidden="true">&rarr;</span><span class="impact-to">10.2<span class="u">&times; faster</span></span></dd>
+        <p class="impact-note">4.45 billion rows. 21 output tables verified identical before it shipped.</p>
+      </div>
+      <div class="impact-item">
+        <dt class="mono">Regulatory root-cause</dt>
+        <dd><span class="impact-from">4 days</span><span class="impact-arrow" aria-hidden="true">&rarr;</span><span class="impact-to">1<span class="u">click</span></span></dd>
+        <p class="impact-note">Across ~80 scheduled jobs, inside a statutory five-day close.</p>
+      </div>
+    </dl>
 
     <dl class="facts">
       <div class="fact"><dt class="mono">Experience</dt><dd>8+ years, data engineering</dd></div>
       <div class="fact"><dt class="mono">Now</dt><dd>Forward Deployed Engineer, Databricks &middot; 2024&ndash;present</dd></div>
       <div class="fact"><dt class="mono">Previously</dt><dd>Data Engineer II, Amazon Pay &middot; 2017&ndash;2024</dd></div>
       <div class="fact"><dt class="mono">Core stack</dt><dd>Python &middot; SQL &middot; Spark &middot; AWS &middot; Databricks</dd></div>
-      <div class="fact"><dt class="mono">Based</dt><dd>India</dd></div>
+      <div class="fact"><dt class="mono">Based</dt><dd>Coimbatore, India</dd></div>
       <div class="fact"><dt class="mono">Open to</dt><dd>Senior data engineering &amp; platform</dd></div>
     </dl>
 
@@ -121,10 +154,54 @@
   </div>
 </section>
 
-<!-- ============ 01 APPROACH ============ -->
+<!-- ============ 01 ABOUT ============ -->
+<section class="band" id="about">
+  <div class="wrap">
+    <p class="section-tag mono">01 / About</p>
+    <h2 class="section-title">About me</h2>
+
+    <div class="about-grid">
+      <div class="about-main">
+        <p class="about-statement">
+          <b>Forward Deployed Engineer at Databricks.</b> I embed with enterprise data teams and
+          ship inside their production &mdash; a 10&times; speedup on a 4.45-billion-row pipeline, a
+          stalled Unity Catalog migration unblocked, six figures a year off a customer's cloud bill.
+        </p>
+        <p class="about-statement">
+          <b>Seven years at Amazon Pay before that,</b> building the regulated reconciliation
+          pipelines behind India's payment accounts &mdash; ~400M transactions a month, a statutory
+          five-day close, and no version of &ldquo;roughly right&rdquo;.
+        </p>
+        <p class="about-statement about-closing">
+          Deep systems work, done in front of the customer, against a deadline that belongs to
+          somebody else. That is where I am at my best.
+        </p>
+
+        <figure class="about-quote">
+          <blockquote>&ldquo;Critical thinking, deep and meaningful questioning and strong hold on
+            the AWS data stack are Ameer's super powers.&rdquo;</blockquote>
+          <figcaption class="mono">Engineering Manager, Amazon Pay &middot; promotion assessment</figcaption>
+        </figure>
+      </div>
+
+      <aside class="about-side">
+        <p class="mono about-side-label">At a glance</p>
+        <dl class="about-side-list">
+          <div><dt class="mono">Experience</dt><dd>8+ years</dd></div>
+          <div><dt class="mono">Scale</dt><dd>~400M transactions reconciled per month</dd></div>
+          <div><dt class="mono">Estate</dt><dd>~120 ETL jobs, ~15 source systems</dd></div>
+          <div><dt class="mono">Domain</dt><dd>Regulated payments, reconciliation, audit</dd></div>
+          <div><dt class="mono">Education</dt><dd>B.E. Mechanical Engineering &mdash; the switch into data was deliberate, and it took.</dd></div>
+        </dl>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 APPROACH ============ -->
 <section class="band" id="approach">
   <div class="wrap">
-    <p class="section-tag mono">01 / Approach</p>
+    <p class="section-tag mono">02 / Approach</p>
     <h2 class="section-title">How I work, when nobody's watching</h2>
 
     <div class="tenets">
@@ -151,7 +228,7 @@
 <!-- ============ 02 WORK ============ -->
 <section class="band band-alt" id="work">
   <div class="wrap">
-    <p class="section-tag mono">02 / Work</p>
+    <p class="section-tag mono">03 / Work</p>
     <h2 class="section-title">Five things worth explaining</h2>
     <p class="section-lede">Four from Databricks, one from Amazon. Customer names are withheld and internal system names generalised; figures are the measured ones.</p>
 
@@ -371,7 +448,7 @@
 <!-- ============ 03 TRACK ============ -->
 <section class="band" id="track">
   <div class="wrap">
-    <p class="section-tag mono">03 / Track</p>
+    <p class="section-tag mono">04 / Track</p>
     <h2 class="section-title">Where I've been</h2>
 
     <ol class="track">
@@ -550,7 +627,7 @@
 <!-- ============ 04 TOOLKIT ============ -->
 <section class="band band-alt" id="toolkit">
   <div class="wrap">
-    <p class="section-tag mono">04 / Toolkit</p>
+    <p class="section-tag mono">05 / Toolkit</p>
     <h2 class="section-title">Grouped the way the data moves</h2>
     <p class="section-lede">Not an alphabetical dump. These are the four stages from the top of the page, with what I reach for at each one. Everything here is something I have shipped to production or built into a working system.</p>
 
@@ -595,7 +672,7 @@
 <!-- ============ 06 CONTACT ============ -->
 <section class="band band-alt" id="contact">
   <div class="wrap">
-    <p class="section-tag mono">05 / Contact</p>
+    <p class="section-tag mono">06 / Contact</p>
     <h2 class="section-title">If any of this is useful to you</h2>
 
     <div class="contact-lead">

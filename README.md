@@ -72,10 +72,10 @@ in `js/main.js`.
 ## Still to fill in
 
 - [x] Amazon and Databricks content, five case studies, CV, PDF
-- [ ] `assets/portrait.jpg` — then add `<img class="portrait" src="assets/portrait.jpg" alt="Ameer Salman">`
-      as the first child of `.contact-lead` in the Contact section
+- [x] `assets/portrait.jpg` — in the hero, beside the masthead
 - [ ] LinkedIn — add a `.crow` row in Contact and a line in `cv/index.html`
-- [ ] City instead of "India" (topbar, fact bar, CV) — recruiters filter by city
+- [x] City — Coimbatore, in the portrait caption and fact bar
+- [ ] City in the topbar and CV too (still says "India")
 - [ ] Phone and certifications in `cv/index.html`
 - [ ] Confirm exact job title: "Forward Deployed Engineer" is used throughout
 - [ ] Notes/writing section — removed; restore from commit `1f68066` when a piece exists
