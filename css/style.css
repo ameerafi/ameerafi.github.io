@@ -162,19 +162,16 @@ code {
 
 /* ---------- 5. Hero ---------- */
 
-.hero { position: relative; padding: clamp(56px, 8vw, 104px) 0 0; overflow: hidden; }
+.hero { position: relative; padding: clamp(28px, 3.6vw, 48px) 0 clamp(52px, 6.5vw, 84px); overflow: hidden; }
 
 .hero-glow {
-  position: absolute; top: -30%; left: 50%; transform: translateX(-30%);
-  width: min(900px, 90vw); height: 700px; pointer-events: none;
+  position: absolute; top: -46%; left: 22%; transform: translateX(-50%);
+  width: min(780px, 88vw); height: 620px; pointer-events: none;
   background: radial-gradient(closest-side, var(--accent-soft), transparent 72%);
 }
 
-.hero-grid {
-  position: relative;
-  display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
-  gap: clamp(32px, 5vw, 76px); align-items: center;
-}
+
+.hero > .shell > .eyebrow { margin-bottom: 22px; }
 
 .eyebrow {
   display: inline-flex; align-items: center; gap: 9px;
@@ -187,9 +184,21 @@ code {
   box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
+/* avatar sits inline with the name — an identity mark, not a feature image */
+.hero-id { display: flex; align-items: center; gap: clamp(16px, 1.8vw, 24px); margin-bottom: 20px; }
+
+.avatar {
+  /* explicit height: the img's height attribute beats aspect-ratio on replaced elements */
+  --sz: clamp(58px, 5.4vw, 76px);
+  width: var(--sz); height: var(--sz); border-radius: 50%;
+  object-fit: cover; object-position: center 18%;
+  border: 1px solid var(--border); flex-shrink: 0;
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
 .hero h1 {
-  font-size: clamp(46px, 7.2vw, 92px); font-weight: 800;
-  letter-spacing: -.042em; line-height: .96; margin-bottom: 22px;
+  font-size: clamp(34px, 5.4vw, 62px); font-weight: 800;
+  letter-spacing: -.038em; line-height: 1.02;
 }
 
 .headline {
@@ -200,36 +209,10 @@ code {
 
 .ctx { font-size: 12.5px; color: var(--accent); text-transform: uppercase; margin-bottom: 26px; }
 
-.bio { color: var(--muted); font-size: 16.5px; max-width: 60ch; margin-bottom: 32px; }
+.bio { color: var(--muted); font-size: 16.5px; max-width: 68ch; margin-bottom: 32px; }
 
 .quick-links { display: flex; flex-wrap: wrap; gap: 10px; }
 
-.portrait {
-  position: relative; border-radius: 20px; overflow: hidden;
-  border: 1px solid var(--border); background: var(--surface);
-  box-shadow: var(--shadow);
-}
-.portrait img { width: 100%; aspect-ratio: 4 / 4.6; object-fit: cover; object-position: center top; }
-.portrait::after {
-  content: ''; position: absolute; inset: 0; border-radius: 20px; pointer-events: none;
-  box-shadow: inset 0 -70px 90px -50px rgba(0, 0, 0, .5);
-}
-
-/* ---- stat strip ---- */
-
-.stat-strip {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: 1px; background: var(--border);
-  border: 1px solid var(--border); border-radius: var(--r);
-  overflow: hidden;
-  margin: clamp(48px, 7vw, 88px) 0 clamp(56px, 8vw, 96px);
-}
-.stat { background: var(--bg); padding: 28px clamp(18px, 2.2vw, 30px); }
-.stat dt {
-  font-size: clamp(24px, 2.6vw, 32px); font-weight: 500; color: var(--accent);
-  letter-spacing: -.03em; line-height: 1; margin-bottom: 10px;
-}
-.stat dd { font-size: 14px; color: var(--muted); line-height: 1.45; }
 
 /* ---------- 6. Bands & section heads ---------- */
 
@@ -383,12 +366,9 @@ code {
 
 @media (max-width: 1080px) {
   .cards { grid-template-columns: minmax(0, 1fr); }
-  .stat-strip { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 900px) {
-  .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; }
-  .portrait { max-width: 320px; }
   .role { grid-template-columns: minmax(0, 1fr); gap: 20px; }
   .role-aside { position: static; }
   .contact-grid { grid-template-columns: minmax(0, 1fr); }
@@ -408,7 +388,6 @@ code {
 
   .sec-head { grid-template-columns: auto 1fr; }
   .sec-note { display: none; }
-  .stat-strip { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* ---------- 13. Motion ---------- */
@@ -425,10 +404,10 @@ code {
 /* ---------- 14. Print ---------- */
 
 @media print {
-  .nav, .skip, .quick-links, .portrait, .hero-glow, .contact-links { display: none !important; }
+  .nav, .skip, .quick-links, .avatar, .hero-glow, .contact-links { display: none !important; }
   body { background: #fff; color: #000; }
   .band, .band-alt, .contact { background: none; padding: 18px 0; border: 0; }
-  .card, .skills, .stat-strip { break-inside: avoid; }
+  .card, .skills { break-inside: avoid; }
   .metric { background: none; border-left: 2px solid #999; }
   .role-aside { position: static; }
 }

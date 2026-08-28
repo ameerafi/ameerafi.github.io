@@ -43,8 +43,8 @@ a minute.
 Full-width editorial grid. Shell caps at **1240px** with fluid padding; sections use asymmetric
 grids rather than one narrow ribbon.
 
-- **Hero** — 1.55 / 1 split: copy left, framed portrait right, with a soft accent glow behind.
-  A four-cell stat strip spans the full width beneath.
+- **Hero** — tight single block: small circular avatar inline with the name, then headline,
+  context line, bio and links. A soft accent glow sits behind.
 - **Section heads** — number, title and a right-aligned note on one full-width baseline rule.
 - **Featured Work** — 2×2 card grid; cards lift and take an accent border on hover.
 - **Experience** — sticky left column (company, dates, role pill) against a wide bullet column.
