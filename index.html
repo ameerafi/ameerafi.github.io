@@ -44,7 +44,6 @@
 
 <header class="topbar">
   <a class="mark" href="#home"><span class="mark-dot" aria-hidden="true"></span>AS</a>
-  <!-- TODO: replace "India" with a city — recruiters filter by city. -->
   <p class="status mono"><span class="status-led" aria-hidden="true"></span>Forward Deployed Engineer @ <b>Databricks</b> · India</p>
   <div class="topbar-actions">
     <a class="btn btn-ghost" href="cv/">CV</a>
@@ -69,7 +68,7 @@
 <section class="hero" id="home">
   <div class="wrap">
     <h1 class="display">Ameer<br>Salman</h1>
-    <p class="lede">Seven years building the pipelines behind regulated payment reconciliation at Amazon. Now a Forward Deployed Engineer at Databricks, where the fix I write for one customer usually ends up shipping to the whole field.</p>
+    <p class="lede">Seven years building the pipelines behind regulated payment reconciliation at Amazon. Now a Forward Deployed Engineer at Databricks, where the fix I write for one customer usually ends up shipping to everyone.</p>
 
     <dl class="facts">
       <div class="fact"><dt class="mono">Experience</dt><dd>8+ years, data engineering</dd></div>
@@ -131,7 +130,7 @@
     <div class="tenets">
       <article class="tenet">
         <h3>Solve it once, then make it serve everyone</h3>
-        <p>A connector fix for one customer became a maintained fork covering six runtimes that the whole field org uses. I look for the version of a fix that outlives the engagement, because the second customer with the same problem is always already out there.</p>
+        <p>A connector fix for one customer became a maintained fork covering six runtimes that other teams now depend on. I look for the version of a fix that outlives the engagement, because the second customer with the same problem is always already out there.</p>
       </article>
       <article class="tenet">
         <h3>Prove it before you ship it</h3>
@@ -160,13 +159,13 @@
       <button class="tab is-active" role="tab" aria-selected="true" aria-controls="case-1" id="tab-1"><span class="tab-name">Cost engineering</span><span class="tab-metric mono">$180K/yr saved</span></button>
       <button class="tab" role="tab" aria-selected="false" aria-controls="case-2" id="tab-2" tabindex="-1"><span class="tab-name">DataPrint</span><span class="tab-metric mono">8.1&times; · open source</span></button>
       <button class="tab" role="tab" aria-selected="false" aria-controls="case-3" id="tab-3" tabindex="-1"><span class="tab-name">ShadowClone</span><span class="tab-metric mono">10.19&times; on 4.45B rows</span></button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="case-4" id="tab-4" tabindex="-1"><span class="tab-name">Spark connector</span><span class="tab-metric mono">One fix, whole field</span></button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="case-4" id="tab-4" tabindex="-1"><span class="tab-name">Spark connector</span><span class="tab-metric mono">6 runtimes, 1 codebase</span></button>
       <button class="tab" role="tab" aria-selected="false" aria-controls="case-5" id="tab-5" tabindex="-1"><span class="tab-name">Streaming rebuild</span><span class="tab-metric mono">36h &rarr; 30m SLA</span></button>
     </div>
 
     <!-- CASE 1 — cost -->
     <article class="case" role="tabpanel" id="case-1" aria-labelledby="tab-1">
-      <p class="case-meta mono">Databricks · Enterprise retail customer · Cost engineering</p>
+      <p class="case-meta mono">Databricks · Enterprise customer · Cost engineering</p>
       <h3 class="case-title">Took $180,000 a year out of a customer's Databricks bill</h3>
       <p class="case-lede">Their platform spend was concentrated in a handful of production jobs. The brief was to reduce it without changing a single business output — no scope cuts, no dropped tables, same numbers at the end.</p>
 
@@ -239,7 +238,7 @@
 
       <div class="case-block outcome">
         <h4 class="mono">What changed</h4>
-        <p><b>8.1&times;</b> end to end on a real 74-million-row Redshift table (506s to 62s), <b>54.6&times;</b> faster on the source side, and about <b>48,000&times;</b> less data transferred. Validated up to <b>15.8 billion rows across 28 columns</b>, with zero false positives, zero false negatives, and a <b>98.8%+</b> exact-difference solve rate. Contributed into Databricks' <b>Lakebridge</b> migration tool (PR #2570) behind an opt-in, fail-open flag &mdash; so existing users are unaffected and the whole field can turn it on with one config change. Along the way I found and fixed three latent Redshift serialisation bugs that had been silently corrupting <em>every</em> Redshift reconcile.</p>
+        <p><b>8.1&times;</b> end to end on a real 74-million-row Redshift table (506s to 62s), <b>54.6&times;</b> faster on the source side, and about <b>48,000&times;</b> less data transferred. Validated up to <b>15.8 billion rows across 28 columns</b>, with zero false positives, zero false negatives, and a <b>98.8%+</b> exact-difference solve rate. Contributed into Databricks' open-source <b>Lakebridge</b> migration tool behind an opt-in, fail-open flag &mdash; so existing users are unaffected and any team can turn it on with a single config change. Along the way I found and fixed three latent Redshift serialisation bugs that had been silently corrupting <em>every</em> Redshift reconcile.</p>
       </div>
 
       <ul class="chips mono"><li>Python</li><li>Spark SQL</li><li>Delta Lake</li><li>JDBC pushdown</li><li>Redshift</li><li>Algebraic reconciliation</li><li>Property-based testing</li><li>Open source</li></ul>
@@ -280,7 +279,7 @@
 
       <div class="case-block outcome">
         <h4 class="mono">What changed</h4>
-        <p>On a real production pipeline: <b>301.5 minutes to 72.7</b> after a SQL rewrite (4.15&times;), then <b>29.6 minutes</b> with Photon &mdash; <b>10.19&times; overall, at lower DBU than baseline</b>. All <b>21 output tables identical across 4,450,457,930 rows</b>, proven by bidirectional comparison rather than spot checks. About <b>7,000 lines</b> across two engines with 26 test files. One backward-compatible change to a shared catalog resolver meant <b>30+ pipeline families</b> inherited it with no per-pipeline wiring.</p>
+        <p>On a real production pipeline: <b>301.5 minutes to 72.7</b> after a SQL rewrite (4.15&times;), then <b>29.6 minutes</b> with Photon &mdash; <b>10.19&times; overall, at lower DBU than baseline</b>. All <b>21 output tables identical across 4,450,457,930 rows</b>, proven by bidirectional comparison rather than spot checks. Two engines &mdash; one generic, one wired into a shared catalog resolver &mdash; so a single backward-compatible change meant <b>30+ pipeline families</b> inherited it with no per-pipeline work.</p>
       </div>
 
       <ul class="chips mono"><li>Python</li><li>Delta shallow clone</li><li>Unity Catalog lineage</li><li>Photon</li><li>Jobs API</li><li>Asset Bundles</li><li>System tables</li></ul>
@@ -288,15 +287,15 @@
 
     <!-- CASE 4 — connector -->
     <article class="case" role="tabpanel" id="case-4" aria-labelledby="tab-4" hidden>
-      <p class="case-meta mono">Databricks · Enterprise customer → field-wide</p>
-      <h3 class="case-title">A fix for one customer that ended up serving the whole field</h3>
+      <p class="case-meta mono">Databricks · Enterprise customer · Spark connector development</p>
+      <h3 class="case-title">A fix for one customer that ended up serving everyone</h3>
       <p class="case-lede">Microsoft archived the Spark SQL Server connector. The customer needed a newer Databricks runtime for their Unity Catalog migration, and the moment they upgraded, every write failed. There was no official migration path and no precedent to follow.</p>
 
       <div class="metrics">
-        <div class="metric"><span class="metric-val mono">~15×</span><span class="metric-lbl">Throughput retained vs JDBC</span></div>
-        <div class="metric"><span class="metric-val mono">14.3–18.x</span><span class="metric-lbl">Runtime versions covered</span></div>
-        <div class="metric"><span class="metric-val mono">1</span><span class="metric-lbl">Codebase for the whole field</span></div>
-        <div class="metric"><span class="metric-val mono">Multiple</span><span class="metric-lbl">Accounts adopted it organically</span></div>
+        <div class="metric"><span class="metric-val mono">~15×</span><span class="metric-lbl">Write throughput vs generic JDBC</span></div>
+        <div class="metric"><span class="metric-val mono">6</span><span class="metric-lbl">Runtime versions covered</span></div>
+        <div class="metric"><span class="metric-val mono">1</span><span class="metric-lbl">Codebase for all of them</span></div>
+        <div class="metric"><span class="metric-val mono">0</span><span class="metric-lbl">Private Spark APIs relied on</span></div>
       </div>
 
       <div class="case-grid">
@@ -320,7 +319,7 @@
 
       <div class="case-block outcome">
         <h4 class="mono">What changed</h4>
-        <p>The Unity Catalog migration was unblocked and the customer confirmed everything working. It became the only known workaround for the problem, and spread on its own &mdash; colleagues asked for the JAR to unblock their own customers across <b>multiple accounts</b>. I then productised it into a maintained fork covering <b>six runtime versions from one codebase</b>, with the original bulk-copy performance and write modes intact. This is the piece of work I would point to first: it started as one account's blocker and ended as infrastructure the field org relies on.</p>
+        <p>The Unity Catalog migration was unblocked and the customer confirmed everything working. It became the only known workaround for the problem, and spread on its own &mdash; colleagues asked for the JAR to unblock their own customers across <b>multiple accounts</b>. I then productised it into a maintained fork covering <b>six runtime versions from one codebase</b>, with the original bulk-copy performance and write modes intact. This is the piece of work I would point to first: it started as one account's blocker and ended as shared infrastructure other engineering teams depend on.</p>
       </div>
 
       <ul class="chips mono"><li>Scala</li><li>Spark internals</li><li>Maven multi-profile</li><li>JDBC</li><li>SQL Server</li><li>testcontainers</li><li>GitHub Actions</li><li>ScalaTest</li></ul>
@@ -401,16 +400,16 @@
           </div>
 
           <div class="track-group">
-            <h4 class="mono">Open source &amp; field-wide tooling</h4>
+            <h4 class="mono">Open source &amp; shared tooling</h4>
             <ul>
-              <li>Contributed <b>DataPrint</b> into Databricks' <b>Lakebridge</b> migration tool (PR&nbsp;#2570) &mdash;
+              <li>Contributed <b>DataPrint</b> into Databricks' open-source <b>Lakebridge</b> migration tool &mdash;
                 an algebraic fingerprinting engine validating migrations <b>8.1&times; faster</b> while moving
                 <b>~48,000&times; less data</b>, verified to <b>15.8B rows &times; 28 columns</b> with <b>zero false
-                positives or negatives</b>; shipped behind an opt-in, fail-open flag with <b>361+ unit tests</b>,
-                <b>1,617</b> reconcile tests passing and <b>pylint 10.00/10</b>.</li>
-              <li>Productised the connector fix into a maintained <b>field-managed fork</b> using a ~250-line
+                positives or negatives</b>; shipped behind an opt-in, fail-open flag, and fixed three latent
+                serialisation bugs that had been silently corrupting every Redshift reconciliation.</li>
+              <li>Productised the connector fix into a <b>maintained shared fork</b> using a ~250-line
                 public-API delegation layer with <b>no per-version source branching</b> &mdash; one codebase covering
-                <b>DBR 14.3&ndash;18.x</b> across <b>3 build profiles</b> (Scala 2.12/2.13 &times; Spark 3.5/4.0),
+                <b>Databricks Runtime 14.3&ndash;18.x</b> across <b>3 build profiles</b> (Scala 2.12/2.13 &times; Spark 3.5/4.0),
                 retaining <b>~15&times;</b> write throughput over generic JDBC.</li>
               <li>Established the CI matrix that keeps it maintainable by anyone: weekly runtime smoke tests, real SQL
                 Server integration via <b>testcontainers</b>, and a per-release <b>1M-row throughput gate</b> failing
@@ -443,14 +442,13 @@
                 clones</b>, <b>Unity Catalog lineage</b> and system tables, with a fail-closed identity boundary and
                 bidirectional <code>EXCEPT ALL</code> parity checking. Proved a <b>301.5 &rarr; 29.6 minute
                 (10.19&times;)</b> pipeline optimisation at lower DBU, with <b>21 output tables identical across
-                4.45B rows</b>. ~<b>7K LoC</b>, 26 test files, inherited by <b>30+ pipeline families</b>.</li>
+                4.45B rows</b>. Inherited by <b>30+ pipeline families</b> through one backward-compatible change to a shared catalog resolver.</li>
               <li><b>AgentGuard</b> &mdash; a runtime security gateway that intercepts, risk-scores, audits and can
                 roll back every AI-agent action before it reaches production, via a <b>6-checkpoint pipeline</b>
                 (policy &rarr; scope &rarr; risk &rarr; human gate &rarr; snapshot &rarr; post-check) with sub-30ms
-                per-checkpoint targets. <b>~9K LoC</b> across 36 modules plus <b>~5.8K LoC</b> of tests (268+ tests),
-                a <b>hash-chained tamper-evident audit ledger</b>, 3-tier Saga-pattern rollback on Delta Time Travel,
-                and a 3-strategy OAuth/OBO identity bridge with zero credential sharing. Targets <b>EU AI Act
-                Article 14</b> evidence requirements.</li>
+                per-checkpoint targets. Backed by a <b>tamper-evident append-only audit ledger</b> and three tiers of
+                rollback built on <b>Delta Time Travel</b>, so any action can be reversed and evidenced after the
+                fact. Built against <b>EU AI Act Article 14</b> oversight and audit requirements.</li>
             </ul>
           </div>
         </div>
@@ -601,8 +599,7 @@
     <h2 class="section-title">If any of this is useful to you</h2>
 
     <div class="contact-lead">
-      <!-- Swap this div for: <img class="portrait" src="assets/portrait.jpg" alt="Ameer Salman"> -->
-      <div class="portrait portrait-ph" aria-hidden="true">Add photo<br>assets/<wbr>portrait.jpg</div>
+      <!-- When a photo is ready: <img class="portrait" src="assets/portrait.jpg" alt="Ameer Salman"> as the first child here -->
       <p class="section-lede" style="margin-bottom:0">I'm open to senior data engineering and platform roles, and happy to talk through any of the work above in more detail. Fastest way to reach me is email — I answer within a day.</p>
     </div>
 
@@ -613,10 +610,6 @@
       <a class="crow" href="https://github.com/ameerafi" target="_blank" rel="noopener">
         <span class="crow-lbl mono">GitHub</span><span class="crow-val">github.com/ameerafi</span><span class="crow-go" aria-hidden="true">↗</span>
       </a>
-      <!-- TODO: add LinkedIn URL and restore this as an <a class="crow"> -->
-      <div class="crow is-pending">
-        <span class="crow-lbl mono">LinkedIn</span><span class="crow-val">Add your LinkedIn URL</span>
-      </div>
       <a class="crow" href="assets/Ameer-Salman-CV.pdf" download>
         <span class="crow-lbl mono">CV</span><span class="crow-val">Download as PDF</span><span class="crow-go" aria-hidden="true">↓</span>
       </a>

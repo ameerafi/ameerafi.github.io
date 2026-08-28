@@ -71,29 +71,40 @@ in `js/main.js`.
 
 ## Still to fill in
 
-- [x] Name, hero, approach, four Amazon case studies, track, toolkit, CV
-- [x] Current role added: Forward Deployed Engineer, Databricks, Jul 2024 – present
-- [x] Databricks contributions added to Track, Work and CV
-- [x] Databricks case studies — five cases now (cost, DataPrint, ShadowClone, connector, streaming rebuild)
-- [ ] **Confirm the flagged items** from the promo draft: Lakebridge PR merge status, connector adoption count, GAP verification closeouts
-- [ ] **Confirm exact job title** — used "Forward Deployed Engineer" (Databricks/industry standard); confirm against your offer letter
-- [ ] `assets/portrait.jpg` — then swap the placeholder div in the Contact section
-- [ ] LinkedIn URL (Contact section and `cv/index.html`)
-- [ ] Phone number and certifications in `cv/index.html`
-- [ ] Notes section — three topics seeded, none written yet
+- [x] Amazon and Databricks content, five case studies, CV, PDF
+- [ ] `assets/portrait.jpg` — then add `<img class="portrait" src="assets/portrait.jpg" alt="Ameer Salman">`
+      as the first child of `.contact-lead` in the Contact section
+- [ ] LinkedIn — add a `.crow` row in Contact and a line in `cv/index.html`
+- [ ] City instead of "India" (topbar, fact bar, CV) — recruiters filter by city
+- [ ] Phone and certifications in `cv/index.html`
+- [ ] Confirm exact job title: "Forward Deployed Engineer" is used throughout
+- [ ] Notes/writing section — removed; restore from commit `1f68066` when a piece exists
 
 ## Content decisions on record
 
-- **Figures are relative, not absolute, on the public page.** Exception amounts from the Amazon
-  promotion document (300MM / 900MM / 3,000MM / 20bn) are internal figures for regulated accounts.
-  They appear on the CV, which is a private document, but the public page says "multi-billion-rupee
-  backlog" instead. Source numbers live in `~/Desktop/career/contribution-metrics.md`.
-- **Customer names are withheld entirely** on the public page — the promo draft names real accounts, and those are
-  confidential engagement details. The site says "an enterprise customer" throughout. Same for the internal data
-  platform: "an enterprise data platform".
-- **Internal system names are generalised.** FAST, DIAS, DJS, Datanet, Cradle, Maestro, Andes, Odin
-  and the rest are Amazon-internal and mean nothing outside. See the translation table in
+- **Customer names are withheld entirely**, and no industry is named either. The source docs name real
+  accounts; those are confidential engagement details. The site says "an enterprise customer" throughout.
+- **No internal references.** No PR or issue numbers, no internal tool names, no org-internal vocabulary
+  ("field org", "field-managed"). Line-count metrics were dropped too — they carry little signal.
+- **Figures are relative, not absolute, for the Amazon exception amounts.** Source numbers live in
+  `~/Desktop/career/contribution-metrics.md`. Databricks figures ($180K, 8.1x, 10.19x) are stated directly
+  since they are engagement outcomes rather than customer financials.
+- **Internal system names generalised.** Translation table in
   `~/Desktop/career/amazon-career-summary.md` §9.
-- **The SLA figure is the manager-attested one.** 36–40 hours → 30 minutes, from the promotion
-  document, rather than the 48h → 15min version on an older resume. Same claim, but one of them a
-  third party signed.
+- **The SLA figure is the manager-attested one** — 36–40 hours to 30 minutes, from the promotion document,
+  not the 48h to 15min version on an older resume.
+
+## Type scale
+
+Seven fixed steps plus four fluid ones. Stay on it.
+
+| Size | Used for |
+|---|---|
+| 11.5px | chips, tab metrics |
+| 12px | mono labels, eyebrows, section tags |
+| 13.5px | metric labels |
+| 15.5px | body copy, fact values, list items |
+| 17px | section and case ledes, contact values |
+| 21px | tenet and role headings |
+| 23px | hero lede |
+| fluid | case title, metric value, section title, display name |

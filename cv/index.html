@@ -81,8 +81,6 @@
       <span>Coimbatore, India</span>
       <a href="mailto:ameersalman333@gmail.com">ameersalman333@gmail.com</a>
       <a href="https://github.com/ameerafi">github.com/ameerafi</a>
-      <span>Add phone</span>
-      <span>Add LinkedIn</span>
     </div>
   </header>
 
@@ -115,25 +113,25 @@
           migrations via JDBC-pushdown aggregates instead of moving data &mdash; <b>8.1&times;</b> faster on real 74M-row
           Redshift data, <b>~48,000&times;</b> less transferred, validated to <b>15.8B rows &times; 28 columns</b> with
           <b>zero false positives/negatives</b> and <b>&ge;98.8%</b> exact-difference solve rate.</li>
-        <li>Contributed DataPrint into Databricks' open-source <b>Lakebridge</b> (PR #2570) behind an opt-in, fail-open
-          flag; fixed 3 latent Redshift&harr;Databricks serialisation bugs corrupting all reconciles. <b>361+</b> unit
-          tests, <b>1,617</b> reconcile tests passing, <b>pylint 10.00/10</b>.</li>
+        <li>Contributed DataPrint into Databricks' open-source <b>Lakebridge</b> migration tool behind an opt-in,
+          fail-open flag; fixed 3 latent Redshift&harr;Databricks serialisation bugs that were silently corrupting
+          every Redshift reconciliation.</li>
         <li>Resolved a <b>Spark SQL Server connector</b> break blocking an enterprise customer's <b>Unity Catalog
           migration</b> after Microsoft archived the project &mdash; custom schema resolver for <b>Spark 3.5 and 4.0</b>
           plus multi-profile Maven builds for <b>Scala 2.12/2.13</b>. Only known workaround; adopted organically across
           multiple accounts.</li>
-        <li>Productised it into a maintained <b>field-managed fork</b> via a ~250-line public-API delegation layer with
-          no per-version branching &mdash; one codebase covering <b>DBR 14.3&ndash;18.x</b> across 3 build profiles,
+        <li>Productised it into a <b>maintained shared fork</b> via a ~250-line public-API delegation layer with
+          no per-version branching &mdash; one codebase covering <b>Databricks Runtime 14.3&ndash;18.x</b> across 3 build profiles,
           retaining <b>~15&times;</b> write throughput vs generic JDBC; CI matrix with weekly runtime smoke tests,
           <b>testcontainers</b> integration and a per-release 1M-row perf-regression gate.</li>
         <li>Built <b>ShadowClone</b>, a production-risk-free optimisation sandbox on <b>Delta shallow clones</b>,
           <b>Unity Catalog lineage</b> and system tables with a fail-closed identity boundary and bidirectional
           <code>EXCEPT ALL</code> parity &mdash; proved a <b>301.5&rarr;29.6 min (10.19&times;)</b> optimisation at lower
-          DBU with <b>21 tables identical across 4.45B rows</b>; ~7K LoC, inherited by <b>30+ pipeline families</b>.</li>
+          DBU with <b>21 tables identical across 4.45B rows</b>, inherited by <b>30+ pipeline families</b>.</li>
         <li>Built <b>AgentGuard</b>, a runtime security gateway intercepting, risk-scoring, auditing and rolling back
-          AI-agent actions before production via a <b>6-checkpoint pipeline</b> &mdash; <b>~9K LoC</b> + <b>5.8K</b> test
-          LoC (268+ tests), hash-chained tamper-evident audit ledger, 3-tier Saga rollback on Delta Time Travel, and a
-          3-strategy OAuth/OBO identity bridge; targets <b>EU AI Act Article 14</b> evidence requirements.</li>
+          AI-agent actions before production via a <b>6-checkpoint pipeline</b> &mdash; backed by a tamper-evident append-only
+          audit ledger and three tiers of rollback on <b>Delta Time Travel</b>; built against <b>EU AI Act Article 14</b>
+          oversight and audit requirements.</li>
         <li>Built <b>Infrastructure and Security as Code</b> in <b>Terraform</b> across test/stage/prod &mdash; reusable
           modules for cluster policies, schema creation and Unity Catalog grants; resolved a circular IAM trust
           dependency and a Terraform state mismatch; <b>~15 resource templates</b> turning per-team provisioning into a
@@ -192,7 +190,7 @@
       <dl class="kv"><dt>Platform / IaC</dt><dd>Terraform, AWS CDK, CloudFormation, Managed Airflow, GitHub Actions, Maven</dd></dl>
       <dl class="kv"><dt>Testing</dt><dd>Pytest, ScalaTest, testcontainers, property-based testing, CI perf gates</dd></dl>
       <dl class="kv"><dt>Full stack</dt><dd>FastAPI, React/TypeScript, Streamlit, Databricks Apps</dd></dl>
-      <dl class="kv"><dt>Security</dt><dd>IAM, KMS, OAuth/OBO, secrets management, audit ledgers, sqlglot</dd></dl>
+      <dl class="kv"><dt>Security</dt><dd>IAM, KMS, OAuth, secrets management, audit ledgers</dd></dl>
       <dl class="kv"><dt>Governance</dt><dd>Unity Catalog, GDPR, PII exclusion, EU AI Act Art. 14, RBI localisation</dd></dl>
     </div>
   </section>
@@ -202,9 +200,9 @@
     <div class="job">
       <ul>
         <li><b>DataPrint &rarr; Databricks Lakebridge</b> &mdash; algebraic migration-validation engine, contributed
-          upstream (PR #2570). 8.1&times; faster, ~48,000&times; less data moved, validated to 15.8B rows.</li>
-        <li><b>Spark MSSQL Connector (field-managed fork)</b> &mdash; public-API compatibility layer covering DBR
-          14.3&ndash;18.x from one codebase; ~15&times; throughput vs generic JDBC.</li>
+          upstream. 8.1&times; faster, ~48,000&times; less data moved, validated to 15.8B rows.</li>
+        <li><b>Spark MSSQL Connector</b> &mdash; public-API compatibility layer covering Databricks Runtime
+          14.3&ndash;18.x from one codebase; ~15&times; write throughput vs generic JDBC.</li>
         <li><b>ShadowClone</b> &mdash; production-risk-free optimisation sandbox; proved 10.19&times; with byte-level
           parity across 4.45B rows.</li>
         <li><b>AgentGuard / LakeGuard</b> &mdash; runtime security gateway for AI agents; 6-checkpoint pipeline,
@@ -216,10 +214,9 @@
   </section>
 
   <section>
-    <h2>Education &amp; Certifications</h2>
+    <h2>Education</h2>
     <div class="grid2">
       <dl class="kv"><dt>Degree</dt><dd>B.E. Mechanical Engineering &mdash; Park College of Engineering &amp; Technology, Coimbatore, 2017</dd></dl>
-      <dl class="kv"><dt>Cert</dt><dd>Add certifications</dd></dl>
     </div>
   </section>
 

@@ -215,7 +215,7 @@ ul, ol { list-style: none; }
   max-width: 1060px;
 }
 .fact dt { color: var(--text-faint); margin-bottom: 6px; }
-.fact dd { font-size: 15px; line-height: 1.45; color: var(--text); }
+.fact dd { font-size: 15.5px; line-height: 1.45; color: var(--text); }
 .fact:last-child dd { color: var(--pulse); }
 
 .hero-links { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 92px; }
@@ -296,6 +296,7 @@ ul, ol { list-style: none; }
 .section-tag { color: var(--pulse); margin-bottom: 18px; }
 
 .section-title {
+  text-wrap: balance;
   font-family: var(--display); font-weight: 800;
   font-size: clamp(30px, 4.4vw, 52px);
   letter-spacing: -.028em; line-height: 1.02;
@@ -322,8 +323,8 @@ ul, ol { list-style: none; }
 }
 .tenet { background: var(--ink); padding: 34px clamp(22px, 3vw, 38px); }
 .tenet h3 {
-  font-family: var(--display); font-size: 20px; font-weight: 600;
-  letter-spacing: -.015em; margin-bottom: 12px;
+  font-family: var(--display); font-size: 21px; font-weight: 600;
+  letter-spacing: -.015em; line-height: 1.25; margin-bottom: 12px;
 }
 .tenet p { color: var(--text-dim); font-size: 15.5px; }
 
@@ -354,6 +355,7 @@ ul, ol { list-style: none; }
 
 .case-meta { color: var(--text-faint); margin-bottom: 14px; }
 .case-title {
+  text-wrap: balance;
   font-family: var(--display); font-weight: 800;
   font-size: clamp(24px, 3.2vw, 36px);
   letter-spacing: -.025em; line-height: 1.1; margin-bottom: 16px;
@@ -371,11 +373,11 @@ ul, ol { list-style: none; }
   display: flex; flex-direction: column; gap: 8px;
 }
 .metric-val {
-  font-size: clamp(26px, 3.4vw, 38px); font-weight: 500;
-  color: var(--pulse); letter-spacing: -.02em; text-transform: none;
-  line-height: 1;
+  font-size: clamp(24px, 3.1vw, 36px); font-weight: 500;
+  color: var(--pulse); letter-spacing: -.03em; text-transform: none;
+  line-height: 1.05; overflow-wrap: anywhere;
 }
-.metric-lbl { font-size: 13.5px; color: var(--text-dim); line-height: 1.4; }
+.metric-lbl { font-size: 13.5px; color: var(--text-dim); line-height: 1.42; }
 .band-alt .metric, .band-alt .tenet { background: var(--ink-sunk); }
 
 .case-grid {
@@ -418,7 +420,7 @@ ul, ol { list-style: none; }
 .chips li {
   border: 1px solid var(--line); border-radius: 100px;
   padding: 6px 13px; color: var(--text-dim);
-  font-size: 11px; letter-spacing: .05em;
+  font-size: 11.5px; letter-spacing: .05em; line-height: 1.5;
 }
 
 /* ---- track ---- */
@@ -443,7 +445,7 @@ ul, ol { list-style: none; }
 .track-when { color: var(--text-faint); padding-top: 4px; }
 .track-what h3 {
   font-family: var(--display); font-size: 21px; font-weight: 600;
-  letter-spacing: -.015em; margin-bottom: 4px;
+  letter-spacing: -.015em; line-height: 1.25; margin-bottom: 4px;
 }
 .track-org { color: var(--text-dim); font-weight: 400; }
 .track-loc { color: var(--text-faint); margin-bottom: 16px; }
@@ -514,7 +516,7 @@ ul, ol { list-style: none; }
 }
 .crow:hover { padding-left: 14px; border-color: var(--signal); }
 .crow-lbl { color: var(--text-faint); width: 90px; flex-shrink: 0; }
-.crow-val { flex: 1; font-size: 16.5px; }
+.crow-val { flex: 1; font-size: 17px; }
 .crow-go { color: var(--signal); font-size: 15px; }
 .crow.is-pending { cursor: default; }
 .crow.is-pending:hover { padding-left: 4px; border-color: var(--line); }
@@ -551,6 +553,8 @@ ul, ol { list-style: none; }
   .notes { grid-template-columns: 1fr; }
   .kits { grid-template-columns: repeat(2, 1fr); }
   .metrics { grid-template-columns: repeat(2, 1fr); }
+  /* wider cells: let the chips flow instead of stacking into a tall column */
+  .kit .chips { flex-direction: row; flex-wrap: wrap; gap: 7px; }
 }
 
 @media (max-width: 900px) {
@@ -593,6 +597,14 @@ ul, ol { list-style: none; }
   .metrics { grid-template-columns: 1fr 1fr; }
   .kits { grid-template-columns: 1fr; }
   .facts { grid-template-columns: 1fr 1fr; gap: 18px 20px; }
+
+  /* scroll the tabs sideways rather than stacking them four rows deep */
+  .tabs {
+    flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { flex: 0 0 auto; }
   .crow { flex-wrap: wrap; gap: 4px 16px; }
   .crow-lbl { width: auto; }
   .crow-val { flex: 0 0 100%; font-size: 15.5px; }
