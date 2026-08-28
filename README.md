@@ -1,7 +1,7 @@
 # ameerafi.github.io
 
-Personal profile site — vanilla HTML, CSS and JavaScript. No framework, no build step,
-no dependencies. Edit a file, push, it's live.
+Personal portfolio — vanilla HTML, CSS and JavaScript. No framework, no build step, no dependencies.
+Edit a file, push, it's live.
 
 **Live:** https://ameerafi.github.io/
 
@@ -11,11 +11,12 @@ no dependencies. Edit a file, push, it's live.
 
 ```
 index.html            the whole page
-css/style.css         all styling (design tokens at the top)
-js/main.js            theme toggle, rail nav, tabs, pipeline
-cv/index.html         standalone CV, print-styled to A4
+css/style.css         all styling — design tokens at the top
+js/main.js            theme toggle, smooth scroll, nav state
+cv/index.html         source for the resume PDF, print-styled to A4
+assets/Ameer-Salman-CV.pdf   the downloadable resume
+assets/portrait.jpg   hero avatar
 assets/og-cover.png   social preview card (1200×630)
-assets/portrait.jpg   your photo — not added yet
 .github/workflows/    auto-deploy on push to main
 ```
 
@@ -34,77 +35,68 @@ git remote add origin git@github.com:ameerafi/ameerafi.github.io.git
 git push -u origin main
 ```
 
-In the repo: **Settings → Pages → Source → GitHub Actions**. Every push to `main`
-redeploys in about a minute.
+In the repo: **Settings → Pages → Source → GitHub Actions**. Every push to `main` redeploys in about
+a minute.
 
-## The design, briefly
+## Design
 
-The site is built out of one idea: a data pipeline.
+Single centred column, 820px, generous vertical rhythm. No side rails, no dashboard widgets.
 
-- **Ingest → Model → Serve → Observe** is the animated diagram in the hero.
-- The same four stages group the Toolkit section, so skills are organised by where
-  they sit in the flow rather than alphabetically.
-- The left rail is that pipeline again — your scroll position is the packet moving
-  through it.
+**Type** — Inter for everything structural; JetBrains Mono for tags, metrics, dates and section
+labels.
 
-Two accent colours, each with a fixed meaning. Never swap them:
+**Colour** — one indigo accent, used only for links, active nav state, role titles and metric
+callouts. Everything else is neutral.
 
-| Token      | Colour     | Means                                  |
-|------------|------------|----------------------------------------|
-| `--signal` | teal       | the machine side — data, tech, flow     |
-| `--pulse`  | amber      | the human side — outcomes, impact, you  |
+| Token | Light | Dark |
+|---|---|---|
+| `--bg` | `#ffffff` | `#0b0f19` |
+| `--bg-soft` | `#f9fafb` | `#111827` |
+| `--text` | `#111827` | `#f3f4f6` |
+| `--muted` | `#6b7280` | `#9ca3af` |
+| `--border` | `#e5e7eb` | `#1f2937` |
+| `--accent` | `#4f46e5` | `#818cf8` |
 
-Type: **Archivo** for display (industrial, tightly tracked), **IBM Plex Sans** for
-body, **IBM Plex Mono** for anything that is data — dates, metrics, labels, tags.
+Theme follows the system setting and can be toggled; the choice persists in `localStorage`. An inline
+script in `<head>` applies it before first paint so there is no flash.
 
-## Changing things
+## Sections
 
-**Colours** — every value is a CSS custom property at the top of `css/style.css`,
-in `:root` (dark) and `[data-theme="light"]`. Change them there and nowhere else.
+Hero → Featured Projects & Frameworks → Work Experience → Technical Skills → Education → Contact.
 
-**A new case study** — copy an existing `<article class="case">` block in
-`index.html`, give it a new `id`, and add a matching `<button class="tab">`. The
-JavaScript wires itself up automatically.
+## Regenerating the resume PDF
 
-**The hero pipeline text** — the `COPY` object at the top of the pipeline section
-in `js/main.js`.
+`cv/index.html` is the source. With the local server running:
+
+```bash
+python3 - <<'PY'
+from playwright.sync_api import sync_playwright
+with sync_playwright() as p:
+    b = p.chromium.launch(); pg = b.new_page()
+    pg.goto("http://localhost:8000/cv/index.html", wait_until="load"); pg.wait_for_timeout(1500)
+    pg.pdf(path="assets/Ameer-Salman-CV.pdf", format="A4", print_background=True,
+           margin={"top":"11mm","bottom":"11mm","left":"12mm","right":"12mm"})
+    b.close()
+PY
+```
 
 ## Still to fill in
 
-- [x] Amazon and Databricks content, five case studies, CV, PDF
-- [x] `assets/portrait.jpg` — in the hero, beside the masthead
-- [ ] LinkedIn — add a `.crow` row in Contact and a line in `cv/index.html`
-- [x] City — Coimbatore, in the portrait caption and fact bar
-- [ ] City in the topbar and CV too (still says "India")
-- [ ] Phone and certifications in `cv/index.html`
-- [ ] Confirm exact job title: "Forward Deployed Engineer" is used throughout
-- [ ] Notes/writing section — removed; restore from commit `1f68066` when a piece exists
+- [ ] **LinkedIn URL** — three places: hero quick links, footer, and `cv/index.html`
+- [ ] Certifications in `cv/index.html`, if any
 
 ## Content decisions on record
 
-- **Customer names are withheld entirely**, and no industry is named either. The source docs name real
-  accounts; those are confidential engagement details. The site says "an enterprise customer" throughout.
-- **No internal references.** No PR or issue numbers, no internal tool names, no org-internal vocabulary
-  ("field org", "field-managed"). Line-count metrics were dropped too — they carry little signal.
-- **Figures are relative, not absolute, for the Amazon exception amounts.** Source numbers live in
-  `~/Desktop/career/contribution-metrics.md`. Databricks figures ($180K, 8.1x, 10.19x) are stated directly
-  since they are engagement outcomes rather than customer financials.
-- **Internal system names generalised.** Translation table in
-  `~/Desktop/career/amazon-career-summary.md` §9.
-- **The SLA figure is the manager-attested one** — 36–40 hours to 30 minutes, from the promotion document,
-  not the 48h to 15min version on an older resume.
+- **Customer names are withheld**, and no industry is named either.
+- **No internal references** — no issue numbers, internal tool names, or org-internal vocabulary.
+- **Dates** — Amazon Oct 2017 – Jul 2024, Databricks Jul 2024 – present. Confirmed directly; the
+  source content files in `~/Desktop/career/` have stale template dates.
+- **$20B+ audit exceptions is USD**, confirmed. Note that `Amazon DE Contents.md` says
+  "₹20+ Billion (~$240M+)" — an ~83× difference. Be ready to explain scope and period.
+- **48h → 15m** is the SLA figure used throughout. The Amazon promotion document states the same
+  achievement as 36–40h → 30m. Both are ~99%; stay consistent.
 
-## Type scale
+## Source material
 
-Seven fixed steps plus four fluid ones. Stay on it.
-
-| Size | Used for |
-|---|---|
-| 11.5px | chips, tab metrics |
-| 12px | mono labels, eyebrows, section tags |
-| 13.5px | metric labels |
-| 15.5px | body copy, fact values, list items |
-| 17px | section and case ledes, contact values |
-| 21px | tenet and role headings |
-| 23px | hero lede |
-| fluid | case title, metric value, section title, display name |
+`~/Desktop/career/` holds the resume drafts, the consolidated content files, the full Amazon career
+summary, the metric ledger, and `Ameer-Salman-Resume.md`.
