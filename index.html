@@ -77,6 +77,12 @@
           <span class="pair"><span class="bar" aria-hidden="true">|</span>AWS &amp; Databricks</span>
         </p>
         <p class="lede">Seven years building the pipelines behind regulated payment reconciliation at Amazon. Now a Forward Deployed Engineer at Databricks, where the fix I write for one customer usually ends up shipping to everyone.</p>
+        <div class="hero-links">
+          <a class="btn btn-solid" href="#work">See the work</a>
+          <a class="btn btn-ghost" href="assets/Ameer-Salman-CV.pdf" download>Download CV (PDF)</a>
+          <a class="btn btn-ghost" href="https://github.com/ameerafi" target="_blank" rel="noopener">GitHub ↗</a>
+          <a class="btn btn-ghost" href="#contact">Get in touch</a>
+        </div>
       </div>
 
       <figure class="portrait-frame">
@@ -85,72 +91,6 @@
       </figure>
     </div>
 
-    <dl class="impact">
-      <div class="impact-item">
-        <dt class="mono">Reporting latency</dt>
-        <dd><span class="impact-from">48 hrs</span><span class="impact-arrow" aria-hidden="true">&rarr;</span><span class="impact-to">15<span class="u">min</span></span></dd>
-        <p class="impact-note">Batch payment reporting rebuilt as event-driven ingestion on AWS. A 99% reduction.</p>
-      </div>
-      <div class="impact-item">
-        <dt class="mono">Workload acceleration</dt>
-        <dd><span class="impact-from">301 min</span><span class="impact-arrow" aria-hidden="true">&rarr;</span><span class="impact-to">10.2<span class="u">&times; faster</span></span></dd>
-        <p class="impact-note">Proven against 4.45B records with byte-level parity, before it reached production.</p>
-      </div>
-      <div class="impact-item">
-        <dt class="mono">Verified cloud savings</dt>
-        <dd><span class="impact-to">$180K<span class="u">/yr</span></span></dd>
-        <p class="impact-note">Across enterprise Databricks workloads, with no change to business output.</p>
-      </div>
-    </dl>
-
-    <dl class="facts">
-      <div class="fact"><dt class="mono">Experience</dt><dd>8+ years, data engineering</dd></div>
-      <div class="fact"><dt class="mono">Now</dt><dd>Forward Deployed Engineer, Databricks &middot; 2024&ndash;present</dd></div>
-      <div class="fact"><dt class="mono">Previously</dt><dd>Data Engineer II, Amazon Pay &middot; 2017&ndash;2024</dd></div>
-      <div class="fact"><dt class="mono">Core stack</dt><dd>Python &middot; SQL &middot; Spark &middot; AWS &middot; Databricks</dd></div>
-      <div class="fact"><dt class="mono">Based</dt><dd>Coimbatore, India</dd></div>
-      <div class="fact"><dt class="mono">Open to</dt><dd>Senior data engineering &amp; platform</dd></div>
-    </dl>
-
-    <div class="hero-links">
-      <a class="btn btn-solid" href="#work">See the work</a>
-      <a class="btn btn-ghost" href="assets/Ameer-Salman-CV.pdf" download>Download CV (PDF)</a>
-      <a class="btn btn-ghost" href="https://github.com/ameerafi" target="_blank" rel="noopener">GitHub ↗</a>
-      <a class="btn btn-ghost" href="#contact">Get in touch</a>
-    </div>
-
-    <figure class="pipeline-figure">
-      <figcaption class="mono pipeline-cap">What I actually do, end to end</figcaption>
-
-      <div class="pipeline" id="pipeline">
-        <button class="stage is-active" data-stage="ingest" aria-describedby="stageDetail">
-          <span class="stage-node" aria-hidden="true"></span>
-          <span class="stage-name mono">Ingest</span>
-        </button>
-        <span class="conduit" aria-hidden="true"><i class="packet"></i><i class="packet"></i><i class="packet"></i></span>
-
-        <button class="stage" data-stage="model" aria-describedby="stageDetail">
-          <span class="stage-node" aria-hidden="true"></span>
-          <span class="stage-name mono">Model</span>
-        </button>
-        <span class="conduit" aria-hidden="true"><i class="packet"></i><i class="packet"></i><i class="packet"></i></span>
-
-        <button class="stage" data-stage="serve" aria-describedby="stageDetail">
-          <span class="stage-node" aria-hidden="true"></span>
-          <span class="stage-name mono">Serve</span>
-        </button>
-        <span class="conduit" aria-hidden="true"><i class="packet"></i><i class="packet"></i><i class="packet"></i></span>
-
-        <button class="stage" data-stage="observe" aria-describedby="stageDetail">
-          <span class="stage-node" aria-hidden="true"></span>
-          <span class="stage-name mono">Observe</span>
-        </button>
-      </div>
-
-      <p class="stage-detail" id="stageDetail" aria-live="polite">
-        <b>Ingest</b> — around fifteen source systems: database change streams, cross-account replicated files, and bank statements that arrive as text and have to be parsed before anyone can trust them.
-      </p>
-    </figure>
   </div>
 </section>
 
@@ -159,6 +99,21 @@
   <div class="wrap">
     <p class="section-tag mono">01 / About</p>
     <h2 class="section-title">About me</h2>
+
+    <dl class="stats">
+      <div class="stat">
+        <dt class="stat-val mono">99%</dt>
+        <dd class="stat-lbl">Reporting SLA reduction at Amazon Pay &mdash; 48 hours to 15 minutes</dd>
+      </div>
+      <div class="stat">
+        <dt class="stat-val mono">10.19&times;</dt>
+        <dd class="stat-lbl">Workload acceleration, proven against 4.45 billion records</dd>
+      </div>
+      <div class="stat">
+        <dt class="stat-val mono">$180K<span class="stat-u">/yr</span></dt>
+        <dd class="stat-lbl">Verified savings on enterprise Databricks workloads</dd>
+      </div>
+    </dl>
 
     <div class="about-grid">
       <div class="about-main">
@@ -188,11 +143,12 @@
       <aside class="about-side">
         <p class="mono about-side-label">At a glance</p>
         <dl class="about-side-list">
+          <div><dt class="mono">Now</dt><dd>Forward Deployed Engineer, Databricks &middot; 2024&ndash;present</dd></div>
+          <div><dt class="mono">Previously</dt><dd>Data Engineer, Amazon Pay &middot; 2017&ndash;2024</dd></div>
           <div><dt class="mono">Experience</dt><dd>8+ years in data engineering</dd></div>
-          <div><dt class="mono">Scale</dt><dd>400M+ transactions reconciled per month</dd></div>
-          <div><dt class="mono">Estate</dt><dd>120+ ETL jobs across 15+ upstream services</dd></div>
-          <div><dt class="mono">Domain</dt><dd>Payments, lakehouse platforms, AI governance</dd></div>
-          <div><dt class="mono">Education</dt><dd>B.E. Mechanical Engineering &mdash; the switch into data was deliberate, and it took.</dd></div>
+          <div><dt class="mono">Core stack</dt><dd>Python &middot; SQL &middot; Spark &middot; AWS &middot; Databricks</dd></div>
+          <div><dt class="mono">Based</dt><dd>Coimbatore, India</dd></div>
+          <div><dt class="mono">Open to</dt><dd>Senior data engineering &amp; platform roles</dd></div>
         </dl>
       </aside>
     </div>

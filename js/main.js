@@ -83,50 +83,5 @@
     });
   });
 
-  /* ---------- pipeline ---------- */
-  var COPY = {
-    ingest:  ['Ingest',  'Around fifteen source systems: database change streams, cross-account replicated files, and bank statements that arrive as text and have to be parsed before anyone can trust them.'],
-    model:   ['Model',   'Roughly 120 ETL jobs turning raw settlement data into reconciled, categorised transactions \u2014 with the finance business rules written down and encoded, not held in someone\u2019s head.'],
-    serve:   ['Serve',   'Redshift, Athena and dashboards the operations team runs themselves. Around 400 million transactions a month, reported daily and monthly.'],
-    observe: ['Observe', 'Alarms that raise a ticket, validation that stops a bad load before it commits, and cluster maintenance that keeps the whole thing inside a five-working-day regulatory window.']
-  };
 
-  var stages = $$('.stage');
-  var detail = $('#stageDetail');
-  var auto = true;
-  var idx = 0;
-
-  function showStage(i) {
-    idx = i;
-    stages.forEach(function (s, n) { s.classList.toggle('is-active', n === i); });
-    var key = stages[i].dataset.stage;
-    if (detail && COPY[key]) detail.innerHTML = '<b>' + COPY[key][0] + '</b> — ' + COPY[key][1];
-  }
-
-  stages.forEach(function (s, i) {
-    var stop = function () { auto = false; showStage(i); };
-    s.addEventListener('click', stop);
-    s.addEventListener('mouseenter', stop);
-    s.addEventListener('focus', stop);
-  });
-
-  var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (stages.length && !calm) {
-    setInterval(function () {
-      if (auto) showStage((idx + 1) % stages.length);
-    }, 3400);
-  }
-
-  /* ---------- packet travel distance ----------
-     Keyframes translate by --run, which has to match the live conduit width. */
-  function measure() {
-    $$('.conduit').forEach(function (c) {
-      c.style.setProperty('--run', (c.offsetWidth - 4) + 'px');
-    });
-  }
-  measure();
-  window.addEventListener('resize', function () {
-    clearTimeout(measure._t);
-    measure._t = setTimeout(measure, 140);
-  });
 })();
