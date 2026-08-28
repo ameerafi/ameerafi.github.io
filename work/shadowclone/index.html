@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ShadowClone — Production-Risk-Free Performance Sandbox · Ameer Salman M</title>
+<meta name="description" content="A sandbox that shallow-clones production inputs, redirects a job into isolation, and emits automated data-parity and cost verdicts — proving a 10.19× speedup with byte-level parity across 4.45B rows and zero production risk.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ShadowClone — Production-Risk-Free Performance Sandbox">
+<meta property="og:description" content="Proving a 10.19× speedup against 4.45 billion rows, with production untouched.">
+<meta property="og:url" content="https://ameerafi.github.io/work/shadowclone/">
+<meta property="og:image" content="https://ameerafi.github.io/assets/og-cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0b0f19">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: light)').matches)document.documentElement.dataset.theme='light';}catch(e){}</script>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="shell nav-inner">
+    <a class="brand" href="../../"><span class="brand-mark" aria-hidden="true">AS</span>Ameer Salman M</a>
+    <nav class="nav-links" id="navLinks" aria-label="Sections">
+      <a href="../../#work">Work</a>
+      <a href="../../#experience">Experience</a>
+      <a href="../../#skills">Skills</a>
+      <a href="../../#contact">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="btn btn-primary nav-resume" href="../../assets/Ameer-Salman-CV.pdf" download>Resume PDF</a>
+      <button class="icon-btn" id="themeToggle" aria-label="Switch colour theme">
+        <svg class="ico ico-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.4M12 19.2v2.4M2.4 12h2.4M19.2 12h2.4M5.1 5.1l1.7 1.7M17.2 17.2l1.7 1.7M18.9 5.1l-1.7 1.7M6.8 17.2l-1.7 1.7"/></svg>
+        <svg class="ico ico-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13.6A8.2 8.2 0 0 1 10.4 4a8.4 8.4 0 1 0 9.6 9.6z"/></svg>
+      </button>
+      <button class="icon-btn menu-btn" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="doc-hero">
+  <div class="shell">
+    <a class="back" href="../../#work"><span aria-hidden="true">←</span>All work</a>
+    <p class="doc-tag mono">Production-Risk-Free Performance Sandbox</p>
+    <h1>Proving a 10× speedup against 4.45 billion rows, with production untouched</h1>
+    <p class="doc-deck">Optimizations measured on development data routinely fail under production
+      volumes, and testing them in production risks data corruption and SLA breaches. ShadowClone
+      removes the choice: it clones production inputs without copying them, runs the candidate job in
+      an isolated sandbox, and emits an automated verdict on both data parity and cost.</p>
+
+    <dl class="doc-meta">
+      <div><dt>Role</dt><dd>Design, implementation, rollout</dd></div>
+      <div><dt>Scope</dt><dd>Two engines sharing a core — generic and platform-specific</dd></div>
+      <div><dt>Adoption</dt><dd>30+ pipeline families, no per-pipeline wiring</dd></div>
+      <div><dt>Core stack</dt><dd>Delta shallow clone, Unity Catalog lineage, Jobs API, system tables</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="band band-alt">
+  <div class="shell">
+    <dl class="results">
+      <div class="result"><dt>10.19×</dt><dd>End-to-end acceleration proven safe before rollout</dd></div>
+      <div class="result"><dt>4.45B</dt><dd>Rows verified byte-identical across 21 output tables</dd></div>
+      <div class="result"><dt>30+</dt><dd>Pipeline families inherited it through one core change</dd></div>
+      <div class="result"><dt>Zero</dt><dd>Production reads, writes or risk during a run</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="band">
+  <div class="shell">
+    <div class="doc-body">
+
+      <section class="doc-sec">
+        <h2>The problem</h2>
+        <p class="lede">Two bad options, and teams were picking one</p>
+        <p>The motivating incident: enabling Photon on a pipeline looked fine in development, then ran
+          <b>three times slower</b> in production, breached downstream SLAs, and had to be reverted.
+          Nothing about the dev test was wrong — the dataset was just too small to exhibit the skew,
+          shuffle and file-scaling behaviour that actually decided the outcome.</p>
+        <p>That leaves two options, both bad. Test on dev data and ship on faith, discovering the truth
+          during a production incident. Or test in production and accept the risk of corrupting real
+          tables and breaching real SLAs.</p>
+        <p>Underneath both is a missing capability: there was no systematic way to demonstrate that a
+          change left <b>output data byte-identical</b> while performance improved. Without that,
+          every optimization is an argument rather than a measurement, and the cautious answer is
+          always to leave it alone.</p>
+        <div class="callout">
+          <p>The blocker was never a lack of optimization ideas. It was the absence of a way to
+            <b>prove one safe</b> before it touched anything that mattered.</p>
+        </div>
+      </section>
+
+      <section class="doc-sec">
+        <h2>The idea</h2>
+        <p class="lede">Production-scale data, zero production exposure</p>
+        <p>Delta shallow clones make production-scale test data essentially free: a clone is metadata
+          pointing at the same underlying files, so cloning a billion-row table costs no meaningful
+          storage and takes seconds. That removes the usual reason dev datasets are small.</p>
+        <p>The rest is plumbing with one non-negotiable property: the sandboxed job must be
+          <b>structurally incapable</b> of touching production. Not "configured not to" — incapable.
+          A sandbox that depends on the operator being careful will eventually meet someone in a
+          hurry at the end of a long day.</p>
+      </section>
+
+      <section class="doc-sec">
+        <h2>How it works</h2>
+        <p class="lede">One command: discover, gate, clone, redirect, run, verify</p>
+        <div class="stages">
+          <article class="stage">
+            <div>
+              <h3>Discover the lineage</h3>
+              <p>Reads the catalog's own lineage tables to find every input the job actually touches,
+                matching on job identity and unioning a 30-day lookback to catch inputs that only
+                appear in monthly runs. Deliberately does <em>not</em> parse code — code lies, and
+                lineage records what really happened. If lineage comes back empty it fails loudly
+                rather than proceeding to clone nothing and report a meaningless pass.</p>
+            </div>
+          </article>
+          <article class="stage">
+            <div>
+              <h3>Gate on identity, fail closed</h3>
+              <p>Before anything runs, the sandbox verifies its own service principal's
+                <b>effective</b> permissions — including grants inherited through group membership,
+                which is where assumptions usually break — and pins the run identity. This is the
+                load-bearing safety property: every later stage can be wrong and production is still
+                unreachable, because the permission wall is upstream of the mistake.</p>
+            </div>
+          </article>
+          <article class="stage">
+            <div>
+              <h3>Shallow-clone the inputs</h3>
+              <p>Metadata-only Delta clones give production-scale data with no storage duplication.
+                An optional clone-from-tag pins the clone to a known version, which separates
+                <em>code change</em> from <em>data drift</em> — without it, a source table updating
+                mid-test makes the parity result meaningless.</p>
+            </div>
+          </article>
+          <article class="stage">
+            <div>
+              <h3>Redirect and run in isolation</h3>
+              <p>Job parameters are patched dynamically at submission — no YAML edits, no forked job
+                definitions to drift out of sync. Task types that cannot be safely redirected refuse
+                to run rather than silently executing against production, which is the same
+                fail-closed principle applied at the task level.</p>
+            </div>
+          </article>
+          <article class="stage">
+            <div>
+              <h3>Prove parity</h3>
+              <p>A bidirectional <code>EXCEPT ALL</code> between sandbox and baseline outputs. The
+                bidirectionality matters: one direction catches dropped rows, the other catches added
+                ones, and using multiset semantics rather than set semantics catches duplicates that
+                a naive comparison would silently forgive. Schema drift surfaces here too.</p>
+            </div>
+          </article>
+          <article class="stage">
+            <div>
+              <h3>Judge performance and cost separately</h3>
+              <p>Runtime is measured on execution duration rather than wall-clock, so cluster startup
+                noise does not contaminate the comparison. Cost attribution is a separate deferred
+                subcommand, because billing data lands hours later — running it inline would
+                confidently print <code>$0.00</code> and be believed.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="doc-sec">
+        <h2>Engineering detail</h2>
+        <p class="lede">Where the design earns its keep</p>
+        <div class="notes-grid">
+          <article class="note-card">
+            <h3>Safety is structural, not behavioural</h3>
+            <p>The identity boundary means a stray redirect hits a permission error, not a production
+              table. The guarantee holds when the operator is wrong, which is the only kind of
+              guarantee worth having in a tool people will use under time pressure.</p>
+          </article>
+          <article class="note-card">
+            <h3>One core change, 30+ pipelines</h3>
+            <p>Rather than wiring each pipeline family individually, redirection hooks into the
+              shared catalog resolver every pipeline already calls — a single backward-compatible
+              change. Every family inherited the capability at once, across file-based, API-based,
+              JDBC and streaming sources, with no per-pipeline code.</p>
+          </article>
+          <article class="note-card">
+            <h3>Lineage over static analysis</h3>
+            <p>Parsing job code to find inputs is fragile the moment a table name is constructed at
+              runtime. Reading actual lineage is both simpler and more correct, and the 30-day union
+              catches the monthly job whose inputs a single run would never reveal.</p>
+          </article>
+          <article class="note-card">
+            <h3>Never print a misleading zero</h3>
+            <p>The temptation is to show a cost figure immediately. Because billing data arrives with
+              a lag, an inline number is wrong in a way that looks authoritative. Deferring it to its
+              own step is less convenient and considerably more honest.</p>
+          </article>
+          <article class="note-card">
+            <h3>Multiset, not set, comparison</h3>
+            <p>Set-based comparison treats a duplicated row as identical to a single one. For
+              financial and reporting outputs that is exactly the class of bug you most need to
+              catch, so parity is checked as a multiset in both directions.</p>
+          </article>
+          <article class="note-card">
+            <h3>Two engines, one core</h3>
+            <p>A generic engine using catalog-swap redirection works for any parameterized job,
+              including external customers. A platform-specific engine uses schema-prefix redirection
+              for tighter integration. Both share the discovery, gating and verdict logic, so the
+              safety properties are proved once.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="doc-sec">
+        <h2>Results</h2>
+        <p class="lede">A real reporting pipeline, optimized in two stages</p>
+        <div class="tbl-wrap">
+          <table class="cmp">
+            <thead>
+              <tr><th>Stage</th><th>Runtime</th><th>Speedup</th><th>Verdict</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Baseline</td><td>301.5 min</td><td>—</td><td>Reference run</td></tr>
+              <tr><td>After SQL rewrite</td><td>72.7 min</td><td class="pos">4.15×</td><td>21 tables identical</td></tr>
+              <tr><td>Photon enabled</td><td>29.6 min</td><td class="pos">10.19×</td><td>21 tables identical, lower DBU</td></tr>
+              <tr><td>Rows compared</td><td colspan="2">4,450,457,930</td><td class="pos">Bidirectional parity</td></tr>
+              <tr><td>Production impact</td><td colspan="2">None</td><td class="pos">Zero reads or writes</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Both optimizations were already technically possible before this existed. What was missing
+          was the evidence to authorise them — and after the earlier Photon incident, no amount of
+          confidence was going to be enough on its own.</p>
+        <div class="callout">
+          <p>The <b>10.19× at lower cost</b> is the headline. The result that changed how the team
+            worked is <b>21 output tables identical across 4.45 billion rows</b> — proof, produced
+            automatically, before anything shipped.</p>
+        </div>
+      </section>
+
+      <section class="doc-sec">
+        <h2>Stack</h2>
+        <ul class="pills mono">
+          <li>Delta Shallow Clone</li><li>Delta Time Travel</li><li>Unity Catalog Lineage</li>
+          <li>Photon</li><li>Spark SQL</li><li>Python</li><li>Databricks SDK</li>
+          <li>Jobs API</li><li>Asset Bundles</li><li>System Tables</li>
+        </ul>
+      </section>
+
+    </div>
+  </div>
+</section>
+
+<section class="band band-alt">
+  <div class="shell">
+    <div class="doc-nav">
+      <a href="../dataprint/"><span class="l">Previous case study</span><span class="t">DataPrint — proving billion-row migrations without moving data</span></a>
+      <a href="../../#contact"><span class="l">Get in touch</span><span class="t">Happy to walk through any of this in detail</span></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="contact">
+  <div class="shell">
+    <div class="foot-bar">
+      <p class="mono">© <span id="year">2026</span> Ameer Salman M</p>
+      <p class="mono">Built by hand · No framework, no build step</p>
+    </div>
+  </div>
+</footer>
+
+<script src="../../js/main.js"></script>
+</body>
+</html>

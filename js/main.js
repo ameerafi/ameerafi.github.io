@@ -61,7 +61,11 @@
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  var links = $$('.nav-links a');
+  /* Case-study pages link back with ../../#id, which is not a valid selector —
+     scroll-spy only applies to same-page anchors. */
+  var links = $$('.nav-links a').filter(function (a) {
+    return (a.getAttribute('href') || '').charAt(0) === '#';
+  });
   var sections = links
     .map(function (a) { return document.querySelector(a.getAttribute('href')); })
     .filter(Boolean);
