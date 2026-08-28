@@ -17,7 +17,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: light)').matches)document.documentElement.dataset.theme='light';}catch(e){}</script>
 
@@ -42,10 +42,10 @@
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
-  <div class="nav-inner">
-    <a class="brand" href="#top">Ameer Salman M</a>
+  <div class="shell nav-inner">
+    <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">AS</span>Ameer Salman M</a>
     <nav class="nav-links" id="navLinks" aria-label="Sections">
-      <a href="#projects">Projects</a>
+      <a href="#work">Work</a>
       <a href="#experience">Experience</a>
       <a href="#skills">Skills</a>
       <a href="#contact">Contact</a>
@@ -65,208 +65,274 @@
 
 <main id="main">
 
-<!-- ─────────────── HERO ─────────────── -->
+<!-- ═══════════ HERO ═══════════ -->
 <section class="hero" id="top">
-  <img class="avatar" src="assets/portrait.jpg" alt="Ameer Salman M" width="613" height="860">
-  <h1>Ameer Salman M</h1>
-  <p class="headline">
-    Forward Deployed Engineer <span class="sep" aria-hidden="true">|</span> Senior Data Engineer
-    <span class="ctx">Databricks · Ex-Amazon Pay</span>
-  </p>
-  <p class="bio">8+ years building enterprise lakehouse architectures, high-throughput distributed
-    systems, and runtime AI governance frameworks across AWS and Databricks. Focused on solving deep
-    distributed systems bottlenecks, optimizing multi-million dollar compute workloads, and engineering
-    open-source developer tooling.</p>
-  <div class="quick-links">
-    <a class="btn btn-primary" href="assets/Ameer-Salman-CV.pdf" download>Resume PDF</a>
-    <a class="btn" href="https://github.com/ameerafi" target="_blank" rel="noopener">GitHub</a>
-    <!-- TODO: replace with the real LinkedIn URL -->
-    <a class="btn" href="#contact">LinkedIn</a>
-    <a class="btn" href="mailto:ameersalman333@gmail.com">Email</a>
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="shell">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow mono"><span class="dot" aria-hidden="true"></span>Coimbatore, India · Open to senior roles</p>
+        <h1>Ameer<br>Salman&nbsp;M</h1>
+        <p class="headline">Forward Deployed Engineer <span class="sep" aria-hidden="true">/</span>
+          Senior Data Engineer</p>
+        <p class="ctx mono">Databricks &nbsp;·&nbsp; Ex-Amazon Pay</p>
+        <p class="bio">8+ years building enterprise lakehouse architectures, high-throughput
+          distributed systems, and runtime AI governance frameworks across AWS and Databricks. Focused
+          on solving deep distributed systems bottlenecks, optimizing multi-million dollar compute
+          workloads, and engineering open-source developer tooling.</p>
+        <div class="quick-links">
+          <a class="btn btn-primary" href="assets/Ameer-Salman-CV.pdf" download>Resume PDF</a>
+          <a class="btn" href="https://github.com/ameerafi" target="_blank" rel="noopener">GitHub</a>
+          <!-- TODO: replace with the real LinkedIn URL -->
+          <a class="btn" href="#contact">LinkedIn</a>
+          <a class="btn" href="mailto:ameersalman333@gmail.com">Email</a>
+        </div>
+      </div>
+
+      <figure class="portrait">
+        <img src="assets/portrait.jpg" alt="Ameer Salman M" width="613" height="860">
+      </figure>
+    </div>
+
+    <dl class="stat-strip">
+      <div class="stat"><dt class="mono">8+ yrs</dt><dd>Data engineering</dd></div>
+      <div class="stat"><dt class="mono">400M+</dt><dd>Transactions reconciled monthly</dd></div>
+      <div class="stat"><dt class="mono">$180K+</dt><dd>Verified annual cloud savings</dd></div>
+      <div class="stat"><dt class="mono">10.19&times;</dt><dd>Workload acceleration proven</dd></div>
+    </dl>
   </div>
 </section>
 
-<!-- ─────────────── PROJECTS ─────────────── -->
-<section class="section" id="projects">
-  <h2 class="section-title">Featured Projects &amp; Frameworks</h2>
+<!-- ═══════════ WORK ═══════════ -->
+<section class="band" id="work">
+  <div class="shell">
+    <header class="sec-head">
+      <span class="sec-num mono">01</span>
+      <h2>Featured Work</h2>
+      <p class="sec-note">Four frameworks, built end to end and shipped</p>
+    </header>
 
-  <article class="project">
-    <h3>AgentGuard / LakeGuard</h3>
-    <p class="project-tag mono">Autonomous AI Runtime Security Gateway</p>
-    <p>Autonomous AI agents take irreversible production actions. Built a multi-workspace gateway on
-      FastAPI and Databricks Apps with a 6-checkpoint inspection pipeline running under 30&nbsp;ms, plus
-      a 3-tier Delta Time Travel Saga-rollback engine.</p>
-    <p class="metric">Full compliance readiness for EU AI Act Article 14 and SOC 2 · AST SQL firewall
-      with zero credential leakage</p>
-    <ul class="pills mono">
-      <li>Databricks Apps</li><li>Python</li><li>FastAPI</li><li>Unity Catalog</li>
-      <li>Delta Lake</li><li>sqlglot</li><li>OAuth</li>
-    </ul>
-  </article>
+    <div class="cards">
+      <article class="card">
+        <div class="card-top">
+          <h3>AgentGuard / LakeGuard</h3>
+          <p class="card-tag mono">Autonomous AI Runtime Security Gateway</p>
+        </div>
+        <p>Autonomous AI agents take irreversible production actions. Built a multi-workspace gateway on
+          FastAPI and Databricks Apps with a 6-checkpoint inspection pipeline running under 30&nbsp;ms,
+          plus a 3-tier Delta Time Travel Saga-rollback engine.</p>
+        <p class="metric">Full compliance readiness for EU AI Act Article 14 and SOC 2 · AST SQL
+          firewall with zero credential leakage</p>
+        <ul class="pills mono">
+          <li>Databricks Apps</li><li>Python</li><li>FastAPI</li><li>Unity Catalog</li>
+          <li>Delta Lake</li><li>sqlglot</li><li>OAuth</li>
+        </ul>
+      </article>
 
-  <article class="project">
-    <h3>DataPrint</h3>
-    <p class="project-tag mono">Algebraic Migration Verifier for Lakebridge</p>
-    <p>Validating billion-row migrations previously required expensive row-by-row hash joins over the
-      network. Built an algebraic fingerprinting engine using in-place JDBC pushdown aggregates and
-      power-sum solvers.</p>
-    <p class="metric">8.1&times; faster validation · ~48,000&times; less network egress (~50&nbsp;KB vs
-      2.4&nbsp;GB) · verified across 15.8B+ rows with zero false positives · integrated into Databricks
-      Lakebridge</p>
-    <ul class="pills mono">
-      <li>Apache Spark</li><li>Scala</li><li>Python</li><li>Delta Lake</li>
-      <li>JDBC Pushdown</li><li>Redshift</li><li>Snowflake</li>
-    </ul>
-  </article>
+      <article class="card">
+        <div class="card-top">
+          <h3>DataPrint</h3>
+          <p class="card-tag mono">Algebraic Migration Verifier for Lakebridge</p>
+        </div>
+        <p>Validating billion-row migrations previously required expensive row-by-row hash joins over
+          the network. Built an algebraic fingerprinting engine using in-place JDBC pushdown aggregates
+          and power-sum solvers.</p>
+        <p class="metric">8.1&times; faster validation · ~48,000&times; less network egress
+          (~50&nbsp;KB vs 2.4&nbsp;GB) · verified across 15.8B+ rows with zero false positives ·
+          integrated into Databricks Lakebridge</p>
+        <ul class="pills mono">
+          <li>Apache Spark</li><li>Scala</li><li>Python</li><li>Delta Lake</li>
+          <li>JDBC Pushdown</li><li>Redshift</li><li>Snowflake</li>
+        </ul>
+      </article>
 
-  <article class="project">
-    <h3>ShadowClone</h3>
-    <p class="project-tag mono">Production-Risk-Free Performance Sandbox</p>
-    <p>Workload optimizations in dev fail under real data volumes, but testing in production risks SLA
-      breaches. Built an automated sandbox on Delta shallow clones and Unity Catalog lineage to test
-      Photon, runtime upgrades and query rewrites in total isolation.</p>
-    <p class="metric">Proved a 10.19&times; speedup with 100% byte-level multiset parity across 4.45B+
-      rows, inherited by 30+ pipeline families</p>
-    <ul class="pills mono">
-      <li>Delta Shallow Clone</li><li>Unity Catalog Lineage</li><li>Spark SQL</li>
-      <li>Databricks Asset Bundles</li>
-    </ul>
-  </article>
+      <article class="card">
+        <div class="card-top">
+          <h3>ShadowClone</h3>
+          <p class="card-tag mono">Production-Risk-Free Performance Sandbox</p>
+        </div>
+        <p>Workload optimizations in dev fail under real data volumes, but testing in production risks
+          SLA breaches. Built an automated sandbox on Delta shallow clones and Unity Catalog lineage to
+          test Photon, runtime upgrades and query rewrites in total isolation.</p>
+        <p class="metric">Proved a 10.19&times; speedup with 100% byte-level multiset parity across
+          4.45B+ rows, inherited by 30+ pipeline families</p>
+        <ul class="pills mono">
+          <li>Delta Shallow Clone</li><li>Unity Catalog Lineage</li><li>Spark SQL</li>
+          <li>Databricks Asset Bundles</li>
+        </ul>
+      </article>
 
-  <article class="project">
-    <h3>Spark MSSQL Connector</h3>
-    <p class="project-tag mono">Maintained Field Distribution</p>
-    <p>Deprecation of Microsoft's bulk connector caused classpath crashes on newer Databricks runtimes,
-      blocking Unity Catalog migrations. Reverse-engineered the internals and built a
-      <code>SparkCompat</code> public-API delegation layer.</p>
-    <p class="metric">Retains ~15&times; BulkCopy write throughput over standard JDBC · unblocked
-      migrations across multiple enterprise accounts</p>
-    <ul class="pills mono">
-      <li>Apache Spark Internals</li><li>Scala</li><li>JDBC</li><li>Azure SQL</li>
-      <li>Testcontainers</li><li>Maven</li>
-    </ul>
-  </article>
-</section>
-
-<!-- ─────────────── EXPERIENCE ─────────────── -->
-<section class="section" id="experience">
-  <h2 class="section-title">Work Experience</h2>
-
-  <article class="role">
-    <div class="role-head">
-      <h3>Databricks</h3>
-      <span class="role-when mono">Jul 2024 – Present</span>
+      <article class="card">
+        <div class="card-top">
+          <h3>Spark MSSQL Connector</h3>
+          <p class="card-tag mono">Maintained Field Distribution</p>
+        </div>
+        <p>Deprecation of Microsoft's bulk connector caused classpath crashes on newer Databricks
+          runtimes, blocking Unity Catalog migrations. Reverse-engineered the internals and built a
+          <code>SparkCompat</code> public-API delegation layer.</p>
+        <p class="metric">Retains ~15&times; BulkCopy write throughput over standard JDBC · unblocked
+          migrations across multiple enterprise accounts</p>
+        <ul class="pills mono">
+          <li>Apache Spark Internals</li><li>Scala</li><li>JDBC</li><li>Azure SQL</li>
+          <li>Testcontainers</li><li>Maven</li>
+        </ul>
+      </article>
     </div>
-    <p class="role-title">Forward Deployed Engineer</p>
-    <ul class="role-points">
-      <li>Architected <b>AgentGuard</b>, a multi-workspace runtime security gateway that intercepts,
-        risk-scores and audits autonomous AI-agent operations before production execution, with
-        automated rollback through Delta Time Travel.</li>
-      <li>Engineered <b>DataPrint</b>, an algebraic migration verifier contributed into Databricks'
-        open-source Lakebridge tool — <b>8.1&times;</b> faster validation with <b>~48,000&times;</b> less
-        network egress, verified across <b>15.8B+ rows</b>.</li>
-      <li>Built <b>ShadowClone</b>, a production-risk-free optimization sandbox on Delta shallow clones
-        and Unity Catalog lineage, proving a <b>10.19&times;</b> speedup with full data parity across
-        <b>4.45B+ rows</b> and <b>30+ pipeline families</b>.</li>
-      <li>Delivered <b>$180K+/year in verified compute cost savings</b> on enterprise Databricks
-        workloads — including a <b>50% reduction</b> on a single critical job — through partition
-        pruning, shuffle minimization and join restructuring.</li>
-      <li>Reverse-engineered and maintain a <b>Spark SQL Server connector fork</b> spanning Databricks
-        Runtime 14.3–18.x, retaining <b>~15&times;</b> BulkCopy throughput and unblocking Unity Catalog
-        migrations across multiple accounts.</li>
-    </ul>
-  </article>
-
-  <article class="role">
-    <div class="role-head">
-      <h3>Amazon Pay / Amazon Payments</h3>
-      <span class="role-when mono">Oct 2017 – Jul 2024</span>
-    </div>
-    <p class="role-title">Data Engineer</p>
-    <ul class="role-points">
-      <li>Architected near real-time event-driven pipelines on <b>S3, Lambda, Glue and Athena</b>,
-        cutting business reporting SLAs by <b>99% — from 48 hours to 15 minutes</b>.</li>
-      <li>Engineered multi-source ingestion across <b>15+ upstream services</b> and <b>120+ ETL jobs</b>,
-        processing <b>400M+ transactions per month</b> with real-time categorization and
-        reconciliation.</li>
-      <li>Optimized big-data processing on <b>AWS EMR (Spark), EC2 and S3</b> at multi-terabyte scale,
-        cutting manual operational effort by <b>60% monthly</b>.</li>
-      <li>Drove <b>Infrastructure as Code and CI/CD</b> adoption with <b>AWS CDK</b> and <b>MWAA</b>,
-        orchestrating ETL on transient EMR clusters and shipping a Glue packaging framework with Pytest
-        validation.</li>
-      <li>Led the <b>RBI regulatory migration</b> of Redshift, QuickSight and S3 to the AWS Mumbai
-        region with zero downtime, resolving <b>$20B+ in audit exceptions</b> across Indian regulatory
-        accounts.</li>
-    </ul>
-  </article>
-</section>
-
-<!-- ─────────────── SKILLS ─────────────── -->
-<section class="section" id="skills">
-  <h2 class="section-title">Technical Skills</h2>
-  <div class="skills">
-    <section class="skill-group">
-      <h3 class="mono">Platforms &amp; Cloud</h3>
-      <ul class="pills mono">
-        <li>Databricks</li><li>Unity Catalog</li><li>Delta Lake</li><li>Databricks Apps</li>
-        <li>Asset Bundles</li><li>System Tables</li><li>AWS Glue</li><li>EMR</li><li>Athena</li>
-        <li>Redshift</li><li>S3</li><li>Lambda</li><li>MWAA</li><li>Azure</li>
-      </ul>
-    </section>
-    <section class="skill-group">
-      <h3 class="mono">Languages &amp; Core</h3>
-      <ul class="pills mono">
-        <li>Apache Spark Internals</li><li>PySpark</li><li>Spark SQL</li><li>Python</li>
-        <li>Scala</li><li>SQL</li><li>Java</li><li>Bash</li>
-      </ul>
-    </section>
-    <section class="skill-group">
-      <h3 class="mono">Data Engineering</h3>
-      <ul class="pills mono">
-        <li>Lakehouse Architecture</li><li>Real-Time ETL</li><li>Batch ELT</li><li>JDBC Pushdown</li>
-        <li>Dimensional Modeling</li><li>Data Reconciliation</li>
-      </ul>
-    </section>
-    <section class="skill-group">
-      <h3 class="mono">AI Governance &amp; Security</h3>
-      <ul class="pills mono">
-        <li>Runtime Policy Enforcement</li><li>AST Parsing (sqlglot)</li>
-        <li>OAuth / OBO Token Brokers</li><li>EU AI Act Art. 14</li><li>SOC 2</li>
-      </ul>
-    </section>
-    <section class="skill-group">
-      <h3 class="mono">DevOps &amp; Testing</h3>
-      <ul class="pills mono">
-        <li>AWS CDK</li><li>Docker</li><li>Testcontainers</li><li>Pytest</li>
-        <li>ScalaTest</li><li>GitHub Actions</li><li>Maven</li>
-      </ul>
-    </section>
   </div>
 </section>
 
-<!-- ─────────────── EDUCATION ─────────────── -->
-<section class="section" id="education">
-  <h2 class="section-title">Education</h2>
-  <article class="role">
-    <div class="role-head">
-      <h3>Park College of Engineering &amp; Technology</h3>
-      <span class="role-when mono">2013 – 2017</span>
+<!-- ═══════════ EXPERIENCE ═══════════ -->
+<section class="band band-alt" id="experience">
+  <div class="shell">
+    <header class="sec-head">
+      <span class="sec-num mono">02</span>
+      <h2>Experience</h2>
+      <p class="sec-note">Eight years, two companies</p>
+    </header>
+
+    <div class="timeline">
+      <article class="role">
+        <div class="role-aside">
+          <h3>Databricks</h3>
+          <p class="role-when mono">Jul 2024 — Present</p>
+          <p class="role-title">Forward Deployed Engineer</p>
+        </div>
+        <ul class="role-points">
+          <li>Architected <b>AgentGuard</b>, a multi-workspace runtime security gateway that intercepts,
+            risk-scores and audits autonomous AI-agent operations before production execution, with
+            automated rollback through Delta Time Travel.</li>
+          <li>Engineered <b>DataPrint</b>, an algebraic migration verifier contributed into Databricks'
+            open-source Lakebridge tool — <b>8.1×</b> faster validation with <b>~48,000×</b> less
+            network egress, verified across <b>15.8B+ rows</b>.</li>
+          <li>Built <b>ShadowClone</b>, a production-risk-free optimization sandbox on Delta shallow
+            clones and Unity Catalog lineage, proving a <b>10.19×</b> speedup with full data parity
+            across <b>4.45B+ rows</b> and <b>30+ pipeline families</b>.</li>
+          <li>Delivered <b>$180K+/year in verified compute cost savings</b> on enterprise Databricks
+            workloads — including a <b>50% reduction</b> on a single critical job — through partition
+            pruning, shuffle minimization and join restructuring.</li>
+          <li>Reverse-engineered and maintain a <b>Spark SQL Server connector fork</b> spanning
+            Databricks Runtime 14.3–18.x, retaining <b>~15×</b> BulkCopy throughput and unblocking Unity
+            Catalog migrations across multiple accounts.</li>
+        </ul>
+      </article>
+
+      <article class="role">
+        <div class="role-aside">
+          <h3>Amazon Pay</h3>
+          <p class="role-when mono">Oct 2017 — Jul 2024</p>
+          <p class="role-title">Data Engineer</p>
+        </div>
+        <ul class="role-points">
+          <li>Architected near real-time event-driven pipelines on <b>S3, Lambda, Glue and Athena</b>,
+            cutting business reporting SLAs by <b>99% — from 48 hours to 15 minutes</b>.</li>
+          <li>Engineered multi-source ingestion across <b>15+ upstream services</b> and
+            <b>120+ ETL jobs</b>, processing <b>400M+ transactions per month</b> with real-time
+            categorization and reconciliation.</li>
+          <li>Optimized big-data processing on <b>AWS EMR (Spark), EC2 and S3</b> at multi-terabyte
+            scale, cutting manual operational effort by <b>60% monthly</b>.</li>
+          <li>Drove <b>Infrastructure as Code and CI/CD</b> adoption with <b>AWS CDK</b> and
+            <b>MWAA</b>, orchestrating ETL on transient EMR clusters and shipping a Glue packaging
+            framework with Pytest validation.</li>
+          <li>Led the <b>RBI regulatory migration</b> of Redshift, QuickSight and S3 to the AWS Mumbai
+            region with zero downtime, resolving <b>$20B+ in audit exceptions</b> across Indian
+            regulatory accounts.</li>
+        </ul>
+      </article>
     </div>
-    <p class="role-title">Bachelor of Engineering (B.E.), Mechanical Engineering</p>
-  </article>
+  </div>
+</section>
+
+<!-- ═══════════ SKILLS ═══════════ -->
+<section class="band" id="skills">
+  <div class="shell">
+    <header class="sec-head">
+      <span class="sec-num mono">03</span>
+      <h2>Technical Skills</h2>
+      <p class="sec-note">Shipped to production, not just read about</p>
+    </header>
+
+    <div class="skills">
+      <section class="skill-group">
+        <h3 class="mono">Platforms &amp; Cloud</h3>
+        <ul class="pills mono">
+          <li>Databricks</li><li>Unity Catalog</li><li>Delta Lake</li><li>Databricks Apps</li>
+          <li>Asset Bundles</li><li>System Tables</li><li>AWS Glue</li><li>EMR</li><li>Athena</li>
+          <li>Redshift</li><li>S3</li><li>Lambda</li><li>MWAA</li><li>Azure</li>
+        </ul>
+      </section>
+      <section class="skill-group">
+        <h3 class="mono">Languages &amp; Core</h3>
+        <ul class="pills mono">
+          <li>Apache Spark Internals</li><li>PySpark</li><li>Spark SQL</li><li>Python</li>
+          <li>Scala</li><li>SQL</li><li>Java</li><li>Bash</li>
+        </ul>
+      </section>
+      <section class="skill-group">
+        <h3 class="mono">Data Engineering</h3>
+        <ul class="pills mono">
+          <li>Lakehouse Architecture</li><li>Real-Time ETL</li><li>Batch ELT</li><li>JDBC Pushdown</li>
+          <li>Dimensional Modeling</li><li>Data Reconciliation</li>
+        </ul>
+      </section>
+      <section class="skill-group">
+        <h3 class="mono">AI Governance &amp; Security</h3>
+        <ul class="pills mono">
+          <li>Runtime Policy Enforcement</li><li>AST Parsing (sqlglot)</li>
+          <li>OAuth / OBO Token Brokers</li><li>EU AI Act Art. 14</li><li>SOC 2</li>
+        </ul>
+      </section>
+      <section class="skill-group">
+        <h3 class="mono">DevOps &amp; Testing</h3>
+        <ul class="pills mono">
+          <li>AWS CDK</li><li>Docker</li><li>Testcontainers</li><li>Pytest</li>
+          <li>ScalaTest</li><li>GitHub Actions</li><li>Maven</li>
+        </ul>
+      </section>
+      <section class="skill-group">
+        <h3 class="mono">Education</h3>
+        <p class="edu">
+          <b>B.E. Mechanical Engineering</b><br>
+          Park College of Engineering &amp; Technology, Coimbatore
+          <span class="mono edu-when">2013 — 2017</span>
+        </p>
+      </section>
+    </div>
+  </div>
 </section>
 
 </main>
 
-<footer class="footer" id="contact">
-  <p class="footer-lead">Open to senior data engineering and platform roles. The fastest way to reach
-    me is email — I answer within a day.</p>
-  <div class="footer-links">
-    <a href="mailto:ameersalman333@gmail.com">ameersalman333@gmail.com</a>
-    <!-- TODO: replace with the real LinkedIn URL -->
-    <a href="https://github.com/ameerafi" target="_blank" rel="noopener">GitHub</a>
+<!-- ═══════════ CONTACT ═══════════ -->
+<footer class="contact" id="contact">
+  <div class="shell">
+    <div class="contact-grid">
+      <div>
+        <p class="eyebrow mono"><span class="dot" aria-hidden="true"></span>Available for senior roles</p>
+        <h2 class="contact-title">Let's talk.</h2>
+        <p class="contact-lead">Open to senior data engineering and platform roles. The fastest way to
+          reach me is email — I answer within a day.</p>
+        <a class="mailto" href="mailto:ameersalman333@gmail.com">ameersalman333@gmail.com</a>
+      </div>
+      <div class="contact-links">
+        <a class="clink" href="mailto:ameersalman333@gmail.com">
+          <span class="clink-lbl mono">Email</span>
+          <span class="clink-val">ameersalman333@gmail.com</span>
+        </a>
+        <a class="clink" href="https://github.com/ameerafi" target="_blank" rel="noopener">
+          <span class="clink-lbl mono">GitHub</span>
+          <span class="clink-val">github.com/ameerafi</span>
+        </a>
+        <a class="clink" href="assets/Ameer-Salman-CV.pdf" download>
+          <span class="clink-lbl mono">Resume</span>
+          <span class="clink-val">Download PDF</span>
+        </a>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <p class="mono">© <span id="year">2026</span> Ameer Salman M</p>
+      <p class="mono">Built by hand · No framework, no build step</p>
+    </div>
   </div>
-  <p class="copyright mono">© <span id="year">2026</span> Ameer Salman M</p>
 </footer>
 
 <script src="js/main.js"></script>

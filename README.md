@@ -40,25 +40,33 @@ a minute.
 
 ## Design
 
-Single centred column, 820px, generous vertical rhythm. No side rails, no dashboard widgets.
+Full-width editorial grid. Shell caps at **1240px** with fluid padding; sections use asymmetric
+grids rather than one narrow ribbon.
 
-**Type** — Inter for everything structural; JetBrains Mono for tags, metrics, dates and section
-labels.
+- **Hero** — 1.55 / 1 split: copy left, framed portrait right, with a soft accent glow behind.
+  A four-cell stat strip spans the full width beneath.
+- **Section heads** — number, title and a right-aligned note on one full-width baseline rule.
+- **Featured Work** — 2×2 card grid; cards lift and take an accent border on hover.
+- **Experience** — sticky left column (company, dates, role pill) against a wide bullet column.
+- **Skills** — auto-fit grid of grouped pill sets, hairline-divided, with Education as the last cell.
+- **Contact** — full-bleed band, oversized headline left, hover-indented link rows right.
 
-**Colour** — one indigo accent, used only for links, active nav state, role titles and metric
-callouts. Everything else is neutral.
+**Type** — Inter for structure, JetBrains Mono for tags, metrics, dates and labels.
+
+**Colour** — one indigo accent for links, active nav, role pills and metric callouts. Everything
+else neutral slate.
 
 | Token | Light | Dark |
 |---|---|---|
 | `--bg` | `#ffffff` | `#0b0f19` |
-| `--bg-soft` | `#f9fafb` | `#111827` |
-| `--text` | `#111827` | `#f3f4f6` |
-| `--muted` | `#6b7280` | `#9ca3af` |
-| `--border` | `#e5e7eb` | `#1f2937` |
+| `--surface` | `#f8fafc` | `#0f1524` |
+| `--text` | `#0f172a` | `#f3f4f6` |
+| `--muted` | `#52607a` | `#9ca3af` |
+| `--border` | `#e3e8ef` | `#1f2937` |
 | `--accent` | `#4f46e5` | `#818cf8` |
 
-Theme follows the system setting and can be toggled; the choice persists in `localStorage`. An inline
-script in `<head>` applies it before first paint so there is no flash.
+Theme follows the system setting and can be toggled; the choice persists in `localStorage`, applied
+by an inline `<head>` script before first paint so there is no flash.
 
 ## Sections
 
