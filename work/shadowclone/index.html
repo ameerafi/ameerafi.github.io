@@ -4,283 +4,719 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ShadowClone — Production-Risk-Free Performance Sandbox · Ameer Salman M</title>
-<meta name="description" content="A sandbox that shallow-clones production inputs, redirects a job into isolation, and emits automated data-parity and cost verdicts — proving a 10.19× speedup with byte-level parity across 4.45B rows and zero production risk.">
-<meta property="og:type" content="article">
-<meta property="og:title" content="ShadowClone — Production-Risk-Free Performance Sandbox">
-<meta property="og:description" content="Proving a 10.19× speedup against 4.45 billion rows, with production untouched.">
-<meta property="og:url" content="https://ameerafi.github.io/work/shadowclone/">
-<meta property="og:image" content="https://ameerafi.github.io/assets/og-cover.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#0b0f19">
+<title>ShadowClone — Autonomous AI Workload Sandbox & Remediation · Ameer Salman M</title>
+<meta name="description" content="A production-risk-free simulation sandbox and self-healing LLM Autopilot framework using Delta shallow clones, Unity Catalog lineage, and DSPy to validate and repair pipeline upgrades at billion-row scale.">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../css/style.css">
-<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: light)').matches)document.documentElement.dataset.theme='light';}catch(e){}</script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ---------- 1. Tokens & Base ---------- */
+:root {
+  --bg:          #ffffff;
+  --surface:     #f8fafc;
+  --surface-2:   #ffffff;
+  --text:        #0f172a;
+  --muted:       #475569;
+  --faint:       #94a3b8;
+  --border:      #e2e8f0;
+  --border-soft: #f1f5f9;
+  --accent:      #0284c7;
+  --accent-2:    #0369a1;
+  --accent-soft: rgba(2, 132, 199, 0.08);
+  --ai-purple:   #7c3aed;
+  --ai-soft:     rgba(124, 58, 237, 0.08);
+  --success:     #16a34a;
+  --success-soft:rgba(22, 163, 74, 0.08);
+  --warning:     #d97706;
+  --shadow:      0 1px 3px rgba(15, 23, 42, 0.05), 0 10px 25px -5px rgba(15, 23, 42, 0.05);
+
+  --sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  --shell: 1080px;
+  --pad: clamp(18px, 4vw, 36px);
+  --r: 12px;
+}
+
+[data-theme="dark"] {
+  --bg:          #080b11;
+  --surface:     #0f172a;
+  --surface-2:   #131d33;
+  --text:        #f1f5f9;
+  --muted:       #94a3b8;
+  --faint:       #64748b;
+  --border:      #1e293b;
+  --border-soft: #162032;
+  --accent:      #38bdf8;
+  --accent-2:    #0284c7;
+  --accent-soft: rgba(56, 189, 248, 0.12);
+  --ai-purple:   #c084fc;
+  --ai-soft:     rgba(192, 132, 252, 0.12);
+  --success:     #34d399;
+  --success-soft:rgba(52, 211, 153, 0.12);
+  --warning:     #fbbf24;
+  --shadow:      0 4px 20px -2px rgba(0, 0, 0, 0.5);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); }
+.shell { width: 100%; max-width: var(--shell); margin: 0 auto; padding: 0 var(--pad); }
+
+/* ---------- 2. Navigation ---------- */
+.nav {
+  position: sticky; top: 0; z-index: 50; height: 64px;
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px; }
+.brand-mark {
+  width: 28px; height: 28px; border-radius: 7px; background: linear-gradient(135deg, var(--accent), var(--ai-purple));
+  color: #fff; display: grid; place-items: center; font-size: 11px; font-weight: 800;
+}
+.nav-links { display: flex; align-items: center; gap: 20px; font-size: 13.5px; }
+.nav-links a { color: var(--muted); transition: color .2s; }
+.nav-links a:hover { color: var(--text); }
+.nav-btn {
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 6px 14px; border-radius: 8px; font-weight: 600; color: var(--text);
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---------- 3. Hero Header ---------- */
+.doc-hero { padding: clamp(40px, 5vw, 68px) 0 32px; }
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted);
+  margin-bottom: 20px; transition: color .2s, transform .2s;
+}
+.back-link:hover { color: var(--accent); transform: translateX(-3px); }
+.eyebrow-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+.badge {
+  font-size: 11.5px; font-weight: 600; padding: 3px 10px; border-radius: 100px;
+  letter-spacing: 0.02em; text-transform: uppercase;
+}
+.badge-blue { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent); }
+.badge-purple { background: var(--ai-soft); color: var(--ai-purple); border: 1px solid var(--ai-purple); }
+
+.doc-hero h1 {
+  font-size: clamp(30px, 4.4vw, 48px); font-weight: 800; letter-spacing: -0.03em;
+  line-height: 1.15; margin-bottom: 18px; color: var(--text);
+}
+.doc-deck { font-size: clamp(16.5px, 1.8vw, 19px); color: var(--muted); max-width: 820px; line-height: 1.6; margin-bottom: 30px; }
+
+/* Metadata Matrix */
+.meta-matrix {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px;
+  background: var(--border); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden;
+  margin-bottom: 40px;
+}
+.meta-matrix > div { background: var(--surface); padding: 16px 20px; }
+.meta-matrix dt { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--faint); margin-bottom: 4px; }
+.meta-matrix dd { font-size: 13.5px; font-weight: 600; color: var(--text); }
+
+/* Key Impact Badges Strip */
+.impact-strip {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 50px;
+}
+.impact-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r);
+  padding: 20px 18px; text-align: center; box-shadow: var(--shadow);
+}
+.impact-val { font-size: clamp(24px, 2.6vw, 34px); font-weight: 800; color: var(--accent); line-height: 1.1; margin-bottom: 4px; }
+.impact-lbl { font-size: 12px; color: var(--muted); font-weight: 500; }
+
+/* ---------- 4. STAR Overview Block ---------- */
+.star-container {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r);
+  padding: 30px; margin-bottom: 60px; box-shadow: var(--shadow);
+}
+.star-head {
+  display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 24px;
+  border-bottom: 1px solid var(--border); padding-bottom: 12px;
+}
+.star-head h2 { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; display: flex; align-items: center; gap: 8px; }
+.star-head span { font-size: 12px; color: var(--faint); text-transform: uppercase; }
+
+.star-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.star-item { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
+.star-tag {
+  display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
+  padding: 2px 8px; border-radius: 4px; margin-bottom: 10px;
+}
+.tag-s { background: rgba(239, 68, 68, 0.12); color: #ef4444; }
+.tag-t { background: rgba(245, 158, 11, 0.12); color: #f59e0b; }
+.tag-a { background: var(--accent-soft); color: var(--accent); }
+.tag-r { background: var(--success-soft); color: var(--success); }
+.star-item p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+.star-item strong { color: var(--text); }
+
+/* ---------- 5. Section General ---------- */
+.doc-section { margin-bottom: 70px; }
+.sec-title {
+  font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 10px; color: var(--text);
+  display: flex; align-items: center; gap: 10px;
+}
+.sec-num { font-size: 14px; color: var(--accent); }
+.sec-lede { font-size: 15.5px; color: var(--muted); margin-bottom: 24px; max-width: 800px; }
+
+/* ---------- 6. Architecture Diagram (SVG Wrapper) ---------- */
+.diagram-box {
+  background: #060911; border: 1px solid #1e293b; border-radius: var(--r);
+  padding: 24px 20px 16px; margin-bottom: 30px; box-shadow: var(--shadow);
+}
+.diagram-caption {
+  font-size: 12px; color: #94a3b8; text-align: center; margin-top: 14px; letter-spacing: 0.04em;
+}
+
+/* ---------- 7. Technical Pillar Cards ---------- */
+.pipeline-steps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-bottom: 40px; }
+.step-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 22px;
+}
+.step-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+.step-top h3 { font-size: 16px; font-weight: 700; color: var(--text); }
+.step-pill { font-size: 11px; font-weight: 600; color: var(--accent); }
+.step-card p { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
+
+.code-snippet {
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px;
+  padding: 10px 14px; font-size: 12.5px; color: var(--text); line-height: 1.5;
+}
+
+/* ---------- 8. AI Agentic Layer Box ---------- */
+.ai-agent-box {
+  background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--ai-purple);
+  border-radius: 0 var(--r) var(--r) 0; padding: 26px 30px; margin-bottom: 40px;
+}
+.ai-agent-box h3 { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.ai-agent-box p { font-size: 14.5px; color: var(--muted); line-height: 1.65; margin-bottom: 16px; }
+
+.agent-loop-flow {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px;
+}
+.loop-step { font-size: 12px; font-weight: 600; color: var(--ai-purple); background: var(--ai-soft); padding: 4px 10px; border-radius: 6px; }
+.loop-arrow { color: var(--faint); font-size: 12px; }
+
+/* ---------- 9. Deep Technical Callouts ---------- */
+.tech-details-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 40px; }
+.tech-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+.tech-card h4 { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.tech-card p { font-size: 13.5px; color: var(--muted); line-height: 1.55; }
+
+/* ---------- 10. Results Table ---------- */
+.table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 24px; }
+table.perf-table { width: 100%; border-collapse: collapse; font-size: 14px; text-align: left; }
+table.perf-table th, table.perf-table td { padding: 14px 18px; border-bottom: 1px solid var(--border); }
+table.perf-table th { background: var(--surface); font-size: 11.5px; text-transform: uppercase; color: var(--faint); font-weight: 600; }
+table.perf-table tr:last-child td { border-bottom: none; }
+table.perf-table td.strong { font-weight: 600; color: var(--text); }
+table.perf-table td.highlight { color: var(--accent); font-weight: 700; font-family: var(--mono); }
+
+/* ---------- 11. Bottom Nav & Footer ---------- */
+.doc-footer-nav {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  border-top: 1px solid var(--border); padding-top: 40px; margin-top: 60px;
+}
+.nav-tile {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r);
+  padding: 22px 24px; transition: border-color .2s, transform .2s;
+}
+.nav-tile:hover { border-color: var(--accent); transform: translateY(-2px); }
+.nav-tile span { display: block; font-size: 11.5px; text-transform: uppercase; color: var(--faint); margin-bottom: 6px; }
+.nav-tile strong { font-size: 16px; color: var(--text); }
+
+.site-footer {
+  border-top: 1px solid var(--border); padding: 30px 0; margin-top: 60px;
+  font-size: 12.5px; color: var(--faint); display: flex; justify-content: space-between;
+}
+
+@media (max-width: 820px) {
+  .impact-strip { grid-template-columns: repeat(2, 1fr); }
+  .star-grid { grid-template-columns: 1fr; }
+  .pipeline-steps { grid-template-columns: 1fr; }
+  .doc-footer-nav { grid-template-columns: 1fr; }
+}
+</style>
 </head>
 
 <body>
-<a class="skip" href="#main">Skip to content</a>
 
-<header class="nav" id="nav">
+<!-- Navigation Header -->
+<header class="nav">
   <div class="shell nav-inner">
-    <a class="brand" href="../../"><span class="brand-mark" aria-hidden="true">AS</span>Ameer Salman M</a>
-    <nav class="nav-links" id="navLinks" aria-label="Sections">
+    <a class="brand" href="../../">
+      <span class="brand-mark">AS</span>
+      <span>Ameer Salman M</span>
+    </a>
+    <div class="nav-links">
       <a href="../../#work">Work</a>
       <a href="../../#experience">Experience</a>
       <a href="../../#skills">Skills</a>
-      <a href="../../#contact">Contact</a>
-    </nav>
-    <div class="nav-actions">
-      <a class="btn btn-primary nav-resume" href="../../assets/Ameer-Salman-CV.pdf" download>Resume PDF</a>
-      <button class="icon-btn" id="themeToggle" aria-label="Switch colour theme">
-        <svg class="ico ico-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.4M12 19.2v2.4M2.4 12h2.4M19.2 12h2.4M5.1 5.1l1.7 1.7M17.2 17.2l1.7 1.7M18.9 5.1l-1.7 1.7M6.8 17.2l-1.7 1.7"/></svg>
-        <svg class="ico ico-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13.6A8.2 8.2 0 0 1 10.4 4a8.4 8.4 0 1 0 9.6 9.6z"/></svg>
-      </button>
-      <button class="icon-btn menu-btn" id="menuToggle" aria-label="Open menu" aria-expanded="false">
-        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-      </button>
+      <a class="nav-btn" href="../../assets/Ameer-Salman-CV.pdf" download>
+        <span>Resume PDF</span>
+      </a>
     </div>
   </div>
 </header>
 
 <main id="main">
 
+<!-- Hero Section -->
 <section class="doc-hero">
   <div class="shell">
-    <a class="back" href="../../#work"><span aria-hidden="true">←</span>All work</a>
-    <p class="doc-tag mono">Production-Risk-Free Performance Sandbox</p>
-    <h1>Proving a 10× speedup against 4.45 billion rows, with production untouched</h1>
-    <p class="doc-deck">Optimizations measured on development data routinely fail under production
-      volumes, and testing them in production risks data corruption and SLA breaches. ShadowClone
-      removes the choice: it clones production inputs without copying them, runs the candidate job in
-      an isolated sandbox, and emits an automated verdict on both data parity and cost.</p>
+    <a class="back-link mono" href="../../#work">&larr; Back to all frameworks</a>
+    
+    <div class="eyebrow-row mono">
+      <span class="badge badge-blue">Zero-Storage Isolation</span>
+      <span class="badge badge-purple">DSPy Autopilot Remediation</span>
+      <span class="badge">Enterprise FinOps</span>
+    </div>
 
-    <dl class="doc-meta">
-      <div><dt>Role</dt><dd>Design, implementation, rollout</dd></div>
-      <div><dt>Scope</dt><dd>Two engines sharing a core — generic and platform-specific</dd></div>
-      <div><dt>Adoption</dt><dd>30+ pipeline families, no per-pipeline wiring</dd></div>
-      <div><dt>Core stack</dt><dd>Delta shallow clone, Unity Catalog lineage, Jobs API, system tables</dd></div>
+    <h1>ShadowClone: Autonomous AI Workload Sandbox & Remediation</h1>
+    <p class="doc-deck">
+      A production-scale simulation platform that lets data teams validate runtime, compute, and SQL optimizations against production-volume data at zero storage cost. Combines Delta shallow clones and fail-closed identity boundaries with an LLM-driven DSPy Autopilot loop that diagnoses DAG failures and applies deterministic code patches for DBR and Photon upgrades[cite: 35, 38].
+    </p>
+
+    <!-- Metadata Matrix -->
+    <dl class="meta-matrix mono">
+      <div>
+        <dt>Role & Scope</dt>
+        <dd>Principal Architect & Lead Engineer</dd>
+      </div>
+      <div>
+        <dt>Customer Impact</dt>
+        <dd>Global Semiconductor Leader & Enterprise Accounts</dd>
+      </div>
+      <div>
+        <dt>Supported Runtimes</dt>
+        <dd>DBR 13.3–16.4 (Spark 3.4/3.5) & DBR 17.x+ (Spark 4.0)</dd>
+      </div>
+      <div>
+        <dt>Core Tech Stack</dt>
+        <dd>Delta Shallow Clone, UC Lineage, DSPy, Spark SQL</dd>
+      </div>
     </dl>
-  </div>
-</section>
 
-<section class="band band-alt">
-  <div class="shell">
-    <dl class="results">
-      <div class="result"><dt>10.19×</dt><dd>End-to-end acceleration proven safe before rollout</dd></div>
-      <div class="result"><dt>4.45B</dt><dd>Rows verified byte-identical across 21 output tables</dd></div>
-      <div class="result"><dt>30+</dt><dd>Pipeline families inherited it through one core change</dd></div>
-      <div class="result"><dt>Zero</dt><dd>Production reads, writes or risk during a run</dd></div>
-    </dl>
-  </div>
-</section>
-
-<section class="band">
-  <div class="shell">
-    <div class="doc-body">
-
-      <section class="doc-sec">
-        <h2>The problem</h2>
-        <p class="lede">Two bad options, and teams were picking one</p>
-        <p>The motivating incident: enabling Photon on a pipeline looked fine in development, then ran
-          <b>three times slower</b> in production, breached downstream SLAs, and had to be reverted.
-          Nothing about the dev test was wrong — the dataset was just too small to exhibit the skew,
-          shuffle and file-scaling behaviour that actually decided the outcome.</p>
-        <p>That leaves two options, both bad. Test on dev data and ship on faith, discovering the truth
-          during a production incident. Or test in production and accept the risk of corrupting real
-          tables and breaching real SLAs.</p>
-        <p>Underneath both is a missing capability: there was no systematic way to demonstrate that a
-          change left <b>output data byte-identical</b> while performance improved. Without that,
-          every optimization is an argument rather than a measurement, and the cautious answer is
-          always to leave it alone.</p>
-        <div class="callout">
-          <p>The blocker was never a lack of optimization ideas. It was the absence of a way to
-            <b>prove one safe</b> before it touched anything that mattered.</p>
-        </div>
-      </section>
-
-      <section class="doc-sec">
-        <h2>The idea</h2>
-        <p class="lede">Production-scale data, zero production exposure</p>
-        <p>Delta shallow clones make production-scale test data essentially free: a clone is metadata
-          pointing at the same underlying files, so cloning a billion-row table costs no meaningful
-          storage and takes seconds. That removes the usual reason dev datasets are small.</p>
-        <p>The rest is plumbing with one non-negotiable property: the sandboxed job must be
-          <b>structurally incapable</b> of touching production. Not "configured not to" — incapable.
-          A sandbox that depends on the operator being careful will eventually meet someone in a
-          hurry at the end of a long day.</p>
-      </section>
-
-      <section class="doc-sec">
-        <h2>How it works</h2>
-        <p class="lede">One command: discover, gate, clone, redirect, run, verify</p>
-        <div class="stages">
-          <article class="stage">
-            <div>
-              <h3>Discover the lineage</h3>
-              <p>Reads the catalog's own lineage tables to find every input the job actually touches,
-                matching on job identity and unioning a 30-day lookback to catch inputs that only
-                appear in monthly runs. Deliberately does <em>not</em> parse code — code lies, and
-                lineage records what really happened. If lineage comes back empty it fails loudly
-                rather than proceeding to clone nothing and report a meaningless pass.</p>
-            </div>
-          </article>
-          <article class="stage">
-            <div>
-              <h3>Gate on identity, fail closed</h3>
-              <p>Before anything runs, the sandbox verifies its own service principal's
-                <b>effective</b> permissions — including grants inherited through group membership,
-                which is where assumptions usually break — and pins the run identity. This is the
-                load-bearing safety property: every later stage can be wrong and production is still
-                unreachable, because the permission wall is upstream of the mistake.</p>
-            </div>
-          </article>
-          <article class="stage">
-            <div>
-              <h3>Shallow-clone the inputs</h3>
-              <p>Metadata-only Delta clones give production-scale data with no storage duplication.
-                An optional clone-from-tag pins the clone to a known version, which separates
-                <em>code change</em> from <em>data drift</em> — without it, a source table updating
-                mid-test makes the parity result meaningless.</p>
-            </div>
-          </article>
-          <article class="stage">
-            <div>
-              <h3>Redirect and run in isolation</h3>
-              <p>Job parameters are patched dynamically at submission — no YAML edits, no forked job
-                definitions to drift out of sync. Task types that cannot be safely redirected refuse
-                to run rather than silently executing against production, which is the same
-                fail-closed principle applied at the task level.</p>
-            </div>
-          </article>
-          <article class="stage">
-            <div>
-              <h3>Prove parity</h3>
-              <p>A bidirectional <code>EXCEPT ALL</code> between sandbox and baseline outputs. The
-                bidirectionality matters: one direction catches dropped rows, the other catches added
-                ones, and using multiset semantics rather than set semantics catches duplicates that
-                a naive comparison would silently forgive. Schema drift surfaces here too.</p>
-            </div>
-          </article>
-          <article class="stage">
-            <div>
-              <h3>Judge performance and cost separately</h3>
-              <p>Runtime is measured on execution duration rather than wall-clock, so cluster startup
-                noise does not contaminate the comparison. Cost attribution is a separate deferred
-                subcommand, because billing data lands hours later — running it inline would
-                confidently print <code>$0.00</code> and be believed.</p>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="doc-sec">
-        <h2>Engineering detail</h2>
-        <p class="lede">Where the design earns its keep</p>
-        <div class="notes-grid">
-          <article class="note-card">
-            <h3>Safety is structural, not behavioural</h3>
-            <p>The identity boundary means a stray redirect hits a permission error, not a production
-              table. The guarantee holds when the operator is wrong, which is the only kind of
-              guarantee worth having in a tool people will use under time pressure.</p>
-          </article>
-          <article class="note-card">
-            <h3>One core change, 30+ pipelines</h3>
-            <p>Rather than wiring each pipeline family individually, redirection hooks into the
-              shared catalog resolver every pipeline already calls — a single backward-compatible
-              change. Every family inherited the capability at once, across file-based, API-based,
-              JDBC and streaming sources, with no per-pipeline code.</p>
-          </article>
-          <article class="note-card">
-            <h3>Lineage over static analysis</h3>
-            <p>Parsing job code to find inputs is fragile the moment a table name is constructed at
-              runtime. Reading actual lineage is both simpler and more correct, and the 30-day union
-              catches the monthly job whose inputs a single run would never reveal.</p>
-          </article>
-          <article class="note-card">
-            <h3>Never print a misleading zero</h3>
-            <p>The temptation is to show a cost figure immediately. Because billing data arrives with
-              a lag, an inline number is wrong in a way that looks authoritative. Deferring it to its
-              own step is less convenient and considerably more honest.</p>
-          </article>
-          <article class="note-card">
-            <h3>Multiset, not set, comparison</h3>
-            <p>Set-based comparison treats a duplicated row as identical to a single one. For
-              financial and reporting outputs that is exactly the class of bug you most need to
-              catch, so parity is checked as a multiset in both directions.</p>
-          </article>
-          <article class="note-card">
-            <h3>Two engines, one core</h3>
-            <p>A generic engine using catalog-swap redirection works for any parameterized job,
-              including external customers. A platform-specific engine uses schema-prefix redirection
-              for tighter integration. Both share the discovery, gating and verdict logic, so the
-              safety properties are proved once.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="doc-sec">
-        <h2>Results</h2>
-        <p class="lede">A real reporting pipeline, optimized in two stages</p>
-        <div class="tbl-wrap">
-          <table class="cmp">
-            <thead>
-              <tr><th>Stage</th><th>Runtime</th><th>Speedup</th><th>Verdict</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>Baseline</td><td>301.5 min</td><td>—</td><td>Reference run</td></tr>
-              <tr><td>After SQL rewrite</td><td>72.7 min</td><td class="pos">4.15×</td><td>21 tables identical</td></tr>
-              <tr><td>Photon enabled</td><td>29.6 min</td><td class="pos">10.19×</td><td>21 tables identical, lower DBU</td></tr>
-              <tr><td>Rows compared</td><td colspan="2">4,450,457,930</td><td class="pos">Bidirectional parity</td></tr>
-              <tr><td>Production impact</td><td colspan="2">None</td><td class="pos">Zero reads or writes</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p>Both optimizations were already technically possible before this existed. What was missing
-          was the evidence to authorise them — and after the earlier Photon incident, no amount of
-          confidence was going to be enough on its own.</p>
-        <div class="callout">
-          <p>The <b>10.19× at lower cost</b> is the headline. The result that changed how the team
-            worked is <b>21 output tables identical across 4.45 billion rows</b> — proof, produced
-            automatically, before anything shipped.</p>
-        </div>
-      </section>
-
-      <section class="doc-sec">
-        <h2>Stack</h2>
-        <ul class="pills mono">
-          <li>Delta Shallow Clone</li><li>Delta Time Travel</li><li>Unity Catalog Lineage</li>
-          <li>Photon</li><li>Spark SQL</li><li>Python</li><li>Databricks SDK</li>
-          <li>Jobs API</li><li>Asset Bundles</li><li>System Tables</li>
-        </ul>
-      </section>
-
+    <!-- 4 Key Impact Metric Badges -->
+    <div class="impact-strip mono">
+      <div class="impact-card">
+        <div class="impact-val">10.19&times;</div>
+        <div class="impact-lbl">Workload Speedup Proven[cite: 9, 38]</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-val">4.45B+</div>
+        <div class="impact-lbl">Rows Verified (100% Parity)[cite: 9, 38]</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-val">~80%</div>
+        <div class="impact-lbl">Zero Code-Change Adoption[cite: 35, 38]</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-val">~$2M</div>
+        <div class="impact-lbl">Verified Annual DBU Savings[cite: 33, 38]</div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="band band-alt">
-  <div class="shell">
-    <div class="doc-nav">
-      <a href="../dataprint/"><span class="l">Previous case study</span><span class="t">DataPrint — proving billion-row migrations without moving data</span></a>
-      <a href="../../#contact"><span class="l">Get in touch</span><span class="t">Happy to walk through any of this in detail</span></a>
+<div class="shell">
+
+  <!-- ==================== STAR SECTION ==================== -->
+  <section class="star-container">
+    <div class="star-head">
+      <h2>Executive Brief</h2>
     </div>
+    <div class="star-grid">
+      <div class="star-item">
+        <span class="star-tag tag-s mono">SITUATION</span>
+        <p>
+          Data teams cannot trust pipeline optimizations tested on toy dev datasets (~10% volume)[cite: 38] because critical performance factors (data skew, shuffle spill, broadcast thresholds) only emerge at production volume[cite: 38]. Motivating incident: a Photon enablement looked optimal in dev but ran <strong>3&times; slower in production</strong>, breached downstream SLAs, and was forcibly reverted[cite: 38].
+        </p>
+      </div>
+      <div class="star-item">
+        <span class="star-tag tag-t mono">TASK</span>
+        <p>
+          Engineer an automated, zero-storage sandbox capable of cloning production inputs in seconds, isolating writes behind unbreakable security walls, proving 100% multiset data parity, and automating code fixes when runtime upgrades break dependencies[cite: 38].
+        </p>
+      </div>
+      <div class="star-item">
+        <span class="star-tag tag-a mono">ACTION</span>
+        <p>
+          Built <strong>ShadowClone</strong> using <strong>Delta shallow clones</strong> and Unity Catalog 30-day lineage discovery[cite: 38]. Enforced structural safety via a <strong>fail-closed service principal boundary</strong> and bidirectional <code>EXCEPT ALL</code> multiset checks[cite: 38]. Integrated an autonomous <strong>LLM Autopilot loop (DSPy planner + patch executor)</strong> to diagnose DAG errors and apply deterministic code patches[cite: 35, 38].
+        </p>
+      </div>
+      <div class="star-item">
+        <span class="star-tag tag-r mono">RESULT</span>
+        <p>
+          Proven <strong>10.19&times; end-to-end acceleration</strong> (301.5 min &rarr; 29.6 min) with <strong>100% byte-level multiset parity across 4.45B+ rows</strong> (21 tables)[cite: 9, 38]. Onboarded <strong>~90 enterprise pipelines</strong> (~80% with zero code changes)[cite: 35, 38] and generated <strong>~$2M in annual compute savings</strong> for a Fortune 500 account[cite: 33, 38].
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ARCHITECTURE BLUEPRINT ==================== -->
+  <section class="doc-section">
+    <h2 class="sec-title"><span class="sec-num mono">01 //</span> System Architecture Blueprint</h2>
+    <p class="sec-lede">
+      ShadowClone leverages metadata-only Delta shallow clones and Spark Catalyst query rewrites to isolate production workloads into sandboxes, producing deterministic parity and DBU cost verdicts while supervised by an AI remediation loop[cite: 38].
+    </p>
+
+    <div class="diagram-box">
+      <svg viewBox="0 0 920 380" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="font-family: 'JetBrains Mono', monospace;">
+        <defs>
+          <linearGradient id="prodG" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#1e293b"/>
+            <stop offset="100%" stop-color="#0f172a"/>
+          </linearGradient>
+          <linearGradient id="sandG" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#0369a1"/>
+            <stop offset="100%" stop-color="#082f49"/>
+          </linearGradient>
+          <linearGradient id="evalG" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#166534"/>
+            <stop offset="100%" stop-color="#052e16"/>
+          </linearGradient>
+          <linearGradient id="dspyG" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#581c87"/>
+            <stop offset="100%" stop-color="#3b0764"/>
+          </linearGradient>
+        </defs>
+
+        <!-- PRODUCTION ENVIRONMENT (LEFT) -->
+        <g transform="translate(15, 20)">
+          <rect width="250" height="235" rx="8" fill="url(#prodG)" stroke="#334155" stroke-width="1.5"/>
+          <text x="14" y="24" fill="#38bdf8" font-size="10.5" font-weight="700">PRODUCTION WORKSPACE</text>
+          <text x="14" y="38" fill="#94a3b8" font-size="8">Live Lakehouse & Production Tables</text>
+          <line x1="14" y1="46" x2="236" y2="46" stroke="#334155" stroke-width="1"/>
+
+          <rect x="14" y="56" width="222" height="48" rx="4" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+          <text x="22" y="70" fill="#e2e8f0" font-size="8.5" font-weight="600">1. Discover Lineage</text>
+          <text x="22" y="84" fill="#38bdf8" font-size="7.5">system.access.table_lineage (30d)</text>
+
+          <rect x="14" y="112" width="222" height="52" rx="4" fill="#1e293b" stroke="#ef4444" stroke-width="1"/>
+          <text x="22" y="126" fill="#fca5a5" font-size="8.5" font-weight="600">2. Identity Gate (Fail-Closed)</text>
+          <text x="22" y="139" fill="#94a3b8" font-size="7.5">&bull; SP effective grants verified</text>
+          <text x="22" y="150" fill="#94a3b8" font-size="7.5">&bull; Production write denied by IAM</text>
+
+          <rect x="14" y="172" width="222" height="48" rx="4" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+          <text x="22" y="186" fill="#e2e8f0" font-size="8.5" font-weight="600">3. Delta Shallow Clone</text>
+          <text x="22" y="200" fill="#34d399" font-size="7.5">Metadata-only &bull; ZERO Storage Cost</text>
+        </g>
+
+        <!-- DATA / REDIRECTION ARROW -->
+        <g transform="translate(268, 125)">
+          <path d="M 5 15 L 65 15" stroke="#38bdf8" stroke-width="2" stroke-dasharray="3 2"/>
+          <polygon points="65,11 73,15 65,19" fill="#38bdf8"/>
+          <text x="6" y="8" fill="#38bdf8" font-size="7.5" font-weight="700">Redirect Reads</text>
+          <text x="2" y="28" fill="#34d399" font-size="7">Zero Prod Writes</text>
+        </g>
+
+        <!-- ISOLATED SANDBOX EXECUTION (CENTER) -->
+        <g transform="translate(345, 20)">
+          <rect width="270" height="235" rx="8" fill="url(#sandG)" stroke="#0284c7" stroke-width="1.5"/>
+          <text x="14" y="24" fill="#ffffff" font-size="10.5" font-weight="700">ISOLATED SANDBOX ENGINE</text>
+          <text x="14" y="38" fill="#bae6fd" font-size="8">Catalyst Interception & Test Execution</text>
+          <line x1="14" y1="46" x2="256" y2="46" stroke="#0284c7" stroke-width="1"/>
+
+          <rect x="14" y="56" width="242" height="52" rx="4" fill="#0c4a6e" stroke="#0284c7" stroke-width="1"/>
+          <text x="22" y="70" fill="#ffffff" font-size="8.5" font-weight="600">4. Inject Redirection</text>
+          <text x="22" y="84" fill="#38bdf8" font-size="7.5">&bull; Schema prefix / Catalog Swap</text>
+          <text x="22" y="96" fill="#38bdf8" font-size="7.5">&bull; Writes routed to run_&lt;id&gt; schemas</text>
+
+          <rect x="14" y="116" width="242" height="52" rx="4" fill="#0c4a6e" stroke="#0284c7" stroke-width="1"/>
+          <text x="22" y="130" fill="#ffffff" font-size="8.5" font-weight="600">5. Execute Target Configuration</text>
+          <text x="22" y="144" fill="#bae6fd" font-size="7.5">&bull; Photon ON/OFF &bull; DBR 15.4 &rarr; 18.x</text>
+          <text x="22" y="156" fill="#bae6fd" font-size="7.5">&bull; Liquid Clustering &bull; Spark tuning</text>
+
+          <rect x="14" y="176" width="242" height="44" rx="4" fill="#082f49" stroke="#38bdf8" stroke-width="1"/>
+          <text x="22" y="192" fill="#38bdf8" font-size="8" font-weight="700">Telemetry & Metric Isolation</text>
+          <text x="22" y="204" fill="#bae6fd" font-size="7">execution_duration (no cold-start noise)</text>
+        </g>
+
+        <!-- VERDICT & PARITY (RIGHT) -->
+        <g transform="translate(650, 20)">
+          <rect width="255" height="235" rx="8" fill="url(#evalG)" stroke="#16a34a" stroke-width="1.5"/>
+          <text x="14" y="24" fill="#34d399" font-size="10.5" font-weight="700">AUTOMATED VERDICT GATES</text>
+          <text x="14" y="38" fill="#bbf7d0" font-size="8">Data Parity & FinOps Cost Audit</text>
+          <line x1="14" y1="46" x2="241" y2="46" stroke="#16a34a" stroke-width="1"/>
+
+          <rect x="14" y="56" width="227" height="68" rx="4" fill="#052e16" stroke="#16a34a" stroke-width="1"/>
+          <text x="22" y="70" fill="#ffffff" font-size="8.5" font-weight="600">6. Multiset Parity Check</text>
+          <text x="22" y="84" fill="#34d399" font-size="7.5">&bull; Bidirectional EXCEPT ALL</text>
+          <text x="22" y="96" fill="#34d399" font-size="7.5">&bull; Catches duplicates, drops & schema</text>
+          <text x="22" y="108" fill="#86efac" font-size="7.2">4.45B+ Rows Verified Byte-Identical</text>
+
+          <rect x="14" y="132" width="227" height="48" rx="4" fill="#052e16" stroke="#16a34a" stroke-width="1"/>
+          <text x="22" y="146" fill="#ffffff" font-size="8.5" font-weight="600">7. Deferred DBU Cost Analysis</text>
+          <text x="22" y="160" fill="#86efac" font-size="7.5">Queries billing system tables after lag</text>
+          <text x="22" y="171" fill="#86efac" font-size="7.2">Zero misleading $0 reports</text>
+
+          <rect x="14" y="188" width="227" height="34" rx="4" fill="#14532d" stroke="#22c55e" stroke-width="1"/>
+          <text x="22" y="206" fill="#22c55e" font-size="8" font-weight="700">VERDICT: SAFE TO PROMOTE</text>
+        </g>
+
+        <!-- TOP LAYER: AI AUTOPILOT SELF-HEALING LOOP -->
+        <g transform="translate(15, 270)">
+          <rect width="890" height="95" rx="8" fill="url(#dspyG)" stroke="#a855f7" stroke-width="1.5"/>
+          <text x="18" y="22" fill="#ffffff" font-size="10.5" font-weight="700">AUTONOMOUS AI AUTOPILOT LOOP (DSPy Planner + Patch Executor)</text>
+          <text x="18" y="36" fill="#e9d5ff" font-size="8">Self-healing runtime upgrade failures &mdash; Compresses weeks of manual debugging into bounded sandbox turns[cite: 38]</text>
+
+          <g transform="translate(18, 46)">
+            <rect width="130" height="34" rx="4" fill="#3b0764" stroke="#a855f7" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.8" font-weight="600">1. Diagnose Failure</text>
+            <text x="8" y="27" fill="#c084fc" font-size="6.8">DAG error & task log</text>
+          </g>
+          <text x="154" y="67" fill="#c084fc" font-size="10">&rarr;</text>
+          
+          <g transform="translate(170, 46)">
+            <rect width="130" height="34" rx="4" fill="#3b0764" stroke="#a855f7" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.8" font-weight="600">2. Plan Patch (DSPy)</text>
+            <text x="8" y="27" fill="#c084fc" font-size="6.8">Typed minimal string edits</text>
+          </g>
+          <text x="306" y="67" fill="#c084fc" font-size="10">&rarr;</text>
+
+          <g transform="translate(322, 46)">
+            <rect width="130" height="34" rx="4" fill="#3b0764" stroke="#a855f7" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.8" font-weight="600">3. Human-in-the-Loop</text>
+            <text x="8" y="27" fill="#c084fc" font-size="6.8">Approval for deps/secrets</text>
+          </g>
+          <text x="458" y="67" fill="#c084fc" font-size="10">&rarr;</text>
+
+          <g transform="translate(474, 46)">
+            <rect width="130" height="34" rx="4" fill="#3b0764" stroke="#a855f7" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.8" font-weight="600">4. Multi-Turn Re-run</text>
+            <text x="8" y="27" fill="#c084fc" font-size="6.8">Up to 10 isolated turns</text>
+          </g>
+          <text x="610" y="67" fill="#c084fc" font-size="10">&rarr;</text>
+
+          <g transform="translate(626, 46)">
+            <rect width="130" height="34" rx="4" fill="#3b0764" stroke="#a855f7" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.8" font-weight="600">5. Parity & Cost Gate</text>
+            <text x="8" y="27" fill="#c084fc" font-size="6.8">EXCEPT ALL & DBU check</text>
+          </g>
+          <text x="762" y="67" fill="#c084fc" font-size="10">&rarr;</text>
+
+          <g transform="translate(778, 46)">
+            <rect width="95" height="34" rx="4" fill="#3b0764" stroke="#a855f7" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.8" font-weight="600">6. Promote</text>
+            <text x="8" y="27" fill="#34d399" font-size="6.8">Zero prod risk</text>
+          </g>
+        </g>
+      </svg>
+      <p class="diagram-caption mono">FIGURE 1: SHADOWCLONE SANDBOX EXECUTION ARCHITECTURE & DSPY AUTOPILOT REMEDIATION LAYER[cite: 38]</p>
+    </div>
+  </section>
+
+  <!-- ==================== 4 TECHNICAL PILLARS ==================== -->
+  <section class="doc-section">
+    <h2 class="sec-title"><span class="sec-num mono">02 //</span> Core Engineering Pillars</h2>
+    <p class="sec-lede">
+      The technical mechanisms that make testing at full production scale fast, completely safe, and mathematically honest[cite: 38].
+    </p>
+
+    <div class="pipeline-steps">
+      <div class="step-card">
+        <div class="step-top">
+          <h3>Delta Shallow Clones</h3>
+          <span class="step-pill mono">ZERO STORAGE DUPLICATION</span>
+        </div>
+        <p>
+          A shallow clone creates a new table whose metadata points directly to existing underlying Parquet data files[cite: 38]. No raw data is copied[cite: 38]. Writes to the clone generate new isolated files without ever altering source production tables[cite: 38].
+        </p>
+        <div class="code-snippet mono">
+          CREATE TABLE sandbox.t SHALLOW CLONE prod.t;
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-top">
+          <h3>Fail-Closed Identity Gate</h3>
+          <span class="step-pill mono">STRUCTURAL SAFETY</span>
+        </div>
+        <p>
+          Rather than relying on redirect logic being bug-free (behavioral safety), the sandbox runs as a dedicated service principal whose effective inherited IAM grants exclude production writes[cite: 38]. A missed redirect hits a permission wall, not production[cite: 38].
+        </p>
+        <div class="code-snippet mono">
+          effective_grants(SP) &prod; WRITE(prod) == &empty;
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-top">
+          <h3>Bidirectional EXCEPT ALL</h3>
+          <span class="step-pill mono">MULTISET PARITY VERIFICATION</span>
+        </div>
+        <p>
+          Plain <code>EXCEPT</code> uses set semantics (deduplicating rows) and misses duplicate-row bugs[cite: 38]. Bidirectional <code>EXCEPT ALL</code> maintains exact multiset multiplicity, catching added, dropped, or duplicated rows as well as schema drift[cite: 9, 38]:
+        </p>
+        <div class="code-snippet mono">
+          (SELECT * FROM p EXCEPT ALL SELECT * FROM s)<br>
+          UNION ALL<br>
+          (SELECT * FROM s EXCEPT ALL SELECT * FROM p)
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-top">
+          <h3>Metric & Cost Isolation</h3>
+          <span class="step-pill mono">NOISE-FREE TELEMETRY</span>
+        </div>
+        <p>
+          Measures <code>execution_duration</code> instead of <code>run_duration</code> to eliminate cluster spin-up variances[cite: 9, 38]. Defers DBU cost queries to Databricks billing system tables to prevent misleading $0 reports caused by billing pipeline lag[cite: 9, 38].
+        </p>
+        <div class="code-snippet mono">
+          runtime_verdict = isolated_task_time (no cold start)
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== THE AI AUTOPILOT LAYER ==================== -->
+  <section class="doc-section">
+    <h2 class="sec-title"><span class="sec-num mono">03 //</span> Autonomous AI Remediation (DSPy Autopilot)</h2>
+    <p class="sec-lede">
+      When runtime or dependency upgrades fail in the sandbox, an autonomous DSPy loop diagnoses the failure and applies deterministic code patches[cite: 35, 38].
+    </p>
+
+    <div class="ai-agent-box">
+      <h3>
+        <span class="badge badge-purple mono">DSPy Autopilot</span>
+        Compiled Prompt Signatures & Deterministic Code Repairs[cite: 38]
+      </h3>
+      <p>
+        When upgrading Spark runtimes (e.g. DBR 13.3 &rarr; DBR 15.4+ or Spark 3.5 &rarr; 4.0), pipelines frequently fail on deprecated APIs, pandas 2.x breaking changes, or PyPi dependency conflicts[cite: 38]. The Autopilot layer treats prompt engineering as a compiled signature:
+      </p>
+
+      <div class="agent-loop-flow mono">
+        <span class="loop-step">1. Parse DAG & Error Logs</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-step">2. DSPy Planner Proposes Patch</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-step">3. Human Approval Gate</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-step">4. Execute in Isolated Sandbox</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-step">5. Multiset Parity Verification</span>
+      </div>
+      <p style="margin-top: 14px; font-size: 13.5px; color: var(--muted);">
+        <strong>Safety Guarantee:</strong> The LLM never writes arbitrary code to production[cite: 38]. It generates minimal string edits (e.g. updating library pins or renaming renamed Spark functions) inside the sandbox, and only promotes if the output passes byte-for-byte <code>EXCEPT ALL</code> verification[cite: 38].
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================== HIGH-LEVERAGE ENGINEERING ==================== -->
+  <section class="doc-section">
+    <h2 class="sec-title"><span class="sec-num mono">04 //</span> High-Leverage Architecture & Systems Design</h2>
+    <p class="sec-lede">
+      Architectural design decisions that enabled fleet-wide adoption across complex enterprise data estates[cite: 38].
+    </p>
+
+    <div class="tech-details-grid">
+      <div class="tech-card">
+        <h4>Shared Resolver Leverage (30+ Families)</h4>
+        <p>
+          Instead of wiring redirection into 6 separate pipeline families individually, injected schema redirection into the shared <code>get_catalog()</code> resolver via one backward-compatible change, automatically enabling 30+ pipeline families[cite: 9, 38].
+        </p>
+      </div>
+      <div class="tech-card">
+        <h4>Time-Pinning via <code>--clone-from-tag</code></h4>
+        <p>
+          Pins shallow clones to exact Delta Time Travel versions[cite: 9, 38]. This separates true code regressions from live upstream data drift, preventing false-positive parity failures[cite: 38].
+        </p>
+      </div>
+      <div class="tech-card">
+        <h4>Fail-Closed Task Guardrails</h4>
+        <p>
+          If a task type cannot be safely redirected (e.g. legacy external API calls), ShadowClone refuses to execute rather than guessing and risking an unredirected production write[cite: 9, 38].
+        </p>
+      </div>
+      <div class="tech-card">
+        <h4>Dual Engine Implementations</h4>
+        <p>
+          Maintains a Generic Engine (~3,112 LoC) for catalog-swap redirection across external accounts, and an ODP-specific Engine (~4,157 LoC) for schema-prefix resolution[cite: 9, 38].
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== EMPIRICAL RESULTS TABLE ==================== -->
+  <section class="doc-section">
+    <h2 class="sec-title"><span class="sec-num mono">05 //</span> Empirical Benchmark Results (SFC_RPT Pipeline)</h2>
+    <p class="sec-lede">
+      Measured against a mission-critical financial reporting pipeline running across multi-billion-row production datasets[cite: 9, 38].
+    </p>
+
+    <div class="table-wrap">
+      <table class="perf-table">
+        <thead>
+          <tr>
+            <th>Optimization Stage</th>
+            <th>Execution Runtime</th>
+            <th>Speedup Factor</th>
+            <th>Multiset Parity (EXCEPT ALL)</th>
+            <th>Total DBU Cost Impact</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="strong">Baseline Production Run</td>
+            <td>301.5 min (~5.0 hrs)</td>
+            <td>1.0&times; (Baseline)</td>
+            <td>— (Production Reference)</td>
+            <td>100% Baseline Spend</td>
+          </tr>
+          <tr>
+            <td class="strong">SQL & Join Plan Rewrite</td>
+            <td>72.7 min (~1.2 hrs)</td>
+            <td>4.15&times; Faster</td>
+            <td>100% Byte-Identical</td>
+            <td>~72% Cost Reduction</td>
+          </tr>
+          <tr>
+            <td class="strong" style="color: var(--accent);">Photon Engine + Runtime Tuning</td>
+            <td class="highlight">29.6 min (&lt;30 mins)</td>
+            <td class="highlight">10.19&times; Speedup</td>
+            <td class="highlight">4,450,457,930 Rows Identical</td>
+            <td class="highlight">Materially Lower Total DBU</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ==================== NEXT NAVIGATION ==================== -->
+  <div class="doc-footer-nav mono">
+    <a class="nav-tile" href="../agentguard/">
+      <span>Next Framework Case Study &rarr;</span>
+      <strong>AgentGuard &mdash; AI Agent Runtime Security Gateway</strong>
+    </a>
+    <a class="nav-tile" href="../../#contact">
+      <span>Get in Touch &rarr;</span>
+      <strong>Discuss Architecture & Systems Engineering</strong>
+    </a>
   </div>
-</section>
+
+</div>
 
 </main>
 
-<footer class="contact">
-  <div class="shell">
-    <div class="foot-bar">
-      <p class="mono">© <span id="year">2026</span> Ameer Salman M</p>
-      <p class="mono">Built by hand · No framework, no build step</p>
-    </div>
-  </div>
+<footer class="site-footer shell mono">
+  <div>&copy; 2026 Ameer Salman M &middot; Forward Deployed Engineer</div>
+  <div>Built with clean HTML/CSS &middot; Zero build step</div>
 </footer>
 
-<script src="../../js/main.js"></script>
 </body>
 </html>

@@ -24,9 +24,9 @@
   .bar button:hover,.bar a:hover{background:#fff;color:var(--ink)}
 
   header{border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:20px}
-  h1{font-family:'Archivo',sans-serif;font-weight:800;font-size:30pt;letter-spacing:-.03em;
+  h1{font-family:'Archivo',sans-serif;font-weight:800;font-size:30pt;letter-spacing:0;
      text-transform:uppercase;line-height:.9;margin-bottom:8px}
-  .role{color:var(--signal);font-weight:600;font-size:11.5pt;margin-bottom:8px}
+  .role{color:var(--signal);font-weight:600;font-size:11.5pt;margin-bottom:8px;letter-spacing:0}
   .meta{display:flex;flex-wrap:wrap;gap:6px 16px;color:var(--dim)}
   .meta a{color:var(--dim)}
 
@@ -37,7 +37,7 @@
 
   .job{margin-bottom:12px}
   .job-top{display:flex;justify-content:space-between;gap:14px;align-items:baseline;flex-wrap:wrap}
-  h3{font-family:'Archivo',sans-serif;font-weight:600;font-size:12pt;letter-spacing:-.01em}
+  h3{font-family:'Archivo',sans-serif;font-weight:600;font-size:12pt;letter-spacing:0}
   h3 span{font-weight:400;color:var(--dim)}
   .when{color:var(--faint);white-space:nowrap}
   .job ul{list-style:none;margin-top:7px}
@@ -90,9 +90,9 @@
     <h2>Summary</h2>
     <p class="summary">Data engineer with <b>8+ years</b> designing, building and optimising batch and real-time
     pipelines, lakehouse platforms and automated ETL workflows at petabyte scale. Currently a Forward Deployed
-    Engineer at Databricks, delivering <b>$180K+/year in verified cloud savings</b>, contributing an algebraic
+    Engineer at Databricks, delivering <b>~$2M/year in verified compute savings</b>, contributing an algebraic
     migration-validation engine into the open-source <b>Lakebridge</b> tool, and building runtime governance for
-    AI agents. Previously seven years at Amazon, cutting reporting SLAs <b>99% (48 hours to 15 minutes)</b>,
+    AI agents. Previously seven years at Amazon, cutting reporting SLAs <b>~99% (36 hours to 30 minutes)</b>,
     processing <b>400M+ transactions monthly</b>, and leading the RBI-mandated regulatory migration of the
     payments data estate. Deep expertise across <b>Apache Spark internals, Unity Catalog, Delta Lake and the AWS
     big-data ecosystem</b>, combined with customer-facing field engineering.</p>
@@ -125,23 +125,23 @@
       <p class="sub mono">Remote &amp; customer onsite &nbsp;|&nbsp; Data &amp; AI platforms</p>
       <ul>
         <li><b>Workload cost optimisation:</b> profiled and re-engineered high-DBU production Spark and Delta Lake
-          workloads for enterprise accounts, generating <b>$180,000+/year in verified savings</b> including a
+          workloads for enterprise accounts, generating <b>~$2M/year in verified compute savings</b> including a
           <b>50% compute reduction</b> on a single critical workload, via partition pruning, shuffle minimisation
           and join restructuring.</li>
         <li><b>Algebraic migration validation:</b> engineered a data-fingerprinting framework inside Databricks'
           open-source <b>Lakebridge</b> migration tool, eliminating the need to move raw tables across the network
           to prove post-migration parity.</li>
         <li><b>Pushdown computation:</b> implemented JDBC pushdown aggregation (sums, power sums, dual-channel
-          collision hashes) on source databases, cutting egress <b>~48,000&times;</b> (gigabytes to ~50&nbsp;KB) and
+          collision hashes) on source databases, cutting egress <b>~16,000&times;</b> (gigabytes to kilobytes) and
           accelerating validation <b>8.1&times;</b> on multi-million to billion-row datasets.</li>
         <li><b>Exact-difference solver:</b> authored a recovery solver with <b>zero false positives/negatives across
-          15.8B+ rows</b>, enabling full verification across Redshift, Teradata, Oracle and Snowflake; fixed 3
+          16B+ rows</b>, enabling full verification across Redshift, Teradata, Oracle and Snowflake; fixed 3
           serialisation and timestamp-drift bugs safeguarding fidelity across all field migrations.</li>
         <li><b>Production-scale optimisation sandbox:</b> built a simulation engine on <b>Delta shallow clones</b> and
           <b>Unity Catalog lineage</b> to test Photon, runtime upgrades and query rewrites against production-volume
           data without risking live pipelines or duplicating storage.</li>
         <li><b>Automated parity verification:</b> implemented bidirectional <code>EXCEPT ALL</code> multiset checking
-          proving <b>100% byte-level parity across 4.45B+ records</b> while demonstrating <b>10.19&times;</b>
+          proving <b>100% byte-level parity across 4.4B+ records</b> while demonstrating <b>10.19&times;</b>
           end-to-end workload acceleration; fail-closed identity boundaries and deferred DBU cost attribution across
           <b>30+ pipeline families</b>.</li>
         <li><b>Agentic AI runtime gateway:</b> architected a multi-workspace security gateway as a Databricks App
@@ -166,7 +166,7 @@
       <p class="sub mono">Bengaluru &amp; Chennai &nbsp;|&nbsp; Data Engineer II on exit</p>
       <ul>
         <li><b>Near real-time pipeline architecture:</b> designed and deployed an end-to-end event-driven pipeline on
-          <b>S3, Lambda, Glue and Athena</b>, cutting business reporting SLAs <b>99% &mdash; from 48 hours to 15
+          <b>S3, Lambda, Glue and Athena</b>, cutting downstream reporting SLA <b>~99% &mdash; from 36 hours to 30
           minutes</b> for critical payment data streams.</li>
         <li><b>Large-scale ingestion &amp; reconciliation:</b> engineered multi-source pipelines integrating
           <b>15+ upstream services</b> across <b>120+ ETL jobs</b>, processing <b>400M+ transactions/month</b> with
@@ -183,7 +183,7 @@
           and S3 data lakes</b> to the <b>AWS Mumbai region</b> for Reserve Bank of India payment aggregator and
           gateway mandates &mdash; multi-terabyte cutovers with zero downtime and verified reconciliation.</li>
         <li><b>Audit remediation:</b> conducted deep-dive root-cause analysis on reconciliation discrepancies with
-          banking partners, resolving audit exceptions valued at <b>$20+ billion</b> across India regulatory accounts.</li>
+          banking partners, resolving audit exceptions valued at <b>~₹20B (~$240M)</b> across India regulatory accounts.</li>
         <li><b>Monitoring &amp; alerting:</b> configured custom <b>CloudWatch</b> metrics, automated log parsers and
           multi-tier alarms for real-time discrepancy detection &mdash; zero data loss at <b>99.9% pipeline uptime</b>.</li>
         <li><b>Operational automation:</b> built ingestion and validation tooling in <b>Python and Selenium</b> for
@@ -198,7 +198,7 @@
     <div class="job">
       <ul>
         <li><b>DataPrint (Databricks Lakebridge)</b> &mdash; algebraic migration verifier. 8.1&times; faster sign-offs,
-          ~48,000&times; less network egress, validated to 15.8B rows with zero false positives.</li>
+          ~16,000&times; less network egress, validated to 16B rows with zero false positives.</li>
         <li><b>ShadowClone</b> &mdash; production-risk-free performance sandbox. Enabled confident Photon and runtime
           upgrades across 30+ pipeline families, demonstrating up to 10.19&times; execution gains.</li>
         <li><b>AgentGuard / LakeGuard</b> &mdash; autonomous AI security gateway. Multi-workspace runtime enforcement

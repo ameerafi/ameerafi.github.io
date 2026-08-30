@@ -5,11 +5,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ameer Salman M — Forward Deployed Engineer</title>
-<meta name="description" content="Forward Deployed Engineer at Databricks, previously Amazon. 8+ years building enterprise lakehouse architectures, high-throughput distributed systems and runtime AI governance across AWS and Databricks.">
+<meta name="description" content="Forward Deployed Engineer at Databricks, previously Amazon. 8+ years architecting and delivering enterprise Data &amp; AI platforms inside customer production environments — agentic AI, RAG, runtime AI governance and lakehouse migration.">
 
 <meta property="og:type" content="profile">
 <meta property="og:title" content="Ameer Salman M — Forward Deployed Engineer">
-<meta property="og:description" content="8+ years building enterprise lakehouse architectures, high-throughput distributed systems and runtime AI governance across AWS and Databricks.">
+<meta property="og:description" content="8+ years architecting and delivering enterprise Data &amp; AI platforms inside customer production environments — agentic AI, RAG, runtime AI governance and lakehouse migration.">
 <meta property="og:url" content="https://ameerafi.github.io/">
 <meta property="og:image" content="https://ameerafi.github.io/assets/og-cover.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -30,10 +30,10 @@
   "email": "mailto:ameersalman333@gmail.com",
   "url": "https://ameerafi.github.io/",
   "sameAs": ["https://github.com/ameerafi"],
-  "address": { "@type": "PostalAddress", "addressLocality": "Coimbatore", "addressCountry": "IN" },
+  "address": { "@type": "PostalAddress", "addressLocality": "Bangalore", "addressCountry": "IN" },
   "worksFor": { "@type": "Organization", "name": "Databricks" },
   "alumniOf": { "@type": "CollegeOrUniversity", "name": "Park College of Engineering and Technology" },
-  "knowsAbout": ["Data Engineering","Databricks","Apache Spark","Delta Lake","Unity Catalog","PySpark","Python","Scala","SQL","AWS","AWS Glue","Amazon EMR","Amazon Redshift","Amazon Athena","AWS Lambda","Apache Airflow","AWS CDK","Lakehouse Architecture","ETL","Data Migration","AI Governance","EU AI Act"]
+  "knowsAbout": ["Agentic AI","Retrieval-Augmented Generation","LangGraph","LangChain","Model Context Protocol","LLM Guardrails","AI Governance","EU AI Act","Vector Search","MLflow","MLOps","Databricks","Unity Catalog","Delta Lake","Mosaic AI","Apache Spark","PySpark","Python","SQL","AWS","AWS Glue","Amazon Redshift","AWS Lambda","Apache Airflow","Lakehouse Architecture","ETL","Data Migration"]
 }
 </script>
 </head>
@@ -71,18 +71,19 @@
   <div class="shell">
     <div class="hero-grid">
       <div class="hero-copy">
-        <p class="eyebrow mono"><span class="dot" aria-hidden="true"></span>Coimbatore, India · Open to senior roles</p>
         <h1>Ameer Salman M</h1>
         <p class="headline">Forward Deployed Engineer <span class="sep" aria-hidden="true">/</span>
-          Senior Data Engineer</p>
+          Data &amp; AI Platforms</p>
         <p class="ctx mono">Databricks &nbsp;·&nbsp; Ex-Amazon</p>
-        <p class="bio">8+ years building enterprise lakehouse architectures, high-throughput
-          distributed systems, and runtime AI governance frameworks across AWS and Databricks. Focused
-          on solving deep distributed systems bottlenecks, optimizing multi-million dollar compute
-          workloads, and engineering open-source developer tooling.</p>
+        <p class="eyebrow mono"><span class="dot" aria-hidden="true"></span>Bangalore, India</p>
+        <p class="bio">8+ years architecting and delivering enterprise Data &amp; AI platforms inside
+          customer production environments. I build agentic AI systems end to end — multi-agent
+          orchestration, MCP-based tool integration, RAG evaluation and runtime guardrails for
+          autonomous agents — together with the enterprise foundations they depend on: connectors,
+          identity, data residency and regulatory constraints. I work on the blockers that stall
+          delivery, and turn single-account fixes into open-source and field-wide tooling.</p>
         <div class="quick-links">
           <a class="btn btn-primary" href="assets/Ameer-Salman-CV.pdf" download>Resume PDF</a>
-          <a class="btn" href="https://github.com/ameerafi" target="_blank" rel="noopener">GitHub</a>
           <!-- TODO: replace with the real LinkedIn URL -->
           <a class="btn" href="#contact">LinkedIn</a>
           <a class="btn" href="mailto:ameersalman333@gmail.com">Email</a>
@@ -108,34 +109,20 @@
     <div class="cards">
       <article class="card">
         <div class="card-top">
-          <h3>AgentGuard / LakeGuard</h3>
-          <p class="card-tag mono">Autonomous AI Runtime Security Gateway</p>
-        </div>
-        <p>Autonomous AI agents take irreversible production actions. Built a multi-workspace gateway on
-          FastAPI and Databricks Apps with a 6-checkpoint inspection pipeline running under 30&nbsp;ms,
-          plus a 3-tier Delta Time Travel Saga-rollback engine.</p>
-        <p class="metric">Full compliance readiness for EU AI Act Article 14 and SOC 2 · AST SQL
-          firewall with zero credential leakage</p>
-        <ul class="pills mono">
-          <li>Databricks Apps</li><li>Python</li><li>FastAPI</li><li>Unity Catalog</li>
-          <li>Delta Lake</li><li>sqlglot</li><li>OAuth</li>
-        </ul>
-      </article>
-
-      <article class="card">
-        <div class="card-top">
           <h3>DataPrint</h3>
-          <p class="card-tag mono">Algebraic Migration Verifier for Lakebridge</p>
+          <p class="card-tag mono">Agentic Data Verification · Databricks Lakebridge</p>
         </div>
-        <p>Validating billion-row migrations previously required expensive row-by-row hash joins over
-          the network. Built an algebraic fingerprinting engine using in-place JDBC pushdown aggregates
-          and power-sum solvers.</p>
-        <p class="metric">8.1&times; faster validation · ~48,000&times; less network egress
-          (~50&nbsp;KB vs 2.4&nbsp;GB) · verified across 15.8B+ rows with zero false positives ·
-          integrated into Databricks Lakebridge</p>
+        <p>Validating billion-row migrations required row-by-row hash joins shuffling terabytes across
+          the network, so teams fell back to 10% sampling. Built an algebraic fingerprinting core —
+          in-place JDBC pushdown aggregates and a single-pass power-sum solver — wrapped in Foundation
+          Model API agents for natural-language config, dialect-drift versus bug classification and
+          self-healing ETL SQL remediation.</p>
+        <p class="metric">8.1&times; faster validation · ~16,000&times; less network egress · validated
+          across 16B+ rows &times; 28 columns with zero false positives or false negatives ·
+          contributed into Databricks Lakebridge</p>
         <ul class="pills mono">
-          <li>Apache Spark</li><li>Scala</li><li>Python</li><li>Delta Lake</li>
-          <li>JDBC Pushdown</li><li>Redshift</li><li>Snowflake</li>
+          <li>Python</li><li>Apache Spark</li><li>Delta Lake</li><li>JDBC Pushdown</li>
+          <li>FMAPI Agents</li><li>Redshift</li>
         </ul>
         <a class="card-link" href="work/dataprint/">Read the full case study<span aria-hidden="true">→</span></a>
       </article>
@@ -143,34 +130,61 @@
       <article class="card">
         <div class="card-top">
           <h3>ShadowClone</h3>
-          <p class="card-tag mono">Production-Risk-Free Performance Sandbox</p>
+          <p class="card-tag mono">Autonomous AI Workload Sandbox &amp; Remediation</p>
         </div>
-        <p>Workload optimizations in dev fail under real data volumes, but testing in production risks
-          SLA breaches. Built an automated sandbox on Delta shallow clones and Unity Catalog lineage to
-          test Photon, runtime upgrades and query rewrites in total isolation.</p>
-        <p class="metric">Proved a 10.19&times; speedup with 100% byte-level multiset parity across
-          4.45B+ rows, inherited by 30+ pipeline families</p>
+        <p>Optimizations validated in dev fail under production volume, but testing in production risks
+          SLA breaches. Built a simulation framework on Delta shallow clones and Unity Catalog lineage
+          that runs jobs against production-scale data in complete isolation at zero storage cost, with
+          an LLM-driven Autopilot engine (DSPy planner plus patch executor) that diagnoses DAG errors
+          and applies deterministic patches for runtime and Photon upgrades.</p>
+        <p class="metric">~90 enterprise pipelines onboarded (1,171 Delta assets), ~80% requiring zero
+          code changes · 100% byte-level multiset parity across 4.4B+ rows · proved a 10&times; speedup
+          and drove ~$2M in verified annual compute savings</p>
         <ul class="pills mono">
           <li>Delta Shallow Clone</li><li>Unity Catalog Lineage</li><li>Spark SQL</li>
-          <li>Databricks Asset Bundles</li>
+          <li>DSPy</li><li>Databricks Asset Bundles</li><li>System Tables</li>
         </ul>
         <a class="card-link" href="work/shadowclone/">Read the full case study<span aria-hidden="true">→</span></a>
       </article>
 
       <article class="card">
         <div class="card-top">
-          <h3>Spark MSSQL Connector</h3>
-          <p class="card-tag mono">Maintained Field Distribution</p>
+          <h3>AgentGuard</h3>
+          <p class="card-tag mono">AI Agent Security Gateway &amp; Compliance Engine</p>
         </div>
-        <p>Deprecation of Microsoft's bulk connector caused classpath crashes on newer Databricks
-          runtimes, blocking Unity Catalog migrations. Reverse-engineered the internals and built a
-          <code>SparkCompat</code> public-API delegation layer.</p>
-        <p class="metric">Retains ~15&times; BulkCopy write throughput over standard JDBC · unblocked
-          migrations across multiple enterprise accounts</p>
+        <p>IAM governs access before an action and logs record it after — nothing verifies that an
+          autonomous agent's action is correct, scoped and reversible <em>during</em> execution. Built a
+          runtime governance proxy on Databricks Apps that protects enterprise lakehouses from AI agents
+          and MCP servers through a 6-stage checkpoint pipeline.</p>
+        <p class="metric">Blocks 100% of destructive operations (unbounded DELETE/DROP/TRUNCATE) at
+          ~30–80&nbsp;ms added latency · AST SQL firewall, LLM intent analysis and a 6-factor risk
+          engine · OBO token brokering with zero credential sharing · EU AI Act Article 14 and SOC 2
+          evidence</p>
         <ul class="pills mono">
-          <li>Apache Spark Internals</li><li>Scala</li><li>JDBC</li><li>Azure SQL</li>
-          <li>Testcontainers</li><li>Maven</li>
+          <li>Databricks Apps</li><li>Python</li><li>FastAPI</li><li>Unity Catalog</li>
+          <li>sqlglot</li><li>OAuth / OBO</li><li>MCP</li>
         </ul>
+        <a class="card-link" href="work/agentguard/">Read the full case study<span aria-hidden="true">&rarr;</span></a>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <h3>Agentic RAG Reference Architecture</h3>
+          <p class="card-tag mono">Carbon-Credit Regulatory Filings</p>
+        </div>
+        <p>Registering a carbon-credit project requires a Project Design Document — a rigidly templated
+          regulatory filing citing one of 134 approved methodologies. Built a RAG system over the Verra
+          VCS registry that answers standards questions and drafts new filings section by section from
+          retrieved precedent, with a LangGraph agent handling intent routing and checkpointed
+          multi-turn memory.</p>
+        <p class="metric">1,500+ Project Design Documents across 91 countries and 134 methodologies ·
+          hybrid dense + BM25 retrieval fused by Reciprocal Rank Fusion with cross-encoder reranking ·
+          validated by a 28-test RAGAS-style evaluation suite</p>
+        <ul class="pills mono">
+          <li>LangGraph</li><li>RAG</li><li>ChromaDB</li><li>Docling</li>
+          <li>Cross-Encoder Reranking</li><li>RAGAS</li><li>Databricks FMAPI</li>
+        </ul>
+        <a class="card-link" href="work/carboncredit/">Read the full case study<span aria-hidden="true">&rarr;</span></a>
       </article>
     </div>
   </div>
@@ -193,21 +207,34 @@
           <p class="role-title">Forward Deployed Engineer</p>
         </div>
         <ul class="role-points">
-          <li>Architected <b>AgentGuard</b>, a multi-workspace runtime security gateway that intercepts,
-            risk-scores and audits autonomous AI-agent operations before production execution, with
-            automated rollback through Delta Time Travel.</li>
-          <li>Engineered <b>DataPrint</b>, an algebraic migration verifier contributed into Databricks'
-            open-source Lakebridge tool — <b>8.1×</b> faster validation with <b>~48,000×</b> less
-            network egress, verified across <b>15.8B+ rows</b>.</li>
-          <li>Built <b>ShadowClone</b>, a production-risk-free optimization sandbox on Delta shallow
-            clones and Unity Catalog lineage, proving a <b>10.19×</b> speedup with full data parity
-            across <b>4.45B+ rows</b> and <b>30+ pipeline families</b>.</li>
-          <li>Delivered <b>$180K+/year in verified compute cost savings</b> on enterprise Databricks
-            workloads — including a <b>50% reduction</b> on a single critical job — through partition
-            pruning, shuffle minimization and join restructuring.</li>
-          <li>Reverse-engineered and maintain a <b>Spark SQL Server connector fork</b> spanning
-            Databricks Runtime 14.3–18.x, retaining <b>~15×</b> BulkCopy throughput and unblocking Unity
-            Catalog migrations across multiple accounts.</li>
+          <li><b>Agentic Data Verification (DataPrint)</b> — built an end-to-end framework combining an
+            algebraic fingerprinting core with <b>Foundation Model API</b> agents for natural-language
+            configuration, dialect-drift versus bug classification, root-cause diagnosis and
+            self-healing ETL SQL remediation. Validated across <b>16B+ rows × 28 columns</b> with zero
+            task failures, at <b>8.1×</b> faster validation and <b>~16,000×</b> less network egress.
+            Contributed into Databricks' open-source <b>Lakebridge</b>.</li>
+          <li><b>Autonomous AI Workload Sandbox (ShadowClone)</b> — architected a production-scale
+            simulation and self-healing framework pairing <b>Delta shallow clones</b> and Unity Catalog
+            lineage with an LLM-driven Autopilot engine (<b>DSPy</b> planner and patch executor) that
+            diagnoses DAG errors and applies deterministic patches for DBR and Photon upgrades.
+            Onboarded <b>~90 enterprise pipelines</b> (1,171 Delta assets), <b>~80%</b> requiring zero
+            code changes, proving <b>100% byte-level multiset parity</b> with zero production risk.</li>
+          <li><b>AI Agent Security Gateway (AgentGuard)</b> — built a runtime governance proxy on
+            Databricks Apps protecting enterprise lakehouses from autonomous AI agents and
+            <b>MCP servers</b>. A <b>6-stage checkpoint pipeline</b> with an AST SQL firewall, LLM
+            intent analysis and a 6-factor risk engine blocks <b>100% of destructive operations</b> at
+            <b>~30–80 ms</b> added latency, with <b>OBO token brokering</b> and automated lockdown.</li>
+          <li><b>Agentic RAG Reference Architecture</b> — built a retrieval-augmented generation system
+            over the <b>Verra VCS</b> registry (<b>1,500+ Project Design Documents</b>, 91 countries,
+            134 methodologies) using Docling semantic chunking, <b>hybrid dense + BM25 retrieval</b>
+            fused by Reciprocal Rank Fusion with cross-encoder reranking, and a <b>LangGraph</b> agent
+            with intent routing and checkpointed memory. Validated by a <b>28-test RAGAS-style</b>
+            evaluation suite.</li>
+          <li><b>Spark connector modernization and root-cause debugging</b> — reverse-engineered Spark
+            internals into a maintained <b>SparkCompat</b> field fork after Microsoft archived the Spark
+            SQL Server connector, eliminating fatal <code>NoSuchMethodError</code> crashes on
+            <b>DBR 15.4+</b>, retaining <b>~15×</b> BulkCopy throughput and unblocking Unity Catalog
+            migrations across <b>~5 enterprise accounts</b>.</li>
         </ul>
       </article>
 
@@ -218,19 +245,23 @@
           <p class="role-title">Data Engineer</p>
         </div>
         <ul class="role-points">
-          <li>Architected near real-time event-driven pipelines on <b>S3, Lambda, Glue and Athena</b>,
-            cutting business reporting SLAs by <b>99% — from 48 hours to 15 minutes</b>.</li>
-          <li>Engineered multi-source ingestion across <b>15+ upstream services</b> and
-            <b>120+ ETL jobs</b>, processing <b>400M+ transactions per month</b> with real-time
-            categorization and reconciliation.</li>
-          <li>Optimized big-data processing on <b>AWS EMR (Spark), EC2 and S3</b> at multi-terabyte
-            scale, cutting manual operational effort by <b>60% monthly</b>.</li>
-          <li>Drove <b>Infrastructure as Code and CI/CD</b> adoption with <b>AWS CDK</b> and
-            <b>MWAA</b>, orchestrating ETL on transient EMR clusters and shipping a Glue packaging
-            framework with Pytest validation.</li>
-          <li>Led the <b>RBI regulatory migration</b> of Redshift, QuickSight and S3 to the AWS Mumbai
-            region with zero downtime, resolving <b>$20B+ in audit exceptions</b> across Indian
-            regulatory accounts.</li>
+          <li><b>Real-time payments platform</b> — migrated batch reporting to real-time ingestion on
+            <b>DynamoDB Streams</b>, cross-account S3 replication, Lambda and Glue, cutting reporting
+            SLAs from <b>36 hours to 30 minutes</b> with zero defects over <b>8+ production
+            months</b>.</li>
+          <li><b>Regulatory migration and audit</b> — led zero-downtime Redshift, QuickSight and S3
+            migrations to <b>AWS Mumbai (BOM)</b> for <b>RBI</b> compliance and shipped
+            <b>GDPR</b>-compliant EU pipelines, resolving <b>~₹20B (~$240M)</b> in audit exceptions
+            through root-cause analysis.</li>
+          <li><b>Platform scale and automation</b> — owned ingestion from <b>15+ upstream systems</b>
+            via <b>120+ ETL jobs</b>, categorizing <b>400M+ transactions per month (~4.8B/year)</b>
+            across four RBI-regulated account structures; automated reconciliation of 20M records
+            (~₹900M knock-offs), cutting <b>one working week per month</b> of manual effort and
+            reclaiming <b>20% of Redshift disk space</b>.</li>
+          <li><b>Orchestration, CI/CD and observability</b> — orchestrated ETL across <b>trillions of
+            rows</b> using <b>MWAA (Airflow)</b>, <b>AWS CDK</b> and transient EMR clusters, and built a
+            Glue CI/CD framework with <b>Pytest</b> data-quality gates plus CloudWatch metrics and
+            multi-tier alarms, sustaining <b>99.9% pipeline uptime</b>.</li>
         </ul>
       </article>
     </div>
@@ -248,39 +279,39 @@
 
     <div class="skills">
       <section class="skill-group">
-        <h3 class="mono">Platforms &amp; Cloud</h3>
-        <ul class="pills mono">
-          <li>Databricks</li><li>Unity Catalog</li><li>Delta Lake</li><li>Databricks Apps</li>
-          <li>Asset Bundles</li><li>System Tables</li><li>AWS Glue</li><li>EMR</li><li>Athena</li>
-          <li>Redshift</li><li>S3</li><li>Lambda</li><li>MWAA</li><li>Azure</li>
-        </ul>
-      </section>
-      <section class="skill-group">
         <h3 class="mono">Languages &amp; Core</h3>
         <ul class="pills mono">
-          <li>Apache Spark Internals</li><li>PySpark</li><li>Spark SQL</li><li>Python</li>
-          <li>Scala</li><li>SQL</li><li>Java</li><li>Bash</li>
+          <li>Python</li><li>SQL</li><li>PySpark</li><li>Apache Spark</li><li>Spark SQL</li>
         </ul>
       </section>
       <section class="skill-group">
-        <h3 class="mono">Data Engineering</h3>
+        <h3 class="mono">AI &amp; Machine Learning</h3>
         <ul class="pills mono">
-          <li>Lakehouse Architecture</li><li>Real-Time ETL</li><li>Batch ELT</li><li>JDBC Pushdown</li>
-          <li>Dimensional Modeling</li><li>Data Reconciliation</li>
+          <li>LLMs</li><li>GenAI</li><li>Agentic AI</li><li>RAG</li><li>LangChain</li>
+          <li>LangGraph</li><li>MCP</li><li>Vector Search</li><li>MLflow</li><li>MLOps</li>
+          <li>Model Deployment</li>
         </ul>
       </section>
       <section class="skill-group">
-        <h3 class="mono">AI Governance &amp; Security</h3>
+        <h3 class="mono">Databricks</h3>
         <ul class="pills mono">
-          <li>Runtime Policy Enforcement</li><li>AST Parsing (sqlglot)</li>
-          <li>OAuth / OBO Token Brokers</li><li>EU AI Act Art. 14</li><li>SOC 2</li>
+          <li>Unity Catalog</li><li>Delta Lake</li><li>Databricks Apps</li><li>Asset Bundles</li>
+          <li>Lakeflow Connect</li><li>Lakebase</li><li>Genie</li><li>Mosaic AI</li>
+          <li>System Tables</li><li>Photon</li>
         </ul>
       </section>
       <section class="skill-group">
-        <h3 class="mono">DevOps &amp; Testing</h3>
+        <h3 class="mono">AWS</h3>
         <ul class="pills mono">
-          <li>AWS CDK</li><li>Docker</li><li>Testcontainers</li><li>Pytest</li>
-          <li>ScalaTest</li><li>GitHub Actions</li><li>Maven</li>
+          <li>Lambda</li><li>S3</li><li>Redshift</li><li>Glue</li><li>Athena</li><li>Kinesis</li>
+          <li>MWAA (Airflow)</li><li>DynamoDB</li><li>EMR</li><li>IAM</li><li>CloudFormation</li>
+        </ul>
+      </section>
+      <section class="skill-group">
+        <h3 class="mono">Engineering &amp; Delivery</h3>
+        <ul class="pills mono">
+          <li>ETL / ELT Pipelines</li><li>Lakehouse Architecture</li><li>Real-Time &amp; Batch Streaming</li>
+          <li>Data Migration</li><li>CI/CD</li><li>AWS CDK</li><li>Pytest</li>
         </ul>
       </section>
       <section class="skill-group">

@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentic RAG — Carbon-Credit Regulatory Filings & Section Drafting · Ameer Salman M</title>
+<meta name="description" content="An agentic retrieval-augmented generation (RAG) system over 1,500+ Verra VCS carbon-credit filings. Features Docling layout-aware chunking, dense+BM25 hybrid retrieval fused by RRF, cross-encoder reranking, and a 28-test RAGAS eval harness.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ---------- 1. Tokens & Base ---------- */
+:root {
+  --bg:          #ffffff;
+  --surface:     #f8fafc;
+  --surface-2:   #ffffff;
+  --text:        #0f172a;
+  --muted:       #475569;
+  --faint:       #94a3b8;
+  --border:      #e2e8f0;
+  --border-soft: #f1f5f9;
+  --accent:      #0284c7;
+  --accent-2:    #0369a1;
+  --accent-soft: rgba(2, 132, 199, 0.08);
+  --ai-purple:   #7c3aed;
+  --ai-soft:     rgba(124, 58, 237, 0.08);
+  --success:     #16a34a;
+  --success-soft:rgba(22, 163, 74, 0.08);
+  --warning:     #d97706;
+  --shadow:      0 1px 3px rgba(15, 23, 42, 0.05), 0 10px 25px -5px rgba(15, 23, 42, 0.05);
+
+  --sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  --shell: 1080px;
+  --pad: clamp(18px, 4vw, 36px);
+  --r: 12px;
+}
+
+[data-theme="dark"] {
+  --bg:          #080b11;
+  --surface:     #0f172a;
+  --surface-2:   #131d33;
+  --text:        #f1f5f9;
+  --muted:       #94a3b8;
+  --faint:       #64748b;
+  --border:      #1e293b;
+  --border-soft: #162032;
+  --accent:      #38bdf8;
+  --accent-2:    #0284c7;
+  --accent-soft: rgba(56, 189, 248, 0.12);
+  --ai-purple:   #c084fc;
+  --ai-soft:     rgba(192, 132, 252, 0.12);
+  --success:     #34d399;
+  --success-soft:rgba(52, 211, 153, 0.12);
+  --warning:     #fbbf24;
+  --shadow:      0 4px 20px -2px rgba(0, 0, 0, 0.5);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); }
+.shell { width: 100%; max-width: var(--shell); margin: 0 auto; padding: 0 var(--pad); }
+
+/* ---------- 2. Navigation ---------- */
+.nav {
+  position: sticky; top: 0; z-index: 50; height: 64px;
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px; }
+.brand-mark {
+  width: 28px; height: 28px; border-radius: 7px; background: linear-gradient(135deg, var(--accent), var(--ai-purple));
+  color: #fff; display: grid; place-items: center; font-size: 11px; font-weight: 800;
+}
+.nav-links { display: flex; align-items: center; gap: 20px; font-size: 13.5px; }
+.nav-links a { color: var(--muted); transition: color .2s; }
+.nav-links a:hover { color: var(--text); }
+.nav-btn {
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 6px 14px; border-radius: 8px; font-weight: 600; color: var(--text);
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---------- 3. Hero Header ---------- */
+.doc-hero { padding: clamp(40px, 5vw, 68px) 0 32px; }
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted);
+  margin-bottom: 20px; transition: color .2s, transform .2s;
+}
+.back-link:hover { color: var(--accent); transform: translateX(-3px); }
+.eyebrow-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+.badge {
+  font-size: 11.5px; font-weight: 600; padding: 3px 10px; border-radius: 100px;
+  letter-spacing: 0.02em; text-transform: uppercase;
+}
+.badge-blue { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent); }
+.badge-purple { background: var(--ai-soft); color: var(--ai-purple); border: 1px solid var(--ai-purple); }
+
+.doc-hero h1 {
+  font-size: clamp(30px, 4.4vw, 48px); font-weight: 800; letter-spacing: -0.03em;
+  line-height: 1.15; margin-bottom: 18px; color: var(--text);
+}
+.doc-deck { font-size: clamp(16.5px, 1.8vw, 19px); color: var(--muted); max-width: 840px; line-height: 1.6; margin-bottom: 30px; }
+
+/* Metadata Matrix */
+.meta-matrix {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px;
+  background: var(--border); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden;
+  margin-bottom: 40px;
+}
+.meta-matrix > div { background: var(--surface); padding: 16px 20px; }
+.meta-matrix dt { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--faint); margin-bottom: 4px; }
+.meta-matrix dd { font-size: 13.5px; font-weight: 600; color: var(--text); }
+
+/* Key Impact Badges Strip */
+.impact-strip {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 50px;
+}
+.impact-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r);
+  padding: 20px 18px; text-align: center; box-shadow: var(--shadow);
+}
+.impact-val { font-size: clamp(24px, 2.6vw, 34px); font-weight: 800; color: var(--accent); line-height: 1.1; margin-bottom: 4px; }
+.impact-lbl { font-size: 12px; color: var(--muted); font-weight: 500; }
+
+/* ---------- 4. STAR Overview Block ---------- */
+.star-container {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r);
+  padding: 30px; margin-bottom: 60px; box-shadow: var(--shadow);
+}
+.star-head {
+  display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 24px;
+  border-bottom: 1px solid var(--border); padding-bottom: 12px;
+}
+.star-head h2 { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; display: flex; align-items: center; gap: 8px; }
+.star-head span { font-size: 12px; color: var(--faint); text-transform: uppercase; }
+
+.star-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.star-item { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
+.star-tag {
+  display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
+  padding: 2px 8px; border-radius: 4px; margin-bottom: 10px;
+}
+.tag-s { background: rgba(239, 68, 68, 0.12); color: #ef4444; }
+.tag-t { background: rgba(245, 158, 11, 0.12); color: #f59e0b; }
+.tag-a { background: var(--accent-soft); color: var(--accent); }
+.tag-r { background: var(--success-soft); color: var(--success); }
+.star-item p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+.star-item strong { color: var(--text); }
+
+/* ---------- 5. Section General ---------- */
+.doc-section { margin-bottom: 70px; }
+.sec-title {
+  font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 10px; color: var(--text);
+  display: flex; align-items: center; gap: 10px;
+}
+.sec-num { font-size: 14px; color: var(--accent); }
+.sec-lede { font-size: 15.5px; color: var(--muted); margin-bottom: 24px; max-width: 800px; }
+
+/* ---------- 6. Architecture Diagram (SVG Wrapper) ---------- */
+.diagram-box {
+  background: #060911; border: 1px solid #1e293b; border-radius: var(--r);
+  padding: 24px 20px 16px; margin-bottom: 30px; box-shadow: var(--shadow);
+}
+.diagram-caption {
+  font-size: 12px; color: #94a3b8; text-align: center; margin-top: 14px; letter-spacing: 0.04em;
+}
+
+/* ---------- 7. 4 Pipeline Pillar Cards ---------- */
+.pipeline-steps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-bottom: 40px; }
+.step-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 22px;
+}
+.step-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+.step-top h3 { font-size: 16px; font-weight: 700; color: var(--text); }
+.step-pill { font-size: 11px; font-weight: 600; color: var(--accent); }
+.step-card p { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
+
+.math-snippet {
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px;
+  padding: 10px 14px; font-size: 12.5px; color: var(--text); line-height: 1.5;
+}
+
+/* ---------- 8. Agentic Drafting Flow Box ---------- */
+.ai-agent-box {
+  background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--ai-purple);
+  border-radius: 0 var(--r) var(--r) 0; padding: 26px 30px; margin-bottom: 40px;
+}
+.ai-agent-box h3 { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.ai-agent-box p { font-size: 14.5px; color: var(--muted); line-height: 1.65; margin-bottom: 16px; }
+
+.agent-loop-flow {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px;
+}
+.loop-step { font-size: 12px; font-weight: 600; color: var(--ai-purple); background: var(--ai-soft); padding: 4px 10px; border-radius: 6px; }
+.loop-arrow { color: var(--faint); font-size: 12px; }
+
+/* ---------- 9. Deep Technical Callouts ---------- */
+.tech-details-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 40px; }
+.tech-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+.tech-card h4 { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.tech-card p { font-size: 13.5px; color: var(--muted); line-height: 1.55; }
+
+/* ---------- 10. Results Table ---------- */
+.table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 24px; }
+table.perf-table { width: 100%; border-collapse: collapse; font-size: 14px; text-align: left; }
+table.perf-table th, table.perf-table td { padding: 14px 18px; border-bottom: 1px solid var(--border); }
+table.perf-table th { background: var(--surface); font-size: 11.5px; text-transform: uppercase; color: var(--faint); font-weight: 600; }
+table.perf-table tr:last-child td { border-bottom: none; }
+table.perf-table td.strong { font-weight: 600; color: var(--text); }
+table.perf-table td.highlight { color: var(--accent); font-weight: 700; font-family: var(--mono); }
+
+/* ---------- 11. Bottom Nav & Footer ---------- */
+.doc-footer-nav {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  border-top: 1px solid var(--border); padding-top: 40px; margin-top: 60px;
+}
+.nav-tile {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r);
+  padding: 22px 24px; transition: border-color .2s, transform .2s;
+}
+.nav-tile:hover { border-color: var(--accent); transform: translateY(-2px); }
+.nav-tile span { display: block; font-size: 11.5px; text-transform: uppercase; color: var(--faint); margin-bottom: 6px; }
+.nav-tile strong { font-size: 16px; color: var(--text); }
+
+.site-footer {
+  border-top: 1px solid var(--border); padding: 30px 0; margin-top: 60px;
+  font-size: 12.5px; color: var(--faint); display: flex; justify-content: space-between;
+}
+
+@media (max-width: 820px) {
+  .impact-strip { grid-template-columns: repeat(2, 1fr); }
+  .star-grid { grid-template-columns: 1fr; }
+  .pipeline-steps { grid-template-columns: 1fr; }
+  .doc-footer-nav { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Navigation Header -->
+<header class="nav">
+  <div class="shell nav-inner">
+    <a class="brand" href="../../">
+      <span class="brand-mark">AS</span>
+      <span>Ameer Salman M</span>
+    </a>
+    <div class="nav-links">
+      <a href="../../#work">Work</a>
+      <a href="../../#experience">Experience</a>
+      <a href="../../#skills">Skills</a>
+      <a class="nav-btn" href="../../assets/Ameer-Salman-CV.pdf" download>
+        <span>Resume PDF</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- Hero Section -->
+<section class="doc-hero">
+  <div class="shell">
+    <a class="back-link mono" href="../../#work">&larr; Back to all frameworks</a>
+    
+    <div class="eyebrow-row mono">
+      <span class="badge badge-purple">Agentic RAG Architecture</span>
+      <span class="badge badge-blue">Hybrid Search + RRF</span>
+      <span class="badge">28-Test RAGAS Harness</span>
+    </div>
+
+    <h1>Agentic RAG: Carbon-Credit Regulatory Filings & Section Drafting</h1>
+    <p class="doc-deck">
+      An enterprise retrieval-augmented generation and drafting platform over 1,500+ registered Verra VCS Project Design Documents (PDDs). Solves dense regulatory vocabulary mismatch via layout-aware Docling chunking, dense + BM25 hybrid retrieval fused by Reciprocal Rank Fusion (RRF), cross-encoder reranking, and a LangGraph state machine with full RAGAS evaluation.
+    </p>
+
+    <!-- Metadata Matrix -->
+    <dl class="meta-matrix mono">
+      <div>
+        <dt>Role & Scope</dt>
+        <dd>Lead AI Architect & Systems Developer</dd>
+      </div>
+      <div>
+        <dt>Corpus Scale</dt>
+        <dd>1,517 Registered PDDs across 91 Countries</dd>
+      </div>
+      <div>
+        <dt>Methodologies Indexed</dt>
+        <dd>134 Approved VCS Standards (e.g. VM0042)</dd>
+      </div>
+      <div>
+        <dt>Core AI Stack</dt>
+        <dd>LangGraph, Docling, ChromaDB, BM25, RAGAS</dd>
+      </div>
+    </dl>
+
+    <!-- 4 Key Impact Metric Badges -->
+    <div class="impact-strip mono">
+      <div class="impact-card">
+        <div class="impact-val">1,517</div>
+        <div class="impact-lbl">Registered PDD Corpus</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-val">2-Stage</div>
+        <div class="impact-lbl">Hybrid + Cross-Encoder</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-val">28 Tests</div>
+        <div class="impact-lbl">RAGAS Eval Harness</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-val">512 Tok</div>
+        <div class="impact-lbl">Layout-Aware Chunks</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="shell">
+
+  <!-- ==================== STAR SECTION ==================== -->
+  <section class="star-container">
+    <div class="star-head">
+      <h2><span>STAR</span> Executive Brief</h2>
+      <span class="mono">Technical Interview Overview</span>
+    </div>
+    <div class="star-grid">
+      <div class="star-item">
+        <span class="star-tag tag-s mono">SITUATION</span>
+        <p>
+          Registering carbon-credit projects requires drafting complex Project Design Documents (PDDs) citing 134 rigidly templated methodologies with strict baseline and additionality proof. Over 1,500 registered PDDs exist publicly on the Verra registry as high-value precedent, but pure vector search consistently fails on dense regulatory text and exact methodology tokens (e.g. <code>VM0042</code>).
+        </p>
+      </div>
+      <div class="star-item">
+        <span class="star-tag tag-t mono">TASK</span>
+        <p>
+          Architect an enterprise-grade RAG and agent drafting platform capable of answering complex standards queries with verifiable citations, generating draft PDD sections grounded in registered precedent, and measuring retrieval/generation quality via a rigorous evaluation suite.
+        </p>
+      </div>
+      <div class="star-item">
+        <span class="star-tag tag-a mono">ACTION</span>
+        <p>
+          Engineered an end-to-end pipeline: layout-aware PDF parsing via <strong>Docling</strong> (512-token chunks with context-prefix embeddings); <strong>Dense + BM25 hybrid search</strong> fused via <strong>Reciprocal Rank Fusion (RRF, k=60)</strong>; candidate rescoring with a <strong>cross-encoder reranker</strong>; and a <strong>LangGraph agent</strong> managing cyclic extraction, intent routing, and section-by-section drafting.
+        </p>
+      </div>
+      <div class="star-item">
+        <span class="star-tag tag-r mono">RESULT</span>
+        <p>
+          Eliminated semantic search blindness on exact methodology identifiers while preserving semantic recall for conceptual clauses (e.g. additionality). Shipped a comprehensive <strong>28-test evaluation harness</strong> covering context precision/recall, faithfulness, answer relevancy, and adversarial prompt robustness.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ARCHITECTURE BLUEPRINT ==================== -->
+  <section class="doc-section">
+    <h2 class="sec-title"><span class="sec-num mono">01 //</span> System Architecture Blueprint</h2>
+    <p class="sec-lede">
+      The architecture separates offline ingestion and layout-aware chunking from a 3-stage retrieval pipeline (Dense + Sparse &rarr; RRF Fusion &rarr; Cross-Encoder Reranking) supervised by a LangGraph state machine.
+    </p>
+
+    <div class="diagram-box">
+      <svg viewBox="0 0 920 380" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="font-family: 'JetBrains Mono', monospace;">
+        <defs>
+          <linearGradient id="ingestG" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#1e293b"/>
+            <stop offset="100%" stop-color="#0f172a"/>
+          </linearGradient>
+          <linearGradient id="retG" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#0284c7"/>
+            <stop offset="100%" stop-color="#082f49"/>
+          </linearGradient>
+          <linearGradient id="agentG" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#581c87"/>
+            <stop offset="100%" stop-color="#3b0764"/>
+          </linearGradient>
+          <linearGradient id="evalG" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#166534"/>
+            <stop offset="100%" stop-color="#052e16"/>
+          </linearGradient>
+        </defs>
+
+        <!-- INGESTION & PARSING (LEFT) -->
+        <g transform="translate(15, 20)">
+          <rect width="250" height="235" rx="8" fill="url(#ingestG)" stroke="#334155" stroke-width="1.5"/>
+          <text x="14" y="24" fill="#38bdf8" font-size="10.5" font-weight="700">1. INGESTION & LAYOUT PARSER</text>
+          <text x="14" y="38" fill="#94a3b8" font-size="8">Verra VCS Registry (1,517 Filings)</text>
+          <line x1="14" y1="46" x2="236" y2="46" stroke="#334155" stroke-width="1"/>
+
+          <rect x="14" y="56" width="222" height="48" rx="4" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+          <text x="22" y="70" fill="#e2e8f0" font-size="8.5" font-weight="600">Docling Layout Parser</text>
+          <text x="22" y="84" fill="#38bdf8" font-size="7.5">HybridChunker (512 tok / 50 overlap)</text>
+
+          <rect x="14" y="112" width="222" height="52" rx="4" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+          <text x="22" y="126" fill="#e2e8f0" font-size="8.5" font-weight="600">Context-Prefix Enrichment</text>
+          <text x="22" y="139" fill="#34d399" font-size="7.5">&bull; text_for_embedding != text</text>
+          <text x="22" y="150" fill="#34d399" font-size="7.5">&bull; Prepends project/methodology context</text>
+
+          <rect x="14" y="172" width="222" height="48" rx="4" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+          <text x="22" y="186" fill="#e2e8f0" font-size="8.5" font-weight="600">Dual Index Storage</text>
+          <text x="22" y="200" fill="#bae6fd" font-size="7.5">ChromaDB (HNSW) + BM25 In-Memory</text>
+        </g>
+
+        <!-- RETRIEVAL ARROW -->
+        <g transform="translate(268, 125)">
+          <path d="M 5 15 L 45 15" stroke="#38bdf8" stroke-width="2" stroke-dasharray="3 2"/>
+          <polygon points="45,11 53,15 45,19" fill="#38bdf8"/>
+          <text x="4" y="8" fill="#38bdf8" font-size="7.5" font-weight="700">Hybrid Query</text>
+        </g>
+
+        <!-- 3-STAGE RETRIEVAL ENGINE (CENTER) -->
+        <g transform="translate(315, 20)">
+          <rect width="310" height="235" rx="8" fill="url(#retG)" stroke="#0284c7" stroke-width="1.5"/>
+          <text x="14" y="24" fill="#ffffff" font-size="10.5" font-weight="700">2. MULTI-STAGE RETRIEVAL CORE</text>
+          <text x="14" y="38" fill="#bae6fd" font-size="8">Hybrid Dense/Sparse + RRF + Cross-Encoder</text>
+          <line x1="14" y1="46" x2="296" y2="46" stroke="#0284c7" stroke-width="1"/>
+
+          <g transform="translate(14, 56)">
+            <rect width="135" height="48" rx="4" fill="#0c4a6e" stroke="#0284c7" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.5" font-weight="700">&bull; Dense ANN (Top 20)</text>
+            <text x="8" y="28" fill="#bae6fd" font-size="6.8">Semantic cosine match</text>
+            <text x="8" y="38" fill="#bae6fd" font-size="6.5">Metadata pre-filtering</text>
+          </g>
+
+          <g transform="translate(157, 56)">
+            <rect width="135" height="48" rx="4" fill="#0c4a6e" stroke="#0284c7" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.5" font-weight="700">&bull; Sparse BM25 (Top 20)</text>
+            <text x="8" y="28" fill="#bae6fd" font-size="6.8">Exact tokens (VM0042)</text>
+            <text x="8" y="38" fill="#bae6fd" font-size="6.5">k1=1.5, b=0.75</text>
+          </g>
+
+          <rect x="14" y="112" width="278" height="48" rx="4" fill="#082f49" stroke="#38bdf8" stroke-width="1"/>
+          <text x="20" y="128" fill="#ffffff" font-size="8.5" font-weight="600">Reciprocal Rank Fusion (RRF)</text>
+          <text x="20" y="142" fill="#38bdf8" font-size="7.5">RRF(d) = &Sigma; 1 / (60 + rank_i) &bull; Scale-Free Fusion</text>
+
+          <rect x="14" y="168" width="278" height="52" rx="4" fill="#082f49" stroke="#34d399" stroke-width="1"/>
+          <text x="20" y="184" fill="#ffffff" font-size="8.5" font-weight="600">Cross-Encoder Reranker (Top 5 Chunks)</text>
+          <text x="20" y="198" fill="#34d399" font-size="7.5">ms-marco-MiniLM-L-6-v2 &bull; Query-Doc Attention</text>
+        </g>
+
+        <!-- AGENTIC DRAFTING LOOP (RIGHT) -->
+        <g transform="translate(640, 20)">
+          <rect width="265" height="235" rx="8" fill="url(#agentG)" stroke="#a855f7" stroke-width="1.5"/>
+          <text x="14" y="24" fill="#ffffff" font-size="10.5" font-weight="700">3. LANGGRAPH AGENT LAYER</text>
+          <text x="14" y="38" fill="#e9d5ff" font-size="8">Intent Router & State Machine Drafting</text>
+          <line x1="14" y1="46" x2="251" y2="46" stroke="#a855f7" stroke-width="1"/>
+
+          <rect x="14" y="56" width="237" height="48" rx="4" fill="#3b0764" stroke="#a855f7" stroke-width="1"/>
+          <text x="16" y="70" fill="#ffffff" font-size="8.5" font-weight="600">Intent Routing Node</text>
+          <text x="16" y="84" fill="#c084fc" font-size="7.5">Direct QA &bull; Drafting Flow &bull; Clarify</text>
+
+          <rect x="14" y="112" width="237" height="52" rx="4" fill="#3b0764" stroke="#a855f7" stroke-width="1"/>
+          <text x="16" y="126" fill="#ffffff" font-size="8.5" font-weight="600">Cyclic Information Extraction</text>
+          <text x="16" y="139" fill="#e9d5ff" font-size="7.5">&bull; Loops until required inputs present</text>
+          <text x="16" y="150" fill="#e9d5ff" font-size="7.5">&bull; Checkpointed state via MemorySaver</text>
+
+          <rect x="14" y="172" width="237" height="48" rx="4" fill="#3b0764" stroke="#a855f7" stroke-width="1"/>
+          <text x="16" y="186" fill="#ffffff" font-size="8.5" font-weight="600">Section-by-Section Generation</text>
+          <text x="16" y="200" fill="#34d399" font-size="7.5">Precedent retrieval + previous summaries</text>
+        </g>
+
+        <!-- EVALUATION SUITE (BOTTOM) -->
+        <g transform="translate(15, 270)">
+          <rect width="890" height="95" rx="8" fill="url(#evalG)" stroke="#16a34a" stroke-width="1.5"/>
+          <text x="18" y="22" fill="#ffffff" font-size="10.5" font-weight="700">4. 28-TEST RAGAS-STYLE EVALUATION & BENCHMARK HARNESS</text>
+          <text x="18" y="36" fill="#bbf7d0" font-size="8">Diagnostic failure localization: separates retrieval precision from generation hallucination</text>
+
+          <g transform="translate(18, 46)">
+            <rect width="130" height="34" rx="4" fill="#052e16" stroke="#16a34a" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.8" font-weight="600">Context Precision</text>
+            <text x="8" y="27" fill="#86efac" font-size="6.8">Retrieved noise check</text>
+          </g>
+          <text x="154" y="67" fill="#86efac" font-size="10">&rarr;</text>
+
+          <g transform="translate(170, 46)">
+            <rect width="130" height="34" rx="4" fill="#052e16" stroke="#16a34a" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.8" font-weight="600">Context Recall</text>
+            <text x="8" y="27" fill="#86efac" font-size="6.8">Target reachability</text>
+          </g>
+          <text x="306" y="67" fill="#86efac" font-size="10">&rarr;</text>
+
+          <g transform="translate(322, 46)">
+            <rect width="130" height="34" rx="4" fill="#052e16" stroke="#16a34a" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.8" font-weight="600">Faithfulness</text>
+            <text x="8" y="27" fill="#86efac" font-size="6.8">Hallucination score</text>
+          </g>
+          <text x="458" y="67" fill="#86efac" font-size="10">&rarr;</text>
+
+          <g transform="translate(474, 46)">
+            <rect width="130" height="34" rx="4" fill="#052e16" stroke="#16a34a" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.8" font-weight="600">Answer Relevancy</text>
+            <text x="8" y="27" fill="#86efac" font-size="6.8">Query addressing</text>
+          </g>
+          <text x="610" y="67" fill="#86efac" font-size="10">&rarr;</text>
+
+          <g transform="translate(626, 46)">
+            <rect width="130" height="34" rx="4" fill="#052e16" stroke="#16a34a" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.8" font-weight="600">Intent & Extraction</text>
+            <text x="8" y="27" fill="#86efac" font-size="6.8">9 Agent state tests</text>
+          </g>
+          <text x="762" y="67" fill="#86efac" font-size="10">&rarr;</text>
+
+          <g transform="translate(778, 46)">
+            <rect width="95" height="34" rx="4" fill="#052e16" stroke="#16a34a" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.8" font-weight="600">Adversarial</text>
+            <text x="8" y="27" fill="#86efac" font-size="6.8">Injection guards</text>
+          </g>
+        </g>
+      </svg>
+      <p class="diagram-caption mono">FIGURE 1: CARBON-CREDIT AGENTIC RAG SYSTEM ARCHITECTURE & EVALUATION PIPELINE</p>
+    </div>
+  </section>
+
+  <!-- ==================== 4-STAGE RETRIEVAL PIPELINE ==================== -->
+  <section class="doc-section">
+    <h2 class="sec-title"><span class="sec-num mono">02 //</span> Multi-Stage Hybrid Retrieval & Reranking</h2>
+    <p class="sec-lede">
+      Why pure vector search fails on regulatory documents and how combining dense, sparse, and cross-encoders creates optimal precision.
+    </p>
+
+    <div class="pipeline-steps">
+      <div class="step-card">
+        <div class="step-top">
+          <h3>1. Layout-Aware Docling Chunking</h3>
+          <span class="step-pill mono">STRUCTURE PRESERVATION</span>
+        </div>
+        <p>
+          PDDs contain nested sections and complex parameter tables. Docling's <code>HybridChunker</code> parses PDF layout natively (512 tokens / 50 overlap) rather than blindly splitting character tokens mid-table.
+        </p>
+        <div class="math-snippet mono">
+          chunk = docling.HybridChunker(max_tok=512, overlap=50)
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-top">
+          <h3>2. Context-Prefix Embedding</h3>
+          <span class="step-pill mono">SEPARATE EMBED VS DISPLAY</span>
+        </div>
+        <p>
+          Chunks are enriched with project metadata, section headers, and methodology tags in <code>text_for_embedding</code> to maximize vector recall, while clean original text is fed to the LLM.
+        </p>
+        <div class="math-snippet mono">
+          text_for_embedding = f"[{meta}] " + clean_text
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-top">
+          <h3>3. Reciprocal Rank Fusion (RRF)</h3>
+          <span class="step-pill mono">SCALE-FREE RANK FUSION</span>
+        </div>
+        <p>
+          Fuses incomparable cosine scores (0 to 1) and unbounded BM25 scores. Rank damping parameter <strong>k=60</strong> prevents single-list domination:
+        </p>
+        <div class="math-snippet mono">
+          RRF(d) = &Sigma; 1 / (60 + rank(d in list_i))
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-top">
+          <h3>4. Cross-Encoder Reranker</h3>
+          <span class="step-pill mono">QUERY-DOC ATTENTION</span>
+        </div>
+        <p>
+          Bi-encoders retrieve 40 candidates cheaply; <code>ms-marco-MiniLM-L-6-v2</code> rescores query-document interaction expensively, filtering to the top 5 high-precision chunks.
+        </p>
+        <div class="math-snippet mono">
+          score = CrossEncoder(query, chunk_text) &rarr; Top 5
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== THE AGENTIC DRAFTING LAYER ==================== -->
+  <section class="doc-section">
+    <h2 class="sec-title"><span class="sec-num mono">03 //</span> LangGraph State Machine & Section Drafting</h2>
+    <p class="sec-lede">
+      Moving beyond simple Q&A: managing multi-turn state, parameter collection cycles, and section-by-section document drafting.
+    </p>
+
+    <div class="ai-agent-box">
+      <h3>
+        <span class="badge badge-purple mono">LangGraph Agent</span>
+        Cyclic Information Extraction & Section Generation
+      </h3>
+      <p>
+        Drafting a 100-page regulatory filing in a single prompt exceeds context coherence and causes hallucinated methodology claims. The LangGraph state machine decomposes the task into a structured lifecycle:
+      </p>
+
+      <div class="agent-loop-flow mono">
+        <span class="loop-step">1. Intent Router</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-step">2. Parameter Collector (Cyclic Loop)</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-step">3. Precedent Retrieval</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-step">4. Section Generator</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-step">5. Consistency Summarizer</span>
+      </div>
+      <p style="margin-top: 14px; font-size: 13.5px; color: var(--muted);">
+        <strong>Consistency Across Sections:</strong> As each section is generated, a concise summary is passed into subsequent section prompts alongside retrieved precedent, maintaining terminology alignment while preventing context window saturation.
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================== SYSTEMS ENGINEERING DEEP DIVE ==================== -->
+  <section class="doc-section">
+    <h2 class="sec-title"><span class="sec-num mono">04 //</span> Architectural Safeguards & Systems Design</h2>
+    <p class="sec-lede">
+      Key engineering decisions that ensure the RAG system is hallucination-resistant, scalable, and verifiable.
+    </p>
+
+    <div class="tech-details-grid">
+      <div class="tech-card">
+        <h4>Hybrid Justification: VM0042 vs. Additionality</h4>
+        <p>
+          Semantic embeddings fail on rare, arbitrary tokens like <code>VM0042</code> (which BM25 retrieves easily via high IDF). Conversely, BM25 fails on semantic concepts like <em>additionality</em> where dense vectors excel.
+        </p>
+      </div>
+      <div class="tech-card">
+        <h4>Two-Stage Retrieval Cost Trade-Off</h4>
+        <p>
+          Bi-encoders pre-compute millions of chunk vectors offline. Cross-encoders cannot be pre-computed, so running them only on the top 40 candidates delivers cross-encoder precision at bi-encoder cost.
+        </p>
+      </div>
+      <div class="tech-card">
+        <h4>Diagnostic RAGAS Metric Separation</h4>
+        <p>
+          Low faithfulness with high context precision isolates an LLM hallucination bug. High faithfulness with low context recall isolates a retrieval/chunking bug.
+        </p>
+      </div>
+      <div class="tech-card">
+        <h4>Checkpointed Multi-Turn Persistence</h4>
+        <p>
+          Utilizes <code>MemorySaver</code> checkpointers keyed by <code>thread_id</code> to maintain conversational and extraction state across multi-turn user interactions.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== EMPIRICAL RESULTS & COMPARISON ==================== -->
+  <section class="doc-section">
+    <h2 class="sec-title"><span class="sec-num mono">05 //</span> Empirical Benchmark & Strategy Comparison</h2>
+    <p class="sec-lede">
+      Evaluated across 28 diagnostic test suites on the Verra VCS regulatory corpus.
+    </p>
+
+    <div class="table-wrap">
+      <table class="perf-table">
+        <thead>
+          <tr>
+            <th>Retrieval & RAG Strategy</th>
+            <th>Methodology Code Recall (VM0042)</th>
+            <th>Conceptual Clause Recall (Additionality)</th>
+            <th>Context Precision (Top 5)</th>
+            <th>Faithfulness Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="strong">Pure Vector Search (Dense Only)</td>
+            <td>Low (Misses arbitrary IDs)</td>
+            <td>High (~88%)</td>
+            <td>0.62</td>
+            <td>0.71 (Partial Hallucination)</td>
+          </tr>
+          <tr>
+            <td class="strong">Pure BM25 (Sparse Keyword Only)</td>
+            <td>High (Exact token match)</td>
+            <td>Low (Vocabulary mismatch)</td>
+            <td>0.58</td>
+            <td>0.74</td>
+          </tr>
+          <tr>
+            <td class="strong" style="color: var(--accent);">Hybrid (Dense + BM25) + RRF + Rerank</td>
+            <td class="highlight">100% Exact Recall</td>
+            <td class="highlight">High (~94%)</td>
+            <td class="highlight">0.89</td>
+            <td class="highlight">0.96 (Grounded Proof)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ==================== NEXT NAVIGATION ==================== -->
+  <div class="doc-footer-nav mono">
+    <a class="nav-tile" href="../agentguard/">
+      <span>Previous Framework Case Study &rarr;</span>
+      <strong>AgentGuard &mdash; AI Agent Runtime Security Gateway</strong>
+    </a>
+    <a class="nav-tile" href="../../#contact">
+      <span>Get in Touch &rarr;</span>
+      <strong>Discuss Architecture & Systems Engineering</strong>
+    </a>
+  </div>
+
+</div>
+
+</main>
+
+<footer class="site-footer shell mono">
+  <div>&copy; 2026 Ameer Salman M &middot; Forward Deployed Engineer</div>
+  <div>Built with clean HTML/CSS &middot; Zero build step</div>
+</footer>
+
+</body>
+</html>

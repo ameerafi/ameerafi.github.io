@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AgentGuard — AI Agent Runtime Security Gateway & Compliance Engine · Ameer Salman M</title>
+<meta name="description" content="A multi-workspace runtime security gateway on Databricks Apps that intercepts, risk-scores, audits, and rolls back autonomous AI agent actions in real time for EU AI Act and SOC 2 compliance.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ---------- 1. Tokens & Base ---------- */
+:root {
+  --bg:          #ffffff;
+  --surface:     #f8fafc;
+  --surface-2:   #ffffff;
+  --text:        #0f172a;
+  --muted:       #475569;
+  --faint:       #94a3b8;
+  --border:      #e2e8f0;
+  --border-soft: #f1f5f9;
+  --accent:      #0284c7;
+  --accent-2:    #0369a1;
+  --accent-soft: rgba(2, 132, 199, 0.08);
+  --ai-purple:   #7c3aed;
+  --ai-soft:     rgba(124, 58, 237, 0.08);
+  --success:     #16a34a;
+  --success-soft:rgba(22, 163, 74, 0.08);
+  --warning:     #d97706;
+  --danger:      #ef4444;
+  --shadow:      0 1px 3px rgba(15, 23, 42, 0.05), 0 10px 25px -5px rgba(15, 23, 42, 0.05);
+
+  --sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  --shell: 1080px;
+  --pad: clamp(18px, 4vw, 36px);
+  --r: 12px;
+}
+
+[data-theme="dark"] {
+  --bg:          #080b11;
+  --surface:     #0f172a;
+  --surface-2:   #131d33;
+  --text:        #f1f5f9;
+  --muted:       #94a3b8;
+  --faint:       #64748b;
+  --border:      #1e293b;
+  --border-soft: #162032;
+  --accent:      #38bdf8;
+  --accent-2:    #0284c7;
+  --accent-soft: rgba(56, 189, 248, 0.12);
+  --ai-purple:   #c084fc;
+  --ai-soft:     rgba(192, 132, 252, 0.12);
+  --success:     #34d399;
+  --success-soft:rgba(52, 211, 153, 0.12);
+  --warning:     #fbbf24;
+  --danger:      #f87171;
+  --shadow:      0 4px 20px -2px rgba(0, 0, 0, 0.5);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); }
+.shell { width: 100%; max-width: var(--shell); margin: 0 auto; padding: 0 var(--pad); }
+
+/* ---------- 2. Navigation ---------- */
+.nav {
+  position: sticky; top: 0; z-index: 50; height: 64px;
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px; }
+.brand-mark {
+  width: 28px; height: 28px; border-radius: 7px; background: linear-gradient(135deg, var(--accent), var(--ai-purple));
+  color: #fff; display: grid; place-items: center; font-size: 11px; font-weight: 800;
+}
+.nav-links { display: flex; align-items: center; gap: 20px; font-size: 13.5px; }
+.nav-links a { color: var(--muted); transition: color .2s; }
+.nav-links a:hover { color: var(--text); }
+.nav-btn {
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 6px 14px; border-radius: 8px; font-weight: 600; color: var(--text);
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---------- 3. Hero Header ---------- */
+.doc-hero { padding: clamp(40px, 5vw, 68px) 0 32px; }
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted);
+  margin-bottom: 20px; transition: color .2s, transform .2s;
+}
+.back-link:hover { color: var(--accent); transform: translateX(-3px); }
+.eyebrow-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+.badge {
+  font-size: 11.5px; font-weight: 600; padding: 3px 10px; border-radius: 100px;
+  letter-spacing: 0.02em; text-transform: uppercase;
+}
+.badge-blue { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent); }
+.badge-purple { background: var(--ai-soft); color: var(--ai-purple); border: 1px solid var(--ai-purple); }
+
+.doc-hero h1 {
+  font-size: clamp(30px, 4.4vw, 48px); font-weight: 800; letter-spacing: -0.03em;
+  line-height: 1.15; margin-bottom: 18px; color: var(--text);
+}
+.doc-deck { font-size: clamp(16.5px, 1.8vw, 19px); color: var(--muted); max-width: 820px; line-height: 1.6; margin-bottom: 30px; }
+
+/* Metadata Matrix */
+.meta-matrix {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px;
+  background: var(--border); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden;
+  margin-bottom: 40px;
+}
+.meta-matrix > div { background: var(--surface); padding: 16px 20px; }
+.meta-matrix dt { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--faint); margin-bottom: 4px; }
+.meta-matrix dd { font-size: 13.5px; font-weight: 600; color: var(--text); }
+
+/* Key Impact Badges Strip */
+.impact-strip {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 50px;
+}
+.impact-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r);
+  padding: 20px 18px; text-align: center; box-shadow: var(--shadow);
+}
+.impact-val { font-size: clamp(24px, 2.6vw, 34px); font-weight: 800; color: var(--accent); line-height: 1.1; margin-bottom: 4px; }
+.impact-lbl { font-size: 12px; color: var(--muted); font-weight: 500; }
+
+/* ---------- 4. STAR Overview Block ---------- */
+.star-container {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r);
+  padding: 30px; margin-bottom: 60px; box-shadow: var(--shadow);
+}
+.star-head {
+  display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 24px;
+  border-bottom: 1px solid var(--border); padding-bottom: 12px;
+}
+.star-head h2 { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; display: flex; align-items: center; gap: 8px; }
+.star-head span { font-size: 12px; color: var(--faint); text-transform: uppercase; }
+
+.star-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.star-item { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
+.star-tag {
+  display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
+  padding: 2px 8px; border-radius: 4px; margin-bottom: 10px;
+}
+.tag-s { background: rgba(239, 68, 68, 0.12); color: #ef4444; }
+.tag-t { background: rgba(245, 158, 11, 0.12); color: #f59e0b; }
+.tag-a { background: var(--accent-soft); color: var(--accent); }
+.tag-r { background: var(--success-soft); color: var(--success); }
+.star-item p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+.star-item strong { color: var(--text); }
+
+/* ---------- 5. Section General ---------- */
+.doc-section { margin-bottom: 70px; }
+.sec-title {
+  font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 10px; color: var(--text);
+  display: flex; align-items: center; gap: 10px;
+}
+.sec-num { font-size: 14px; color: var(--accent); }
+.sec-lede { font-size: 15.5px; color: var(--muted); margin-bottom: 24px; max-width: 800px; }
+
+/* ---------- 6. Architecture Diagram (SVG Wrapper) ---------- */
+.diagram-box {
+  background: #060911; border: 1px solid #1e293b; border-radius: var(--r);
+  padding: 24px 20px 16px; margin-bottom: 30px; box-shadow: var(--shadow);
+}
+.diagram-caption {
+  font-size: 12px; color: #94a3b8; text-align: center; margin-top: 14px; letter-spacing: 0.04em;
+}
+
+/* ---------- 7. 6 Checkpoints Cards ---------- */
+.pipeline-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 40px; }
+.step-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px;
+}
+.step-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+.step-top h3 { font-size: 15px; font-weight: 700; color: var(--text); }
+.step-pill { font-size: 10.5px; font-weight: 600; color: var(--accent); }
+.step-card p { font-size: 13.5px; color: var(--muted); line-height: 1.55; margin-bottom: 10px; }
+
+.code-snippet {
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px;
+  padding: 8px 12px; font-size: 11.5px; color: var(--text); line-height: 1.45;
+}
+
+/* ---------- 8. AI / Compliance Box ---------- */
+.ai-agent-box {
+  background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--ai-purple);
+  border-radius: 0 var(--r) var(--r) 0; padding: 26px 30px; margin-bottom: 40px;
+}
+.ai-agent-box h3 { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.ai-agent-box p { font-size: 14.5px; color: var(--muted); line-height: 1.65; margin-bottom: 16px; }
+
+.agent-loop-flow {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px;
+}
+.loop-step { font-size: 12px; font-weight: 600; color: var(--ai-purple); background: var(--ai-soft); padding: 4px 10px; border-radius: 6px; }
+.loop-arrow { color: var(--faint); font-size: 12px; }
+
+/* ---------- 9. Deep Technical Callouts ---------- */
+.tech-details-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 40px; }
+.tech-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+.tech-card h4 { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.tech-card p { font-size: 13.5px; color: var(--muted); line-height: 1.55; }
+
+/* ---------- 10. Results Table ---------- */
+.table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 24px; }
+table.perf-table { width: 100%; border-collapse: collapse; font-size: 14px; text-align: left; }
+table.perf-table th, table.perf-table td { padding: 14px 18px; border-bottom: 1px solid var(--border); }
+table.perf-table th { background: var(--surface); font-size: 11.5px; text-transform: uppercase; color: var(--faint); font-weight: 600; }
+table.perf-table tr:last-child td { border-bottom: none; }
+table.perf-table td.strong { font-weight: 600; color: var(--text); }
+table.perf-table td.highlight { color: var(--accent); font-weight: 700; font-family: var(--mono); }
+
+/* ---------- 11. Bottom Nav & Footer ---------- */
+.doc-footer-nav {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  border-top: 1px solid var(--border); padding-top: 40px; margin-top: 60px;
+}
+.nav-tile {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r);
+  padding: 22px 24px; transition: border-color .2s, transform .2s;
+}
+.nav-tile:hover { border-color: var(--accent); transform: translateY(-2px); }
+.nav-tile span { display: block; font-size: 11.5px; text-transform: uppercase; color: var(--faint); margin-bottom: 6px; }
+.nav-tile strong { font-size: 16px; color: var(--text); }
+
+.site-footer {
+  border-top: 1px solid var(--border); padding: 30px 0; margin-top: 60px;
+  font-size: 12.5px; color: var(--faint); display: flex; justify-content: space-between;
+}
+
+@media (max-width: 860px) {
+  .impact-strip { grid-template-columns: repeat(2, 1fr); }
+  .star-grid { grid-template-columns: 1fr; }
+  .pipeline-steps { grid-template-columns: 1fr; }
+  .doc-footer-nav { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Navigation Header -->
+<header class="nav">
+  <div class="shell nav-inner">
+    <a class="brand" href="../../">
+      <span class="brand-mark">AS</span>
+      <span>Ameer Salman M</span>
+    </a>
+    <div class="nav-links">
+      <a href="../../#work">Work</a>
+      <a href="../../#experience">Experience</a>
+      <a href="../../#skills">Skills</a>
+      <a class="nav-btn" href="../../assets/Ameer-Salman-CV.pdf" download>
+        <span>Resume PDF</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- Hero Section -->
+<section class="doc-hero">
+  <div class="shell">
+    <a class="back-link mono" href="../../#work">&larr; Back to all frameworks</a>
+    
+    <div class="eyebrow-row mono">
+      <span class="badge badge-purple">Runtime AI Governance</span>
+      <span class="badge badge-blue">Zero-Trust Identity Bridge</span>
+      <span class="badge">EU AI Act & SOC 2 Ready</span>
+    </div>
+
+    <h1>AgentGuard: AI Agent Runtime Security Gateway & Compliance Engine</h1>
+    <p class="doc-deck">
+      A multi-workspace runtime security proxy built on Databricks Apps to govern autonomous AI agents and Model Context Protocol (MCP) servers. Fills the "during execution" governance gap through a 6-checkpoint inspection pipeline (&lt;30–80ms added latency), AST-level read-only SQL parsing, immutable SHA-256 hash-chained audit ledgers, and 3-tier Saga-pattern auto-rollback via Delta Time Travel.
+    </p>
+
+    <!-- Metadata Matrix -->
+    <dl class="meta-matrix mono">
+      <div>
+        <dt>Role & Scope</dt>
+        <dd>System Architect & Lead Developer</dd>
+      </div>
+      <div>
+        <dt>Regulatory Alignment</dt>
+        <dd>EU AI Act Article 14, SOC 2, GDPR</dd>
+      </div>
+      <div>
+        <dt>Architecture Type</dt>
+        <dd>Hub-and-Spoke Stateless Data Plane</dd>
+      </div>
+      <div>
+        <dt>Core Tech Stack</dt>
+        <dd>Databricks Apps, FastAPI, sqlglot, Delta Lake</dd>
+      </div>
+    </dl>
+
+    <!-- 4 Key Impact Metric Badges -->
+    <div class="impact-strip mono">
+      <div class="impact-card">
+        <div class="impact-val">100%</div>
+        <div class="impact-lbl">Destructive Operations Blocked</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-val">&lt;30–80ms</div>
+        <div class="impact-lbl">Per-Action Pipeline Latency</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-val">0</div>
+        <div class="impact-lbl">Credential Sharing / Leakage</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-val">3-Tier</div>
+        <div class="impact-lbl">Delta Saga Rollback Engine</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="shell">
+
+  <!-- ==================== STAR SECTION ==================== -->
+  <section class="star-container">
+    <div class="star-head">
+      <h2><span>STAR</span> Executive Brief</h2>
+      <span class="mono">Technical Interview Overview</span>
+    </div>
+    <div class="star-grid">
+      <div class="star-item">
+        <span class="star-tag tag-s mono">SITUATION</span>
+        <p>
+          Enterprises are deploying autonomous AI agents and MCP servers with real database access, but a single hallucinated <code>DROP</code>, unbounded <code>DELETE</code>, or unauthorized permission grant can destroy production environments. Existing controls act <strong>before</strong> (IAM) or <strong>after</strong> (logs); nothing verifies actions <strong>during execution</strong>. Regulation (EU AI Act Article 14) mandates human oversight and explainability with penalties up to &euro;35M.
+        </p>
+      </div>
+      <div class="star-item">
+        <span class="star-tag tag-t mono">TASK</span>
+        <p>
+          Architect an enterprise runtime security gateway capable of intercepting, risk-scoring, auditing, and automatically rolling back autonomous agent operations in flight with sub-100ms latency, zero credential leakage, and non-repudiable audit evidence.
+        </p>
+      </div>
+      <div class="star-item">
+        <span class="star-tag tag-a mono">ACTION</span>
+        <p>
+          Built <strong>AgentGuard</strong>: a hub-and-spoke security gateway deployed as a Databricks App (FastAPI). Engineered a <strong>6-checkpoint pipeline</strong> (policy, scope, 0–100 risk scoring, human gating, snapshot, and post-exec verify), an <strong>AST SQL firewall (<code>sqlglot</code>)</strong>, a 3-strategy <strong>OAuth On-Behalf-Of (OBO) token broker</strong>, an append-only <strong>SHA-256 hash-chained audit ledger</strong>, and a <strong>3-tier Delta Time Travel Saga rollback engine</strong>.
+        </p>
+      </div>
+      <div class="star-item">
+        <span class="star-tag tag-r mono">RESULT</span>
+        <p>
+          Blocked <strong>100% of destructive operations</strong> at ~30–80ms overhead with zero credential sharing. Shipped <strong>~9K LoC prod + ~5.8K LoC tests (268+ tests)</strong> with a formal security review. Directly addresses AI Dev Kit issue #372 and provides automated compliance evidence for <strong>EU AI Act Art. 14</strong> and <strong>SOC 2</strong>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ARCHITECTURE BLUEPRINT ==================== -->
+  <section class="doc-section">
+    <h2 class="sec-title"><span class="sec-num mono">01 //</span> System Architecture Blueprint</h2>
+    <p class="sec-lede">
+      AgentGuard operates as a hub-and-spoke system: a central control plane coordinates global policies and aggregates audits, while stateless per-workspace FastAPI proxies enforce 6 checkpoints and snapshot state for rollback without introducing a single point of failure.
+    </p>
+
+    <div class="diagram-box">
+      <svg viewBox="0 0 920 380" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="font-family: 'JetBrains Mono', monospace;">
+        <defs>
+          <linearGradient id="agentG" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#581c87"/>
+            <stop offset="100%" stop-color="#3b0764"/>
+          </linearGradient>
+          <linearGradient id="proxyG" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#0284c7"/>
+            <stop offset="100%" stop-color="#082f49"/>
+          </linearGradient>
+          <linearGradient id="lakeG" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#1e293b"/>
+            <stop offset="100%" stop-color="#0f172a"/>
+          </linearGradient>
+          <linearGradient id="ctrlG" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#1e1b4b"/>
+            <stop offset="100%" stop-color="#0f172a"/>
+          </linearGradient>
+        </defs>
+
+        <!-- CALLER / AGENT (LEFT) -->
+        <g transform="translate(15, 20)">
+          <rect width="230" height="235" rx="8" fill="url(#agentG)" stroke="#a855f7" stroke-width="1.5"/>
+          <text x="14" y="24" fill="#ffffff" font-size="10.5" font-weight="700">AUTONOMOUS CALLERS</text>
+          <text x="14" y="38" fill="#e9d5ff" font-size="8">AI Agents &bull; MCP Servers &bull; Bots</text>
+          <line x1="14" y1="46" x2="216" y2="46" stroke="#a855f7" stroke-width="1"/>
+
+          <rect x="14" y="56" width="202" height="48" rx="4" fill="#3b0764" stroke="#a855f7" stroke-width="1"/>
+          <text x="20" y="70" fill="#ffffff" font-size="8.5" font-weight="600">Model Context Protocol</text>
+          <text x="20" y="84" fill="#c084fc" font-size="7.5">Tool Calling & API Requests</text>
+
+          <rect x="14" y="112" width="202" height="52" rx="4" fill="#3b0764" stroke="#a855f7" stroke-width="1"/>
+          <text x="20" y="126" fill="#ffffff" font-size="8.5" font-weight="600">Universal Identity Bridge</text>
+          <text x="20" y="139" fill="#e9d5ff" font-size="7.5">&bull; Forwarded / Dual-Header</text>
+          <text x="20" y="150" fill="#34d399" font-size="7.5">&bull; OAuth OBO Minting (Zero Leak)</text>
+
+          <rect x="14" y="172" width="202" height="48" rx="4" fill="#3b0764" stroke="#a855f7" stroke-width="1"/>
+          <text x="20" y="186" fill="#ffffff" font-size="8.5" font-weight="600">1-Line Host Redirect</text>
+          <text x="20" y="200" fill="#c084fc" font-size="7.5">Zero agent code modifications</text>
+        </g>
+
+        <!-- FORWARD ARROW -->
+        <g transform="translate(248, 125)">
+          <path d="M 5 15 L 45 15" stroke="#38bdf8" stroke-width="2" stroke-dasharray="3 2"/>
+          <polygon points="45,11 53,15 45,19" fill="#38bdf8"/>
+          <text x="4" y="8" fill="#38bdf8" font-size="7.5" font-weight="700">HTTPS Intercept</text>
+          <text x="6" y="28" fill="#c084fc" font-size="7">&lt;30&ndash;80ms</text>
+        </g>
+
+        <!-- GATEWAY DATA PLANE (CENTER) -->
+        <g transform="translate(305, 20)">
+          <rect width="320" height="235" rx="8" fill="url(#proxyG)" stroke="#38bdf8" stroke-width="1.5"/>
+          <text x="14" y="24" fill="#ffffff" font-size="10.5" font-weight="700">AGENTGUARD DATA PLANE (Databricks App)</text>
+          <text x="14" y="38" fill="#bae6fd" font-size="8">Stateless FastAPI Proxy &bull; 6-Stage Checkpoint Pipeline</text>
+          <line x1="14" y1="46" x2="306" y2="46" stroke="#38bdf8" stroke-width="1"/>
+
+          <g transform="translate(14, 56)">
+            <rect width="90" height="44" rx="4" fill="#082f49" stroke="#38bdf8" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.5" font-weight="700">&bull; 1. Policy</text>
+            <text x="8" y="28" fill="#38bdf8" font-size="6.8">&lt;10ms Blocklist</text>
+          </g>
+          <g transform="translate(110, 56)">
+            <rect width="90" height="44" rx="4" fill="#082f49" stroke="#38bdf8" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.5" font-weight="700">&bull; 2. Scope</text>
+            <text x="8" y="28" fill="#38bdf8" font-size="6.8">&lt;20ms Blast Rad</text>
+          </g>
+          <g transform="translate(206, 56)">
+            <rect width="100" height="44" rx="4" fill="#082f49" stroke="#38bdf8" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.5" font-weight="700">&bull; 3. Risk Score</text>
+            <text x="8" y="28" fill="#38bdf8" font-size="6.8">0&ndash;100 (6 Factors)</text>
+          </g>
+
+          <g transform="translate(14, 108)">
+            <rect width="90" height="48" rx="4" fill="#082f49" stroke="#38bdf8" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.5" font-weight="700">&bull; 4. Human Gate</text>
+            <text x="8" y="28" fill="#fbbf24" font-size="6.8">Auto-Block / Flag</text>
+            <text x="8" y="38" fill="#bae6fd" font-size="6.5">EU AI Act Art. 14</text>
+          </g>
+          <g transform="translate(110, 108)">
+            <rect width="90" height="48" rx="4" fill="#082f49" stroke="#38bdf8" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.5" font-weight="700">&bull; 5. Snapshot</text>
+            <text x="8" y="28" fill="#34d399" font-size="6.8">Pre-Exec Version</text>
+            <text x="8" y="38" fill="#bae6fd" font-size="6.5">Capture Rollback</text>
+          </g>
+          <g transform="translate(206, 108)">
+            <rect width="100" height="48" rx="4" fill="#082f49" stroke="#38bdf8" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.5" font-weight="700">&bull; 6. Verification</text>
+            <text x="8" y="28" fill="#34d399" font-size="6.8">Post-Exec Proof</text>
+            <text x="8" y="38" fill="#bae6fd" font-size="6.5">Saga Rollback</text>
+          </g>
+
+          <rect x="14" y="164" width="292" height="56" rx="4" fill="#0c4a6e" stroke="#38bdf8" stroke-width="1"/>
+          <text x="22" y="180" fill="#ffffff" font-size="8.5" font-weight="600">Read-Only AST SQL Firewall (sqlglot)</text>
+          <text x="22" y="194" fill="#bae6fd" font-size="7.5">&bull; Inspects subqueries, CTEs, tautology WHERE 1=1</text>
+          <text x="22" y="206" fill="#f87171" font-size="7.5">&bull; Zero query rewriting &bull; Fail-closed on parse error</text>
+        </g>
+
+        <!-- TARGET LAKEHOUSE & AUDIT (RIGHT) -->
+        <g transform="translate(635, 20)">
+          <rect width="270" height="235" rx="8" fill="url(#lakeG)" stroke="#334155" stroke-width="1.5"/>
+          <text x="14" y="24" fill="#38bdf8" font-size="10.5" font-weight="700">TARGET LAKEHOUSE (Execution)</text>
+          <text x="14" y="38" fill="#94a3b8" font-size="8">Unity Catalog &bull; Delta Lake &bull; SQL Warehouse</text>
+          <line x1="14" y1="46" x2="256" y2="46" stroke="#334155" stroke-width="1"/>
+
+          <rect x="14" y="56" width="242" height="68" rx="4" fill="#1e293b" stroke="#34d399" stroke-width="1"/>
+          <text x="20" y="70" fill="#34d399" font-size="8.5" font-weight="600">Tamper-Evident Forensic Audit</text>
+          <text x="20" y="84" fill="#94a3b8" font-size="7.5">&bull; Append-only INSERT-only SP enforcement</text>
+          <text x="20" y="96" fill="#e2e8f0" font-size="7.5">&bull; SHA-256 Hash Chaining: sha256(prev + this)</text>
+          <text x="20" y="108" fill="#86efac" font-size="7.2">Tampering provably detectable by auditors</text>
+
+          <rect x="14" y="132" width="242" height="88" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+          <text x="20" y="146" fill="#38bdf8" font-size="8.5" font-weight="600">3-Tier Saga Rollback Engine</text>
+          <text x="20" y="159" fill="#e2e8f0" font-size="7.5">&bull; Tier 1: Delta RESTORE TO VERSION AS OF n</text>
+          <text x="20" y="171" fill="#e2e8f0" font-size="7.5">&bull; Tier 2: Config snapshot recreate (grants/jobs)</text>
+          <text x="20" y="183" fill="#e2e8f0" font-size="7.5">&bull; Tier 3: Audit-only (half-failure safe)</text>
+          <text x="20" y="195" fill="#f87171" font-size="7.2">Surfaces exact failure state on half-recovery</text>
+        </g>
+
+        <!-- TOP / BOTTOM: CENTRAL CONTROL PLANE -->
+        <g transform="translate(15, 270)">
+          <rect width="890" height="95" rx="8" fill="url(#ctrlG)" stroke="#6366f1" stroke-width="1.5"/>
+          <text x="18" y="22" fill="#ffffff" font-size="10.5" font-weight="700">CENTRAL CONTROL PLANE & GOVERNANCE CONSOLE (Multi-Workspace Hub)</text>
+          <text x="18" y="36" fill="#c7d2fe" font-size="8">Central Policy Registry &bull; 0–100 Weighted Risk Engine &bull; React/TypeScript Admin UI &bull; Push-Invalidate Revocations</text>
+
+          <g transform="translate(18, 46)">
+            <rect width="130" height="34" rx="4" fill="#1e1b4b" stroke="#6366f1" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.8" font-weight="600">Global Blocklist</text>
+            <text x="8" y="27" fill="#818cf8" font-size="6.8">8 Rule Classes (DROP/TRUNC)</text>
+          </g>
+          <text x="154" y="67" fill="#818cf8" font-size="10">&rarr;</text>
+
+          <g transform="translate(170, 46)">
+            <rect width="130" height="34" rx="4" fill="#1e1b4b" stroke="#6366f1" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.8" font-weight="600">7 Scope Templates</text>
+            <text x="8" y="27" fill="#818cf8" font-size="6.8">read_only &rarr; full_access</text>
+          </g>
+          <text x="306" y="67" fill="#818cf8" font-size="10">&rarr;</text>
+
+          <g transform="translate(322, 46)">
+            <rect width="130" height="34" rx="4" fill="#1e1b4b" stroke="#6366f1" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.8" font-weight="600">6 Risk Weights</text>
+            <text x="8" y="27" fill="#818cf8" font-size="6.8">Action, Blast Rad, Reversibility</text>
+          </g>
+          <text x="458" y="67" fill="#818cf8" font-size="10">&rarr;</text>
+
+          <g transform="translate(474, 46)">
+            <rect width="130" height="34" rx="4" fill="#1e1b4b" stroke="#6366f1" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.8" font-weight="600">2-Click Lockdown</text>
+            <text x="8" y="27" fill="#f87171" font-size="6.8">Workspace IP ACLs + Tag</text>
+          </g>
+          <text x="610" y="67" fill="#818cf8" font-size="10">&rarr;</text>
+
+          <g transform="translate(626, 46)">
+            <rect width="130" height="34" rx="4" fill="#1e1b4b" stroke="#6366f1" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.8" font-weight="600">LLM Intent Explainer</text>
+            <text x="8" y="27" fill="#c084fc" font-size="6.8">Why blocked? (Advisory)</text>
+          </g>
+          <text x="762" y="67" fill="#818cf8" font-size="10">&rarr;</text>
+
+          <g transform="translate(778, 46)">
+            <rect width="95" height="34" rx="4" fill="#1e1b4b" stroke="#6366f1" stroke-width="1"/>
+            <text x="8" y="16" fill="#ffffff" font-size="7.8" font-weight="600">Audit Ledger</text>
+            <text x="8" y="27" fill="#34d399" font-size="6.8">SOC 2 / EU AI Act</text>
+          </g>
+        </g>
+      </svg>
+      <p class="diagram-caption mono">FIGURE 1: AGENTGUARD HUB-AND-SPOKE TOPOLOGY, 6-CHECKPOINT PIPELINE & FORENSIC LEDGER</p>
+    </div>
+  </section>
+
+  <!-- ==================== THE 6 CHECKPOINTS ==================== -->
+  <section class="doc-section">
+    <h2 class="sec-title"><span class="sec-num mono">02 //</span> The 6-Stage Execution Pipeline</h2>
+    <p class="sec-lede">
+      Every agent query passes through sequential, short-circuiting inspection checkpoints before touching production tables.
+    </p>
+
+    <div class="pipeline-steps">
+      <div class="step-card">
+        <div class="step-top">
+          <h3>1. Policy Check</h3>
+          <span class="step-pill mono">&lt;10MS &bull; BLOCKLIST</span>
+        </div>
+        <p>
+          Evaluates hard global blocklists and workspace rules. Instantly blocks 8 destructive classes (e.g. <code>DROP DATABASE</code>, <code>TRUNCATE</code>, <code>GRANT ALL</code>).
+        </p>
+        <div class="code-snippet mono">
+          action IN GlobalBlocklist &rArr; REJECT(403)
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-top">
+          <h3>2. Scope Boundary</h3>
+          <span class="step-pill mono">&lt;20MS &bull; BLAST RADIUS</span>
+        </div>
+        <p>
+          Matches operation against 7 role templates (from <code>read_only</code> to <code>full_access</code>). Default-deny: operations outside task scope fail closed.
+        </p>
+        <div class="code-snippet mono">
+          verify_blast_radius(task_id, target_tables)
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-top">
+          <h3>3. Risk Scoring</h3>
+          <span class="step-pill mono">&lt;30MS &bull; 0–100 SCORE</span>
+        </div>
+        <p>
+          Calculates weighted score across 6 factors: action type (30%), blast radius (25%), environment (25%), time (10%), data sensitivity (10%), and behavior.
+        </p>
+        <div class="code-snippet mono">
+          score &ge; 35 &rarr; FLAG; score &ge; 90 &rarr; BLOCK
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-top">
+          <h3>4. Human Gate</h3>
+          <span class="step-pill mono">EU AI ACT ART. 14</span>
+        </div>
+        <p>
+          High-risk operations trigger asynchronous human approval. Generates explainable intent summaries so operators understand risk before approving.
+        </p>
+        <div class="code-snippet mono">
+          if score &ge; threshold: await_approval()
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-top">
+          <h3>5. State Snapshot</h3>
+          <span class="step-pill mono">PRE-EXEC CAPTURE</span>
+        </div>
+        <p>
+          Snapshots Delta table version (<code>table_changes</code>) and object metadata <em>before</em> execution. Pre-requisite for deterministic reversibility.
+        </p>
+        <div class="code-snippet mono">
+          snapshot_version = DeltaTable.history(1)
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-top">
+          <h3>6. Post-Exec Verify</h3>
+          <span class="step-pill mono">SAGA AUTO-ROLLBACK</span>
+        </div>
+        <p>
+          Verifies modified row counts and schema mutations against expected scope. Automatically executes compensating Saga rollback if unexpected drift occurs.
+        </p>
+        <div class="code-snippet mono">
+          RESTORE TABLE t TO VERSION AS OF v_prev
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== IDENTITY & FORENSICS ==================== -->
+  <section class="doc-section">
+    <h2 class="sec-title"><span class="sec-num mono">03 //</span> Zero-Trust Identity & Forensics Layer</h2>
+    <p class="sec-lede">
+      Solving the confused-deputy problem within Databricks Apps OAuth constraints while guaranteeing tamper-evident audit trails.
+    </p>
+
+    <div class="ai-agent-box">
+      <h3>
+        <span class="badge badge-purple mono">Confused-Deputy Solution</span>
+        Universal Identity Bridge & Hash-Chained Audit Ledger
+      </h3>
+      <p>
+        By default, Databricks Apps execute queries using the App's own service principal—destroying individual agent identity and masking who authorized a command. AgentGuard introduces a 3-strategy token broker with zero credential sharing:
+      </p>
+
+      <div class="agent-loop-flow mono">
+        <span class="loop-step">1. Forwarded Token</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-step">2. Dual-Header Fallback</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-step">3. create-obo-token (OBO PAT Minting)</span>
+        <span class="loop-arrow">&rarr;</span>
+        <span class="loop-step">4. SHA-256 Hash-Chained Ledger</span>
+      </div>
+      <p style="margin-top: 14px; font-size: 13.5px; color: var(--muted);">
+        <strong>Tamper-Evident Guarantee:</strong> Every audit event stores <code>sha256(prev_hash || current_event)</code> written via an INSERT-only stored procedure. Modifying historical rows breaks the mathematical chain, providing verifiable proof of non-tampering for SOC 2 and regulatory auditors.
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================== SYSTEMS ENGINEERING DEEP DIVE ==================== -->
+  <section class="doc-section">
+    <h2 class="sec-title"><span class="sec-num mono">04 //</span> Architectural Safeguards & Systems Design</h2>
+    <p class="sec-lede">
+      Key engineering decisions that ensure AgentGuard is fast, unbypassable, and resilient to failure.
+    </p>
+
+    <div class="tech-details-grid">
+      <div class="tech-card">
+        <h4>Read-Only AST Parsing (sqlglot)</h4>
+        <p>
+          Inspects SQL syntax trees to catch subqueries, CTEs, and tautologies (<code>WHERE 1=1</code>) without rewriting queries, avoiding the risk of query corruption.
+        </p>
+      </div>
+      <div class="tech-card">
+        <h4>Defense-in-Depth vs. Sole Control</h4>
+        <p>
+          AgentGuard does not replace Unity Catalog RBAC. Using OBO tokens, Unity Catalog still enforces underlying permissions—ensuring a bug in policy code never grants unauthorized access.
+        </p>
+      </div>
+      <div class="tech-card">
+        <h4>Deterministic AST Backstop</h4>
+        <p>
+          LLMs provide intent explanations and suggest templates, but hard blocking is enforced by deterministic AST rules to prevent prompt-injection bypasses.
+        </p>
+      </div>
+      <div class="tech-card">
+        <h4>3-Tier Saga Rollback Handling</h4>
+        <p>
+          Tier 1 (Delta Restore), Tier 2 (Config Recreate), and Tier 3 (Audit-Only). Surfaces exact recovery state during half-failures rather than assuming rollback succeeded.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== EMPIRICAL RESULTS TABLE ==================== -->
+  <section class="doc-section">
+    <h2 class="sec-title"><span class="sec-num mono">05 //</span> Governance & Performance Benchmark</h2>
+    <p class="sec-lede">
+      Measured against real agentic workloads issuing SQL operations across Unity Catalog warehouses.
+    </p>
+
+    <div class="table-wrap">
+      <table class="perf-table">
+        <thead>
+          <tr>
+            <th>Operation Class</th>
+            <th>Sample Query Pattern</th>
+            <th>Governance Decision</th>
+            <th>Pipeline Latency</th>
+            <th>Reversibility Guarantee</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="strong">Unbounded DELETE</td>
+            <td><code>DELETE FROM silver_orders;</code></td>
+            <td style="color: var(--danger); font-weight: 700;">BLOCKED (Score 100)</td>
+            <td class="highlight">&lt;18ms (AST Gate)</td>
+            <td>Prevented (Zero Execution)</td>
+          </tr>
+          <tr>
+            <td class="strong">Schema Destruction</td>
+            <td><code>DROP TABLE prod.customers;</code></td>
+            <td style="color: var(--danger); font-weight: 700;">BLOCKED (Score 95)</td>
+            <td class="highlight">&lt;10ms (Blocklist)</td>
+            <td>Prevented (Zero Execution)</td>
+          </tr>
+          <tr>
+            <td class="strong">Scoped Data Mutation</td>
+            <td><code>UPDATE t SET status='PROCESSED' WHERE id=42;</code></td>
+            <td style="color: var(--success); font-weight: 700;">ALLOWED (Score 15)</td>
+            <td class="highlight">~42ms (Snapshot Saved)</td>
+            <td>Tier 1 Delta Time Travel Restore</td>
+          </tr>
+          <tr>
+            <td class="strong">Read-Only Analytics</td>
+            <td><code>SELECT date, SUM(amount) FROM t GROUP BY 1;</code></td>
+            <td style="color: var(--success); font-weight: 700;">ALLOWED (Score 0)</td>
+            <td class="highlight">&lt;28ms (Fast-Path)</td>
+            <td>Read-Only (No State Mutation)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ==================== NEXT NAVIGATION ==================== -->
+  <div class="doc-footer-nav mono">
+    <a class="nav-tile" href="../carboncredit/">
+      <span>Next Framework Case Study &rarr;</span>
+      <strong>Agentic RAG &mdash; Carbon-Credit Regulatory Filings & Section Drafting</strong>
+    </a>
+    <a class="nav-tile" href="../../#contact">
+      <span>Get in Touch &rarr;</span>
+      <strong>Discuss Architecture & Systems Engineering</strong>
+    </a>
+  </div>
+
+</div>
+
+</main>
+
+<footer class="site-footer shell mono">
+  <div>&copy; 2026 Ameer Salman M &middot; Forward Deployed Engineer</div>
+  <div>Built with clean HTML/CSS &middot; Zero build step</div>
+</footer>
+
+</body>
+</html>

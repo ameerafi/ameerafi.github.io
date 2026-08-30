@@ -162,7 +162,7 @@ code {
 
 /* ---------- 5. Hero ---------- */
 
-.hero { position: relative; padding: clamp(28px, 3.6vw, 48px) 0 clamp(52px, 6.5vw, 84px); overflow: hidden; }
+.hero { position: relative; padding: clamp(28px, 3.6vw, 48px) 0 clamp(20px, 2.4vw, 32px); overflow: hidden; }
 
 .hero-glow {
   position: absolute; top: -46%; left: 22%; transform: translateX(-50%);
@@ -171,7 +171,7 @@ code {
 }
 
 
-.hero-copy .eyebrow { margin-bottom: 22px; }
+.hero-copy .eyebrow { margin-top: 2px; margin-bottom: 22px; }
 
 .eyebrow {
   display: inline-flex; align-items: center; gap: 9px;
@@ -211,7 +211,7 @@ code {
 }
 .headline .sep { color: var(--faint); font-weight: 400; margin: 0 5px; }
 
-.ctx { font-size: 12.5px; color: var(--accent); text-transform: uppercase; margin-bottom: 26px; }
+.ctx { font-size: 12.5px; color: var(--accent); text-transform: uppercase; margin-bottom: 14px; }
 
 .bio { color: var(--muted); font-size: 16.5px; max-width: 68ch; margin-bottom: 32px; }
 
@@ -221,6 +221,8 @@ code {
 /* ---------- 6. Bands & section heads ---------- */
 
 .band { padding: clamp(64px, 8vw, 108px) 0; }
+/* first band sits close under the hero */
+.hero + .band { padding-top: clamp(30px, 3.6vw, 48px); }
 .band-alt { background: var(--surface); border-block: 1px solid var(--border); }
 
 .sec-head {
